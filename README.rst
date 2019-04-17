@@ -2,8 +2,16 @@
  Regional Community Earth System Model - RCESM1
 ==================================
 
-RCESM1 is developed by iHESP, a joint QNML/NCAR/TAMU project.  
-This code adds regional coupled model functionality to the CESM2.1 model.
+
+RCESM1.0 is a modified version of CESM2.1 that has the functionality
+to run a regional coupled model with wrf, roms, and clm4.0 as the
+atmosphere, ocean, and land components.
+
+RCESM1 was developed by iHESP, a joint QNML/NCAR/TAMU project.  
+
+The RCESM Quickstart Guide and Development Doc is available at:
+
+https://ihesp.github.io/rcesm1
 
 See the CESM2.x web site for documentation and information on the base model:
 
