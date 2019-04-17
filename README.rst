@@ -1,15 +1,15 @@
 ==================================
- Regional Community Earth System Model - RCESM
+ Regional Community Earth System Model - RCESM1
 ==================================
 
-A private repo for code developed by iHESP, a joint QNML/NCAR/TAMU project.  
+RCESM1 is developed by iHESP, a joint QNML/NCAR/TAMU project.  
 This code adds regional coupled model functionality to the CESM2.1 model.
 
-See the CESM web site for documentation and information on the base model:
+See the CESM2.x web site for documentation and information on the base model:
 
 http://www.cesm.ucar.edu
 
-This repository provides tools for managing the external components required to run and build the RCESM. The basic components used in this model are included in the repo (unlike CESM), but the scripting infrastructure is maintained in an external repository and managed with the "manage_externals" tool. 
+This repository provides tools for managing the external components required to run and build the RCESM.
 
 .. sectnum::
 
@@ -20,11 +20,11 @@ Obtaining the full RCESM model code and associated scripting infrastructure
 
 The RCESM code is available from this repository in github. You will need some familiarity with git in order to modify the code and commit any changes. However, to simply checkout and run the code, no git knowledge is required other than what is documented in the following steps.
 
-To obtain the rcesm0.2 (release version 0.2) code you need to do the following:
+To obtain the rcesm1.0 (release version 1.0) code you need to do the following:
 
 #. Clone the repository. ::
 
-      git clone https://github.com/ihesp/rcesm my_rcesm_sandbox
+      git clone https://github.com/ihesp/rcesm1 my_rcesm_sandbox
 
    This will create a directory ``my_rcesm_sandbox/`` in your current working directory.
 
@@ -34,9 +34,9 @@ To obtain the rcesm0.2 (release version 0.2) code you need to do the following:
       cd my_rcesm_sandbox
       git tag
 
-#. Do a git checkout of the tag you want. If you want to checkout ihesp_release_rcesm0.2, you would issue the following. ::
+#. Do a git checkout of the tag you want. If you want to checkout ihesp_release_rcesm1.0, you would issue the following. ::
 
-      git checkout ihesp_release_rcesm0.2
+      git checkout ihesp_release_rcesm1.0
 
    (It is normal and expected to get a message about being in 'detached
    HEAD' state. For now you can ignore this, but it becomes important if
@@ -79,7 +79,7 @@ when this is needed are:
 **checkout_externals** must be run from the root of the source
 tree. For example, if you cloned RCESM with::
 
-  git clone https://github.com/ihesp/rcesm.git my_rcesm_sandbox
+  git clone https://github.com/ihesp/rcesm1.git my_rcesm_sandbox
 
 then you must run **checkout_externals** from
 ``/path/to/my_rcesm_sandbox``.
@@ -115,7 +115,7 @@ A RCESM case directory contains all of the configuration xml files, case control
 Where the arguments mean:
 
 - ``--case my_case_dirs/new_case_1`` This is the name of and path to the new case. This directory is created by the create_newcase script and should not exist before calling create_newcase.
-- ``--compset PKWUS2003`` compsets in CESM/RCESM describe which components are active and their basic configurations for the run. In the RCESM, some pertinant compsets are:
+- ``--compset PBSGULF2010`` compsets in CESM/RCESM describe which components are active and their basic configurations for the run. In the RCESM, some pertinant compsets are:
 
  ================  ========================
   COMPSET Name         Components Used
@@ -138,6 +138,7 @@ Where the arguments mean:
   wus12_wus12         A 12km Western US domain. Ocean, land, and atmosphere all on the same grid. Has not been tested with ROMS.
   3x3_gulfmexico      A 3km Gulf of Mexico domain for ROMS only (not extended). Data atmosphere on the same grid.
   tx9k_g3x            A 9km atmosphere grid and 3km ocean grid (extended for XROMS) in the Gulf of Mexico (as used for the coupled simulation test case).
+  tx3k_g3x            A 3km atmosphere grid and 3km ocean grid (extended for XROMS) in the Gulf of Mexico (as used for the coupled simulation test case).
  =================  ========================
 
 - ``-mach Cheyenne`` : The machine where the build and run is happening. This allows CIME to load the correct environment and libraries, set up applicable node and task configurations, and configure submission scripts for the correct queues. On many NCAR-supported machines (such as Cheyenne) this flag is optional, as CIME can determine what machine it is on through the shell. For more information on porting to a new machine, see "Porting CIME and the RCESM to a new machine"_ below.
