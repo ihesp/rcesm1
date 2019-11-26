@@ -34,7 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Sphinx-Themes template 1 documentation" href="index.html"/>
-        <link rel="next" title="Software Versions and Sourcing" href="software_vers.html"/>
+        <link rel="next" title="Development Changes Made by NCAR" href="rcesm_architecture.html"/>
         <link rel="prev" title="RCESM Configurations" href="cesm_configurations.html"/> 
 
   
@@ -93,8 +93,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#restart-the-case">Restart the case</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_vers.html">Software Versions and Sourcing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dev_changes.html">Development Changes Made by NCAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
 </ul>
@@ -173,8 +173,8 @@ yet been ported to the target machine.</p>
 <p>Download the RCESM source (see <a class="reference external" href="downloading_cesm.html">Downloading RCESM</a>).</p>
 <p>Select a component set, and a resolution for your case.  Details of available
 component sets and resolutions are available from the <em>query_config</em> tool located
-in the <code class="docutils literal notranslate"><span class="pre">my_cresm_sandbox/cime/scripts</span></code> directory</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_cresm_sandbox/cime/scripts</span>
+in the <code class="docutils literal notranslate"><span class="pre">my_rcesm_sandbox/cime/scripts</span></code> directory</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_rcesm_sandbox/cime/scripts</span>
 <span class="go">./query_config --help</span>
 </pre></div>
 </div>
@@ -184,7 +184,7 @@ machines</a> for a list of RCESM
 supported component sets, grids and computational platforms.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The CRESM was developed and tested around a fully-coupled Gulf of Mexico (GOM) case. We
+<p class="last">The RCESM code was developed and tested around a fully-coupled Gulf of Mexico (GOM) case. We
 will use this case as the example throughout this quick start guide. There are options
 for other grids and configurations available. Please see the
 <a class="reference external" href="cesm_configurations.html">available RCESM component sets</a> and
@@ -230,7 +230,7 @@ details regarding CESM experiment case naming conventions.</li>
 </ul>
 <p><strong>Here is an example</strong> on NCAR machine cheyenne with the <code class="docutils literal notranslate"><span class="pre">$USER</span></code> shell environment variable
 set to your cheyenne login name:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">my_cresm_sandbox/cime/scripts/create_newcase --case my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001 --compset PBSGULF2010 -res tx9k_g3x --run-unsupported</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">my_rcesm_sandbox/cime/scripts/create_newcase --case my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001 --compset PBSGULF2010 -res tx9k_g3x --run-unsupported</span>
 </pre></div>
 </div>
 </div>
@@ -356,7 +356,7 @@ manually edit the filenames in each of the <code class="docutils literal notrans
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="software_vers.html" class="btn btn-neutral float-right" title="Software Versions and Sourcing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="rcesm_architecture.html" class="btn btn-neutral float-right" title="Development Changes Made by NCAR" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="cesm_configurations.html" class="btn btn-neutral" title="RCESM Configurations" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

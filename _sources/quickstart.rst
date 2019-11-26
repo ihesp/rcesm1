@@ -19,11 +19,11 @@ Download the RCESM source (see `Downloading RCESM <downloading_cesm.html>`_).
 
 Select a component set, and a resolution for your case.  Details of available
 component sets and resolutions are available from the *query_config* tool located
-in the ``my_cresm_sandbox/cime/scripts`` directory
+in the ``my_rcesm_sandbox/cime/scripts`` directory
 
 .. code-block:: console
 
-    cd my_cresm_sandbox/cime/scripts
+    cd my_rcesm_sandbox/cime/scripts
     ./query_config --help
 
 See the `available RCESM component sets <cesm_configurations.html>`_,
@@ -33,7 +33,7 @@ supported component sets, grids and computational platforms.
 
 .. note::
 
-   The CRESM was developed and tested around a fully-coupled Gulf of Mexico (GOM) case. We
+   The RCESM code was developed and tested around a fully-coupled Gulf of Mexico (GOM) case. We
    will use this case as the example throughout this quick start guide. There are options
    for other grids and configurations available. Please see the
    `available RCESM component sets <cesm_configurations.html>`_ and
@@ -92,7 +92,7 @@ set to your cheyenne login name:
 
 .. code-block:: console
 
-   my_cresm_sandbox/cime/scripts/create_newcase --case my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001 --compset PBSGULF2010 -res tx9k_g3x --run-unsupported
+   my_rcesm_sandbox/cime/scripts/create_newcase --case my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001 --compset PBSGULF2010 -res tx9k_g3x --run-unsupported
 
 
 Setting up the case run script

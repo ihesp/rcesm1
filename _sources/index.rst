@@ -16,8 +16,10 @@ Table of contents
    downloading_cesm.rst
    cesm_configurations.rst
    quickstart.rst
+   rcesm_architecture.rst
    software_vers.rst
-   dev_changes.rst
+   io_files.rst
+   prepost_tools.rst
    updates.rst
    unfinished.rst
 
