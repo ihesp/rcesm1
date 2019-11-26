@@ -167,34 +167,34 @@
 <h2>RCESM Components<a class="headerlink" href="#rcesm-components" title="Permalink to this headline">¶</a></h2>
 <p>Compsets in CESM/RCESM describe which components are active and their basic configurations for the run. In the RCESM, some pertinant compsets are:</p>
 <blockquote>
-<div><table class="docutils align-default">
+<div><table border="1" class="docutils">
 <colgroup>
-<col style="width: 18%" />
-<col style="width: 82%" />
+<col width="18%" />
+<col width="82%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>COMPSET Name</p></th>
-<th class="head"><p>Components Used</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">COMPSET Name</th>
+<th class="head">Components Used</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>PKWUS2003</p></td>
-<td><p>WRF atmosphere, CLM 4.0 land, data ice and data ocean</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>PKWUS2003</td>
+<td>WRF atmosphere, CLM 4.0 land, data ice and data ocean</td>
 </tr>
-<tr class="row-odd"><td><p>PRSGULF2010</p></td>
-<td><p>Data atmosphere, stub land, stub ice and ROMS ocean</p></td>
+<tr class="row-odd"><td>PRSGULF2010</td>
+<td>Data atmosphere, stub land, stub ice and ROMS ocean</td>
 </tr>
-<tr class="row-even"><td><p>PRDXGULF2010</p></td>
-<td><p>Data atmosphere, stub land, stub ice and ROMS ocean extended via XROMS</p></td>
+<tr class="row-even"><td>PRDXGULF2010</td>
+<td>Data atmosphere, stub land, stub ice and ROMS ocean extended via XROMS</td>
 </tr>
-<tr class="row-odd"><td><p>PBSGULF2010</p></td>
-<td><p>WRF atmosphere, CLM 4.0 land, stub ice and ROMS ocean extended via XROMS</p></td>
+<tr class="row-odd"><td>PBSGULF2010</td>
+<td>WRF atmosphere, CLM 4.0 land, stub ice and ROMS ocean extended via XROMS</td>
 </tr>
 </tbody>
 </table>
 </div></blockquote>
 <ul>
-<li><p>Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command</p>
+<li><p class="first">Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">xmlchange</span> <span class="n">RUN_STARTDATE</span><span class="o">=</span><span class="mi">2010</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
 </pre></div>
 </div>
@@ -221,25 +221,25 @@ so lnd and glc stubs are used).</p>
 <h2>RCESM Grids<a class="headerlink" href="#rcesm-grids" title="Permalink to this headline">¶</a></h2>
 <p>In the RCESM, the currently available resoultions are:</p>
 <blockquote>
-<div><table class="docutils align-default">
+<div><table border="1" class="docutils">
 <colgroup>
-<col style="width: 11%" />
-<col style="width: 89%" />
+<col width="11%" />
+<col width="89%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Resolution</p></th>
-<th class="head"><p>Description</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Resolution</th>
+<th class="head">Description</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>wus12_wus12</p></td>
-<td><p>A 12km Western US domain. Ocean, land, and atmosphere all on the same grid. Has not been tested with ROMS.</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>wus12_wus12</td>
+<td>A 12km Western US domain. Ocean, land, and atmosphere all on the same grid. Has not been tested with ROMS.</td>
 </tr>
-<tr class="row-odd"><td><p>3x3_gulfmexico</p></td>
-<td><p>A 3km Gulf of Mexico domain for ROMS only (not extended). Data atmosphere on the same grid.</p></td>
+<tr class="row-odd"><td>3x3_gulfmexico</td>
+<td>A 3km Gulf of Mexico domain for ROMS only (not extended). Data atmosphere on the same grid.</td>
 </tr>
-<tr class="row-even"><td><p>tx9k_g3x</p></td>
-<td><p>A 9km atmosphere grid and 3km ocean grid (extended for XROMS) in the Gulf of Mexico (as used for the coupled simulation test case).</p></td>
+<tr class="row-even"><td>tx9k_g3x</td>
+<td>A 9km atmosphere grid and 3km ocean grid (extended for XROMS) in the Gulf of Mexico (as used for the coupled simulation test case).</td>
 </tr>
 </tbody>
 </table>
@@ -262,37 +262,39 @@ determine which files need to be changed or updated to support your new applicat
 to have a <em>compset</em>, a <em>grid</em>, and the needed <em>namelist file</em> support to create a new experiment case from
 which to run your simulation. Consider these questions to direct the changes needed:</p>
 <ol class="arabic">
-<li><p>Do you want to use a set of components that has already been defined and tested or a new set?</p>
+<li><p class="first">Do you want to use a set of components that has already been defined and tested or a new set?</p>
 <p>The most basic part of configuring a CESM or RCESM case is deciding which components you want to run with. The RCESM code supports four different configurations of WRF, ROMS, CLM and various data or stub components (See the section above: <a class="reference internal" href="#rcesm-components">RCESM Components</a> ). If you want to use any of these configurations, then you can move on to the next question. If you want a new configuration, you will need to create a new compset in the <code class="docutils literal notranslate"><span class="pre">config_compsets.xml</span></code> file in the <code class="docutils literal notranslate"><span class="pre">cime_config</span></code> subdirectory of your desired active component. For example, a new compset with a WRF atmosphere should go in the <code class="docutils literal notranslate"><span class="pre">my_rcesm_sandbox/components/wrf/cime_config/config_compsets.xml</span></code> file. There is documentation and examples on how to specify compsets in each of the <code class="docutils literal notranslate"><span class="pre">config_compset.xml</span></code> files in RCESM.</p>
 </li>
 </ol>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you want to add an entirely new component model to RCESM, please read the CIME documentation on this process at:
+<p class="first admonition-title">Note</p>
+<p class="last">If you want to add an entirely new component model to RCESM, please read the CIME documentation on this process at:
 <a class="reference external" href="https://esmci.github.io/cime/build_cpl/adding-components.html">https://esmci.github.io/cime/build_cpl/adding-components.html</a></p>
 </div>
 <ol class="arabic" start="2">
-<li><p>Do you want to use a grid resolution and domain that has already been tested or create a new one?</p>
+<li><p class="first">Do you want to use a grid resolution and domain that has already been tested or create a new one?</p>
 <p>The RCESM code has been tested and includes support for three different grid/domain sets. These are described in the section above: <a class="reference internal" href="#rcesm-grids">RCESM Grids</a> . If one of these supported grids works for your new application, then you can move on to the next question. If you need to add a new domain or grid, there are several files that will need to be updated with grid information, and you will need several coupler domain and mapping files to support it.</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">cime/config/cesm/config_grids.xml</span></code>  This file needs to be edited in two places. Early in the file, grid names and the
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">cime/config/cesm/config_grids.xml</span></code>  This file needs to be edited in two places. Early in the file, grid names and the
 components to which they apply are specified. Later in the file, the grid domain size and links to the coupler domain file
 are specified. To see what edits need to be made, search the file for the grid “gom3” and consider how this grid was
 added to the <code class="docutils literal notranslate"><span class="pre">config_grids.xml</span></code> file. Note that the CIME code base is maintained in a seperate repository from the RCESM,
-so changes to this file will need a seperate commit and pull request from any other changes to the code base.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">components/wrf/bld/wrf.buildnml.csh</span></code> and <code class="docutils literal notranslate"><span class="pre">components/wrf/cime_config/config_pes.xml</span></code>  If your grid is applicable to the
+so changes to this file will need a seperate commit and pull request from any other changes to the code base.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">components/wrf/bld/wrf.buildnml.csh</span></code> and <code class="docutils literal notranslate"><span class="pre">components/wrf/cime_config/config_pes.xml</span></code>  If your grid is applicable to the
 WRF atmospheric component, then these files need to be updated to include your grid and domain. The WRF namelist is built
 based on the name of the grid WRF is running with, so new grids will need to specify a new section in the wrf.buildnml.csh
 script. The config_pes.xml file specifies the PE layout that is best for a given grid. There is a default value that should
-work for most components, but adding a section for your new grid will give you flexibility to update this in the future.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">components/clm/bld/namelist_files/namelist_definition_clm4_0.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">components/clm/bld/namelist_files/namelist_defaults_clm4_0.xml</span></code>  If your grid is applicable to the CLM (land) component, then these files need to be updated. You may need to
+work for most components, but adding a section for your new grid will give you flexibility to update this in the future.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">components/clm/bld/namelist_files/namelist_definition_clm4_0.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">components/clm/bld/namelist_files/namelist_defaults_clm4_0.xml</span></code>  If your grid is applicable to the CLM (land) component, then these files need to be updated. You may need to
 specify a land surface start up file (<code class="docutils literal notranslate"><span class="pre">fsurdat</span></code>) for the grid, or decide to run with a “cold start”. For
 more information on creating domain and land surface files see:
 <a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11573.html">http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11573.html</a></p>
 <p>And for more information about CLM 4.0 namelists and start types see:
 <a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x1230.html">http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x1230.html</a></p>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">components/roms/bld/roms.buildnml.csh</span></code> and <code class="docutils literal notranslate"><span class="pre">components/roms/cime_config/config_pes.xml</span></code>  Much like in WRF,  if your
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">components/roms/bld/roms.buildnml.csh</span></code> and <code class="docutils literal notranslate"><span class="pre">components/roms/cime_config/config_pes.xml</span></code>  Much like in WRF,  if your
 grid is applicable to the
 ROMS ocean component, then these files need to be updated to include your grid and domain. The ROMS namelist is built
 based on the name of the grid ROMS is running with, so new grids will need to specify a new section in the roms.buildnml.csh
@@ -300,13 +302,15 @@ script. The config_pes.xml file specifies the PE layout that is best for a given
 work for most components, but adding a section for your new grid will give you flexibility to update this in the future.
 Note that it is not common for active atmospheric models to run on the same grid as an active ocean model, so it is very
 likely that your atmospheric grid will be named differently and specified differently in the <code class="docutils literal notranslate"><span class="pre">config_grids.xml</span></code> file
-from your ocean grid.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">components/roms/Apps</span></code> The ROMS header files that specify ROMS settings are based on the domain or grid name. You will
+from your ocean grid.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">components/roms/Apps</span></code> The ROMS header files that specify ROMS settings are based on the domain or grid name. You will
 need to create a new sub directory of this directory by the name of the new grid and create the necessary namelist
-and header files within it. Look at the directory <code class="docutils literal notranslate"><span class="pre">components/roms/Apps/gom3x/</span></code> as an example.</p></li>
+and header files within it. Look at the directory <code class="docutils literal notranslate"><span class="pre">components/roms/Apps/gom3x/</span></code> as an example.</p>
+</li>
 </ul>
 </li>
-<li><p>Do you want to change the time, date, or physical/parameterization options of an application?</p>
+<li><p class="first">Do you want to change the time, date, or physical/parameterization options of an application?</p>
 <p>Both ROMS and WRF use CIME xml variables and namelist options to specify various parameters for their runs. To change the
 date, length of a run or change parameterizations, you will first need to add support for these changes to the appropriate
 namelist via the namelist generating scripts (<code class="docutils literal notranslate"><span class="pre">components/wrf/bld/wrf.buildnml.csh</span></code> and/or
@@ -319,11 +323,12 @@ you can set up your runs. To learn more about creating a case, changing xml vari
 </div>
 <div class="section" id="creating-new-domain-and-land-surface-data-files-for-clm">
 <h2>Creating New Domain and Land Surface Data Files for CLM<a class="headerlink" href="#creating-new-domain-and-land-surface-data-files-for-clm" title="Permalink to this headline">¶</a></h2>
-<dl class="simple">
-<dt>In order to build and run a new domain in the RCESM model, currently the CLM component and coupler requires domain files and surface data files for the regional domain. For more information on these files (and a description of how to create them) consider browsing through these websites:</dt><dd><ul class="simple">
-<li><p><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11775.html">Creating mappping files that mksurfdata_map will use</a></p></li>
-<li><p><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11812.html">Creating a domain file for CLM and DATM</a></p></li>
-<li><p><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11868.html">Using mksurfdata_map to create surface datasets from grid datasets</a></p></li>
+<dl class="docutils">
+<dt>In order to build and run a new domain in the RCESM model, currently the CLM component and coupler requires domain files and surface data files for the regional domain. For more information on these files (and a description of how to create them) consider browsing through these websites:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11775.html">Creating mappping files that mksurfdata_map will use</a></li>
+<li><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11812.html">Creating a domain file for CLM and DATM</a></li>
+<li><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11868.html">Using mksurfdata_map to create surface datasets from grid datasets</a></li>
 </ul>
 </dd>
 </dl>

@@ -164,27 +164,27 @@
 <p>You will need some familiarity with git in order to modify the code and commit any changes. However, to simply checkout and run the code, no git knowledge is required other than what is documented in the following steps.</p>
 <p>To obtain the RCESM release code you need to do the following:</p>
 <ol class="arabic simple">
-<li><p>Clone the repository.</p></li>
+<li>Clone the repository.</li>
 </ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/NCAR/TAMURegionalCESM.git my_cresm_sandbox</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/cesm.git my_rcesm_sandbox</span>
 </pre></div>
 </div>
-<p>This will create a directory my_cresm_sandbox/ in your current working directory.</p>
+<p>This will create a directory my_rcesm_sandbox/ in your current working directory.</p>
 <ol class="arabic simple" start="2">
-<li><p>Go into the newly created directory and determine what version of the RCESM you want. To see what cesm tags are available, simply issue the git tag command.</p></li>
+<li>Go into the newly created directory and determine what version of the RCESM you want. To see what cesm tags are available, simply issue the git tag command.</li>
 </ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_cresm_sandbox git tag</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_rcesm_sandbox git tag</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>OPTIONAL: Do a git checkout of the tag you want. If you want to checkout RCESM_release_v0_1, you would issue the following.</p></li>
+<li>OPTIONAL: Do a git checkout of the tag you want. If you want to checkout RCESM_release_v0_1, you would issue the following.</li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git checkout RCESM_release_v0_1</span>
 </pre></div>
 </div>
 <p>(It is normal and expected to get a message about being in ‘detached HEAD’ state. For now you can ignore this, but it becomes important if you want to make changes to your Externals.cfg file and commit those changes to a branch.)</p>
 <ol class="arabic simple" start="4">
-<li><p>Run the script manage_externals/checkout_externals.</p></li>
+<li>Run the script manage_externals/checkout_externals.</li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./manage_externals/checkout_externals</span>
 </pre></div>
