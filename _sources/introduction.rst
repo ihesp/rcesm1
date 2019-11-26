@@ -7,7 +7,7 @@
 How To Use This Document
 ------------------------
 
-This guide instructs both novice and experienced users on downloading,
+This guide is intended to instruct both novice and experienced users on downloading,
 building and running the **Regional Community Earth System Model (RCESM)**.
 
 RCESM is built on the `CIME framework <http://github.com/ESMCI/cime>`_.
@@ -35,13 +35,11 @@ ad hoc order.
 RCESM Overview
 --------------
 
-The RCESM is a fully coupled regional model developed jointly by NCAR and Texas A&M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, see the webiste for documentation here
-
-http://www.cesm.ucar.edu
+The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the `CESM webiste <http://www.cesm.ucar.edu>`_.
 
 This documentation provides both a quickstart guide, including how to get the code and how to build and run an experiment, and information on the system architecture and the development changes made by software engineers at NCAR.
 
-The original TAMU model (CRESM 1.0) is documented in the GitHub repo. Once you `Download the RCESM source <https://ncar.github.io/TAMURegionalCESM/downloading_cesm.html>`_ then go to the ``docs/cresm1.0/`` sub-directory and find the ``cresm_manual.pdf`` file. 
+The original TAMU model (CRESM 1.0) is documented in the GitHub repo. Once you `Download the RCESM source <downloading_cesm.html>`_ then go to the ``docs/cresm1.0/`` sub-directory and find the ``cresm_manual.pdf`` file. 
 
 
 RCESM Software/Operating System Prerequisites

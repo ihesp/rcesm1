@@ -17,15 +17,15 @@ To obtain the RCESM release code you need to do the following:
 
 .. code-block:: console
 		
-    git clone https://github.com/NCAR/TAMURegionalCESM.git my_cresm_sandbox
+    git clone https://github.com/ihesp/cesm.git my_rcesm_sandbox
 	
-This will create a directory my_cresm_sandbox/ in your current working directory.
+This will create a directory my_rcesm_sandbox/ in your current working directory.
 
 2. Go into the newly created directory and determine what version of the RCESM you want. To see what cesm tags are available, simply issue the git tag command.
 
 .. code-block:: console
 		
-    cd my_cresm_sandbox git tag
+    cd my_rcesm_sandbox git tag
 	
 3. OPTIONAL: Do a git checkout of the tag you want. If you want to checkout RCESM_release_v0_1, you would issue the following.
 
