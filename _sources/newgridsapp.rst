@@ -24,7 +24,7 @@ create input netCDF files are provided in Chapter.
 As with any models, all CRESM, WRF and ROMS files are model grid dependent.
 Please make new input files for experiments with a new component model grid
 (WRF or ROMS). Also note that the xroms files and mapping weight files 
-(Section) are also grid dependend and needs to be recreated 
+(Section ) are also grid dependend and needs to be recreated 
 with change in any component model grids.
 
 Steps to Make New Model Grids and Input Files
