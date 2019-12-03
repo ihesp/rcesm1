@@ -86,15 +86,20 @@
 <li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start (RCESM Model Workflow)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rcesm-case-directories">RCESM Case Directories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create-a-case">Create a case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-case-run-script">Setting up the case run script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-the-executable-using-the-case-build-command">Build the executable using the case.build command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#run-the-case">Run the case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reviewing-the-output">Reviewing the output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restart-the-case">Restart the case</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_vers.html">Software Versions and Sourcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Development Changes Made by NCAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
 </ul>
@@ -197,6 +202,18 @@ in a CESM case. From within a case directory, you can determine the value of suc
 variable with <code class="docutils literal notranslate"><span class="pre">./xmlquery</span> <span class="pre">VAR</span></code>. In some instances, <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> refers to a shell
 variable or some other variable; we try to make these exceptions clear.</p>
 </div>
+<div class="section" id="rcesm-case-directories">
+<h2>RCESM Case Directories<a class="headerlink" href="#rcesm-case-directories" title="Permalink to this headline">¶</a></h2>
+<p>When building and running the RCESM it is good to have your working directories set up as follows:</p>
+<p>The RCESM source code in it’s own sandbox
+The RCESM case directory in a seperate (parallel) directory
+The RCESM build and run directory in an area with a lot of space for model output
+On Cheyenne, your working paths might look like:</p>
+<p>Source code : /glade/p/work/user/RCESM/my_rcesm_sandbox
+Case directory : /glade/p/work/user/RCESM/my_case_dirs/case1
+Build and Run directories : /glade/scratch/user/case1
+A RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.</p>
+</div>
 <div class="section" id="create-a-case">
 <h2>Create a case<a class="headerlink" href="#create-a-case" title="Permalink to this headline">¶</a></h2>
 <p>The <em>create_newcase</em> command creates a case directory containing the scripts and XML
@@ -210,7 +227,7 @@ must either specify the <code class="docutils literal notranslate"><span class="
 normally be recognized automatically and therefore it is <em>not</em> required
 to specify the <code class="docutils literal notranslate"><span class="pre">--machine</span></code> argument to <strong>create_newcase</strong>.</p>
 <p>Invoke <strong>create_newcase</strong> as follows:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./create_newcase --case CASENAME --compset COMPSET --res GRID</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./create_newcase --case CASENAME --compset COMPSET --res GRID --mach MACH</span>
 </pre></div>
 </div>
 <p>where:</p>
@@ -224,8 +241,9 @@ is a relative or absolute path, the case directory is created there, and the nam
 case will be the last component of the path. The full path to the case directory will be
 stored in the <code class="docutils literal notranslate"><span class="pre">$CASEROOT</span></code> XML variable. RCESM case names should follow the CESM naming  conventions. See <a class="reference external" href="http://www.cesm.ucar.edu/models/cesm2/naming_conventions.html#casenames">CESM2 Experiment Casenames</a> for
 details regarding CESM experiment case naming conventions.</li>
-<li><code class="docutils literal notranslate"><span class="pre">COMPSET</span></code> is the <a class="reference external" href="cesm_configurations.html">component set</a>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">GRID</span></code> is the model <a class="reference external" href="cesm_configurations.html">resolution</a>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPSET</span></code> is the name of the compset used. Compsets in CESM/RCESM describe which components are active and their basic configurations for the run. See <a class="reference external" href="cesm_configurations.html">component set</a> for a list of available compsets in RCESM.</li>
+<li><code class="docutils literal notranslate"><span class="pre">GRID</span></code> is the name of model resolution set used, which describes the grids and domains used in the experiment. See <a class="reference external" href="cesm_configurations.html">resolution</a>. for the list of currently available resolutions.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MACH</span></code> is the machine where the build and run is happening. This allows CIME to load the correct environment and libraries, set up applicable node and task configurations, and configure submission scripts for the correct queues. On many NCAR-supported machines (such as Cheyenne) this flag is optional, as CIME can determine what machine it is on through the shell. For more information on porting to a new machine, see “Porting CIME and the RCESM to a new machine”_ below.</li>
 <li><code class="docutils literal notranslate"><span class="pre">run-unsupported</span></code> is required for all RCESM compsets as these should all be considered scientifically experimental within the RCESM/CESM code base.</li>
 </ul>
 <p><strong>Here is an example</strong> on NCAR machine cheyenne with the <code class="docutils literal notranslate"><span class="pre">$USER</span></code> shell environment variable
@@ -319,6 +337,9 @@ TERMINATION OF CPL7-cesm”.</p>
 <p>There should be two timing files there that summarize the model performance.</p>
 </li>
 </ul>
+</div>
+<div class="section" id="reviewing-the-output">
+<h2>Reviewing the output<a class="headerlink" href="#reviewing-the-output" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="restart-the-case">
 <h2>Restart the case<a class="headerlink" href="#restart-the-case" title="Permalink to this headline">¶</a></h2>

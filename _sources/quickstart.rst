@@ -46,6 +46,24 @@ supported component sets, grids and computational platforms.
    variable with ``./xmlquery VAR``. In some instances, ``$VAR`` refers to a shell
    variable or some other variable; we try to make these exceptions clear.
 
+
+RCESM Case Directories
+======================
+
+When building and running the RCESM it is good to have your working directories set up as follows:
+
+The RCESM source code in it's own sandbox
+The RCESM case directory in a seperate (parallel) directory
+The RCESM build and run directory in an area with a lot of space for model output
+On Cheyenne, your working paths might look like:
+
+Source code : /glade/p/work/user/RCESM/my_rcesm_sandbox
+Case directory : /glade/p/work/user/RCESM/my_case_dirs/case1
+Build and Run directories : /glade/scratch/user/case1
+A RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.
+
+
+
 Create a case
 ==============
 
@@ -66,7 +84,7 @@ Invoke **create_newcase** as follows:
 
 .. code-block:: console
 
-    ./create_newcase --case CASENAME --compset COMPSET --res GRID
+    ./create_newcase --case CASENAME --compset COMPSET --res GRID --mach MACH
 
 where:
 
@@ -81,9 +99,11 @@ where:
   <http://www.cesm.ucar.edu/models/cesm2/naming_conventions.html#casenames>`_ for
   details regarding CESM experiment case naming conventions.
 
-- ``COMPSET`` is the `component set <cesm_configurations.html>`_.
+- ``COMPSET`` is the name of the compset used. Compsets in CESM/RCESM describe which components are active and their basic configurations for the run. See `component set <cesm_configurations.html>`_ for a list of available compsets in RCESM. 
 
-- ``GRID`` is the model `resolution <cesm_configurations.html>`_.
+- ``GRID`` is the name of model resolution set used, which describes the grids and domains used in the experiment. See `resolution <cesm_configurations.html>`_. for the list of currently available resolutions.
+
+- ``MACH`` is the machine where the build and run is happening. This allows CIME to load the correct environment and libraries, set up applicable node and task configurations, and configure submission scripts for the correct queues. On many NCAR-supported machines (such as Cheyenne) this flag is optional, as CIME can determine what machine it is on through the shell. For more information on porting to a new machine, see "Porting CIME and the RCESM to a new machine"_ below.
 
 - ``run-unsupported`` is required for all RCESM compsets as these should all be considered scientifically experimental within the RCESM/CESM code base.
   
@@ -208,6 +228,10 @@ comma separated names and no spaces):
 - ``$CASEROOT/timing``
 
   There should be two timing files there that summarize the model performance.
+
+
+Reviewing the output
+====================
 
 
 Restart the case
