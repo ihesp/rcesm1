@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pre-processing and Post-processing Utilities &mdash; Sphinx-Themes template 1 documentation</title>
+  <title>Pre-processing and Post-processing Utilities &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -28,12 +28,14 @@
   
 
   
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Sphinx-Themes template 1 documentation" href="index.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
         <link rel="next" title="Making New Grids and Applications" href="newgridsapp.html"/>
         <link rel="prev" title="Development Changes Made by NCAR" href="io_files.html"/> 
 
@@ -54,9 +56,12 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Sphinx-Themes template
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
           
 
+          
+            
+            <img src="_static/ihesplogo.svg" class="logo" />
           
           </a>
 
@@ -113,7 +118,7 @@
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Sphinx-Themes template</a>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
         
       </nav>
 
@@ -183,44 +188,44 @@ This step is needed only the first time you run the tool</p>
 <span class="go">python setup.py install --user</span>
 </pre></div>
 </div>
-<p>Step:1 - Activate cesm virtual environment
-.. code-block:: console</p>
-<blockquote>
-<div>module load python/2.7.13-intel-2017b
-export POSTPROCESS_PATH=/ihesp/altuntas/CESM_postprocessing/
-alias cesm_pp_activate=’. $POSTPROCESS_PATH/cesm-env2/bin/activate’
-cesm_pp_activate</div></blockquote>
-<p>Step:2 - Create your postprocessing instance
-.. code-block:: console</p>
-<blockquote>
-<div>create_postprocess -case [your-case-directory]</div></blockquote>
+<p>Step:1 - Activate cesm virtual environment</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">module load python/2.7.13-intel-2017b</span>
+<span class="go">export POSTPROCESS_PATH=/ihesp/altuntas/CESM_postprocessing/</span>
+<span class="go">alias cesm_pp_activate=&#39;. $POSTPROCESS_PATH/cesm-env2/bin/activate&#39;</span>
+<span class="go">cesm_pp_activate</span>
+</pre></div>
+</div>
+<p>Step:2 - Create your postprocessing instance</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">create_postprocess -case [your-case-directory]</span>
+</pre></div>
+</div>
 <p>Step:3 - Edit env_postprocess.xml and env_diags_ocn.xml files
 see the files in the following directory as an example:
 /scratch/user/altuntas/g.e20.G.TL319_t13.control.001_contd</p>
 <p>Step:4 - Generate average files</p>
 <p>Step:4.1: - Enter your project id in ocn_averages file by
-replacing “None” in the following line with your project id:
-.. code-block:: console</p>
-<blockquote>
-<div>bsub -P None</div></blockquote>
+replacing “None” in the following line with your project id:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub -P None</span>
+</pre></div>
+</div>
 <p>Note: depending on the duration of the simulation, you may
 also need to increase the wallclock time.</p>
-<p>Step:4.2 - Submit the job:
-.. code-block:: console</p>
-<blockquote>
-<div>bsub &lt; ocn_averages</div></blockquote>
+<p>Step:4.2 - Submit the job:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub &lt; ocn_averages</span>
+</pre></div>
+</div>
 <p>Step:4.3 - Check the latest log file to see if averaging was
 completed successfully: [your-case-directory]/logs/</p>
 <p>Step:5 - Generate the diagnostics</p>
 <p>Step:5.1: - Enter your project id in ocn_diagnostics file by
-replacing “None” in the following line with your project id:
-.. code-block:: console</p>
-<blockquote>
-<div>bsub -P None</div></blockquote>
-<p>Step:5.2 - Submit the job:
-.. code-block:: console</p>
-<blockquote>
-<div>bsub &lt; ocn_diagnostics</div></blockquote>
+replacing “None” in the following line with your project id:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub -P None</span>
+</pre></div>
+</div>
+<p>Step:5.2 - Submit the job:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub &lt; ocn_diagnostics</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>

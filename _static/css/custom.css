@@ -1,0 +1,49 @@
+/* Increasing page width*/
+.wy-nav-content {
+    max-width: 75% !important;
+}
+
+
+/* Controlling the font of text in code block*/
+.go {
+/*color: #F6F3E8;*/
+color: #EFC090;
+  font-size: 120%;
+}
+
+
+.codeblock div[class^='highlight'], pre.literal-block div[class^='highlight'], .rst-content .literal-block div[class^='highlight'], div[class^='highlight'] div[class^='highlight'] {
+  font-size: 200%;
+  border: none;
+  background: #404040;
+  color: #F6F3E8;
+  margin: 0;
+}
+
+
+
+/* Table colors*/
+
+
+
+.wy-table td, .rst-content table.docutils td, .rst-content table.field-list td {
+  background-color: #a4978e;
+  vertical-align: middle;
+  font-weight: 600;
+
+}
+
+.wy-table thead th, .rst-content table.docutils thead th, .rst-content table.field-list thead th {
+  font-weight: bold;
+  border-bottom: solid 2px #e1e4e5;
+  background-color: #a4978e;
+}
+
+.wy-table-odd td, .wy-table-striped tr:nth-child(2n-1) td, .rst-content table.docutils:not(.field-list) tr:nth-child(2n-1) td {
+ /* background-color: #ddf1f7;*/
+ background-color: #8a8683;
+  font-weight: 600;
+}
+
+
+

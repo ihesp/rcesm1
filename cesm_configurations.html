@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>RCESM Configurations &mdash; Sphinx-Themes template 1 documentation</title>
+  <title>RCESM Configurations &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -28,12 +28,14 @@
   
 
   
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Sphinx-Themes template 1 documentation" href="index.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
         <link rel="next" title="Quick Start (RCESM Model Workflow)" href="quickstart.html"/>
         <link rel="prev" title="Downloading RCESM" href="downloading_cesm.html"/> 
 
@@ -54,9 +56,12 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Sphinx-Themes template
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
           
 
+          
+            
+            <img src="_static/ihesplogo.svg" class="logo" />
           
           </a>
 
@@ -93,8 +98,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_vers.html">Software Versions and Sourcing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dev_changes.html">Development Changes Made by NCAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
 </ul>
@@ -111,7 +119,7 @@
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Sphinx-Themes template</a>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
         
       </nav>
 
@@ -193,13 +201,12 @@
 </tbody>
 </table>
 </div></blockquote>
-<ul>
-<li><p class="first">Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">xmlchange</span> <span class="n">RUN_STARTDATE</span><span class="o">=</span><span class="mi">2010</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
+<ul class="simple">
+<li>Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command</li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange RUN_STARTDATE=2010-01-01</span>
 </pre></div>
 </div>
-</li>
-</ul>
 <p>During the course of a CESM/RCESM run, the model components integrate forward
 in time, periodically exchanging information with the coupler.
 The coupler meanwhile receives fields from the component models,

@@ -76,6 +76,11 @@ pygments_style = 'sphinx'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+project = "RCESM Quickstart Guide and Development Doc"
+html_title = "RCESM Quickstart Guide and Development Doc"
+
+html_short_title = "RCESM Documentation"
+
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
@@ -93,13 +98,23 @@ html_static_path = ['_static']
 #import stanford_theme
 html_theme = "stanford_theme"
 html_theme_path = ["."]
+
+html_logo = "ihesplogo.svg"
+
 #html_theme_path = [stanford_theme.get_html_theme_path()]
+
+codetextcolor = "#FFFFFF"
+
+# To force theme to use custom page width and code block colors
+html_css_files = [
+    'css/custom.css',
+]
+
 
 #import klink
 #html_theme = 'klink'
 #html_theme_path = [klink.get_html_theme_path()]
 #html_theme_options = {
-#    'github': 'yourname/yourrepo',
-#    'analytics_id': 'UA-your-number-here',
-#    'logo': 'logo.png'
+#    'github_url': 'https://github.com/ihesp',
+#    'logo': 'ihesplogo.png'
 #}

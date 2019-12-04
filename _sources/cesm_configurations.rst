@@ -21,7 +21,9 @@ Compsets in CESM/RCESM describe which components are active and their basic conf
   PBSGULF2010       WRF atmosphere, CLM 4.0 land, stub ice and ROMS ocean extended via XROMS
  ================  ========================
 
-- Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command ::
+- Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command
+
+.. code-block:: console
 
     ./xmlchange RUN_STARTDATE=2010-01-01
 

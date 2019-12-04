@@ -23,6 +23,7 @@ Instructions
 
 
 
+
 Step:0 - Install a local copy of asaptools
 This step is needed only the first time you run the tool
 
@@ -38,6 +39,7 @@ This step is needed only the first time you run the tool
     python setup.py install --user
 
 Step:1 - Activate cesm virtual environment
+
 .. code-block:: console
 
     module load python/2.7.13-intel-2017b
@@ -46,6 +48,7 @@ Step:1 - Activate cesm virtual environment
     cesm_pp_activate
 
 Step:2 - Create your postprocessing instance
+
 .. code-block:: console
 
     create_postprocess -case [your-case-directory]
@@ -58,6 +61,7 @@ Step:4 - Generate average files
 
 Step:4.1: - Enter your project id in ocn_averages file by
 replacing "None" in the following line with your project id:
+
 .. code-block:: console
 
     bsub -P None
@@ -66,6 +70,7 @@ Note: depending on the duration of the simulation, you may
 also need to increase the wallclock time.
 
 Step:4.2 - Submit the job:
+
 .. code-block:: console
 
     bsub < ocn_averages
@@ -77,11 +82,13 @@ Step:5 - Generate the diagnostics
 
 Step:5.1: - Enter your project id in ocn_diagnostics file by
 replacing "None" in the following line with your project id:
+
 .. code-block:: console
 
     bsub -P None
 
 Step:5.2 - Submit the job:
+
 .. code-block:: console
 
     bsub < ocn_diagnostics
