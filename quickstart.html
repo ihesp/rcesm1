@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
-        <link rel="next" title="Development Changes Made by NCAR" href="rcesm_architecture.html"/>
-        <link rel="prev" title="RCESM Configurations" href="cesm_configurations.html"/> 
+        <link rel="next" title="RCESM Configurations" href="cesm_configurations.html"/>
+        <link rel="prev" title="Downloading RCESM" href="downloading_cesm.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -89,17 +89,17 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start (RCESM Model Workflow)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#rcesm-case-directories">RCESM Case Directories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create-a-case">Create a case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-case-run-script">Setting up the case run script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-the-executable-using-the-case-build-command">Build the executable using the case.build command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#run-the-case">Run the case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reviewing-the-output">Reviewing the output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reviewing-the-model-output">Reviewing the model output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restart-the-case">Restart the case</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_vers.html">Software Versions and Sourcing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a></li>
@@ -210,14 +210,34 @@ variable or some other variable; we try to make these exceptions clear.</p>
 <div class="section" id="rcesm-case-directories">
 <h2>RCESM Case Directories<a class="headerlink" href="#rcesm-case-directories" title="Permalink to this headline">¶</a></h2>
 <p>When building and running the RCESM it is good to have your working directories set up as follows:</p>
-<p>The RCESM source code in it’s own sandbox
-The RCESM case directory in a seperate (parallel) directory
-The RCESM build and run directory in an area with a lot of space for model output
-On Cheyenne, your working paths might look like:</p>
-<p>Source code : /glade/p/work/user/RCESM/my_rcesm_sandbox
-Case directory : /glade/p/work/user/RCESM/my_case_dirs/case1
-Build and Run directories : /glade/scratch/user/case1
-A RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.</p>
+<ul class="simple">
+<li>The RCESM source code, typically placed in the user’s home directory  <code class="docutils literal notranslate"><span class="pre">~/my_rcesm_sandbox</span></code></li>
+<li>The root RCESM case directory, located in a directory separate from the source code <code class="docutils literal notranslate"><span class="pre">~/my_case_dirs</span></code></li>
+<li>The RCESM build and run directories should be placed outside the home directory, and typically on a location with Lustre or GPFS filesystems. For example, on Ada, it can be placed in the user’s scratch directory  <code class="docutils literal notranslate"><span class="pre">/scratch/user/$USER/rcesm_output_dir</span></code></li>
+</ul>
+<p>An RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Edit the <code class="docutils literal notranslate"><span class="pre">my_rcesm_sandbox/cime/config/cesm/machines/config_machines.xml</span></code> file to point to correct input file directories and output file locations before creating a case. An example on Ada.</li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&lt;machine MACH=&quot;ada&quot;&gt;</span>
+<span class="go">&lt;DESC&gt;  TAMU IBM NextScale Cluster, os is Linux, 20 pes/node, batch system is LSF  &lt;/DESC&gt;</span>
+<span class="go">&lt;NODENAME_REGEX&gt;.*.ada.tamu.edu&lt;/NODENAME_REGEX&gt;</span>
+<span class="go">&lt;OS&gt;LINUX&lt;/OS&gt;</span>
+<span class="go">&lt;COMPILERS&gt;intel,gnu,pgi&lt;/COMPILERS&gt;</span>
+<span class="go">&lt;MPILIBS compiler=&quot;intel&quot; &gt;impi,mpt,openmpi&lt;/MPILIBS&gt;</span>
+<span class="go">&lt;MPILIBS compiler=&quot;pgi&quot; &gt;mpt&lt;/MPILIBS&gt;</span>
+<span class="go">&lt;MPILIBS compiler=&quot;gnu&quot; &gt;openmpi&lt;/MPILIBS&gt;</span>
+<span class="go">&lt;CIME_OUTPUT_ROOT&gt;/scratch/user/$USER/RCESM/RegionalCESM-2.0.0&lt;/CIME_OUTPUT_ROOT&gt;</span>
+<span class="go">&lt;DIN_LOC_ROOT&gt;/scratch/user/liu6/RCESM/inputdata/&lt;/DIN_LOC_ROOT&gt;</span>
+<span class="go">&lt;DIN_LOC_ROOT_CLMFORC&gt;&gt;/scratch/user/liu6/RCESM/inputdata/lmwg&lt;/DIN_LOC_ROOT_CLMFORC&gt;</span>
+<span class="go">&lt;DOUT_S_ROOT&gt;$CIME_OUTPUT_ROOT/archive/$CASE&lt;/DOUT_S_ROOT&gt;</span>
+<span class="go">&lt;BASELINE_ROOT&gt;&gt;/scratch/user/liu6/RCESM/inputdata/cesm_baselines&lt;/BASELINE_ROOT&gt;</span>
+<span class="go">&lt;CCSM_CPRNC&gt;&gt;$CIME_OUTPUT_ROOT/../my_rcesm_sandbox2/cime/tools/cprnc&lt;/CCSM_CPRNC&gt;</span>
+<span class="go">&lt;GMAKE_J&gt;4&lt;/GMAKE_J&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
 </div>
 <div class="section" id="create-a-case">
 <h2>Create a case<a class="headerlink" href="#create-a-case" title="Permalink to this headline">¶</a></h2>
@@ -251,9 +271,8 @@ details regarding CESM experiment case naming conventions.</li>
 <li><code class="docutils literal notranslate"><span class="pre">MACH</span></code> is the machine where the build and run is happening. This allows CIME to load the correct environment and libraries, set up applicable node and task configurations, and configure submission scripts for the correct queues. On many NCAR-supported machines (such as Cheyenne) this flag is optional, as CIME can determine what machine it is on through the shell. For more information on porting to a new machine, see “Porting CIME and the RCESM to a new machine”_ below.</li>
 <li><code class="docutils literal notranslate"><span class="pre">run-unsupported</span></code> is required for all RCESM compsets as these should all be considered scientifically experimental within the RCESM/CESM code base.</li>
 </ul>
-<p><strong>Here is an example</strong> on NCAR machine cheyenne with the <code class="docutils literal notranslate"><span class="pre">$USER</span></code> shell environment variable
-set to your cheyenne login name:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">my_rcesm_sandbox/cime/scripts/create_newcase --case my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001 --compset PBSGULF2010 -res tx9k_g3x --run-unsupported</span>
+<p><strong>Here is an example</strong> on TAMU machine Ada. Check that your <code class="docutils literal notranslate"><span class="pre">$USER</span></code> shell environment variable is set to your Ada login name:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 --compset PBSGULF2010 -res tx9k_g3x -mach ada --run-unsupported</span>
 </pre></div>
 </div>
 </div>
@@ -265,7 +284,7 @@ for the given case configuration. Before invoking <strong>case.setup</strong>, m
 the <code class="docutils literal notranslate"><span class="pre">env_mach_pes.xml</span></code> file in the case directory using the <em>xmlchange</em> command
 as needed for the experiment.</p>
 <p>cd to the case directory. Following <strong>the example from above</strong>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_case_dirs/PBSGULF2010</span>
 </pre></div>
 </div>
 <p>Modify settings in <code class="docutils literal notranslate"><span class="pre">env_mach_pes.xml</span></code> (optional). (Note: To edit any of
@@ -310,13 +329,19 @@ entire month, you would change:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange STOP_OPTION=nmonths,STOP_N=1</span>
 </pre></div>
 </div>
+<p>To change the duration of the run on the cluster to 20 hours, use</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange JOB_WALLCLOCK_TIME=20:00</span>
+</pre></div>
+</div>
 <p>After setting the run lenght, submit the job to the batch queue using the <strong>case.submit</strong> command.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./case.submit</span>
 </pre></div>
 </div>
-<p>When the job is complete, most output will <em>NOT</em> be written under the case directory, but
-instead under some other directories (on NCAR’s cheyenne machine, these other directories
-will be in <code class="docutils literal notranslate"><span class="pre">/glade/scratch/$USER</span></code>). Review the following directories and files, whose
+</div>
+<div class="section" id="reviewing-the-model-output">
+<h2>Reviewing the model output<a class="headerlink" href="#reviewing-the-model-output" title="Permalink to this headline">¶</a></h2>
+<p>When the job is complete, most of the model output will be written to the experiment’s run directory. For example, on the TAMU Ada machine, the run directories
+are usually placed in <code class="docutils literal notranslate"><span class="pre">/scratch/user/$USER</span></code>). Review the following directories and files, whose
 locations can be found with <strong>xmlquery</strong> (note: <strong>xmlquery</strong> can be run with a list of
 comma separated names and no spaces):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlquery RUNDIR,CASE,CASEROOT</span>
@@ -342,13 +367,11 @@ TERMINATION OF CPL7-cesm”.</p>
 <p>There should be two timing files there that summarize the model performance.</p>
 </li>
 </ul>
-</div>
-<div class="section" id="reviewing-the-output">
-<h2>Reviewing the output<a class="headerlink" href="#reviewing-the-output" title="Permalink to this headline">¶</a></h2>
+<p>To post-process the results, please follow the steps outlined in the section <a class="reference external" href="prepost_tools.html">Post-processing utilities</a></p>
 </div>
 <div class="section" id="restart-the-case">
 <h2>Restart the case<a class="headerlink" href="#restart-the-case" title="Permalink to this headline">¶</a></h2>
-<p>The RCESM supports the ability to restart from any point that restart files are written. To
+<p>RCESM supports the ability to restart from any point that restart files are written. To
 set the frequency that restart files are written, first check the <code class="docutils literal notranslate"><span class="pre">$REST_N</span></code> and
 <code class="docutils literal notranslate"><span class="pre">$REST_OPTION</span></code> variables:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlquery REST_OPTION,REST_N</span>
@@ -382,10 +405,10 @@ manually edit the filenames in each of the <code class="docutils literal notrans
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rcesm_architecture.html" class="btn btn-neutral float-right" title="Development Changes Made by NCAR" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cesm_configurations.html" class="btn btn-neutral float-right" title="RCESM Configurations" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cesm_configurations.html" class="btn btn-neutral" title="RCESM Configurations" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="downloading_cesm.html" class="btn btn-neutral" title="Downloading RCESM" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

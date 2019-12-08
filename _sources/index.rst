@@ -14,8 +14,8 @@ Table of contents
 
    introduction.rst
    downloading_cesm.rst
-   cesm_configurations.rst
    quickstart.rst
+   cesm_configurations.rst
    rcesm_architecture.rst
    software_vers.rst
    io_files.rst

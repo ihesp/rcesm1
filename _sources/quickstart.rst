@@ -52,15 +52,32 @@ RCESM Case Directories
 
 When building and running the RCESM it is good to have your working directories set up as follows:
 
-The RCESM source code in it's own sandbox
-The RCESM case directory in a seperate (parallel) directory
-The RCESM build and run directory in an area with a lot of space for model output
-On Cheyenne, your working paths might look like:
+- The RCESM source code, typically placed in the user's home directory  ``~/my_rcesm_sandbox``
+- The root RCESM case directory, located in a directory separate from the source code ``~/my_case_dirs``
+- The RCESM build and run directories should be placed outside the home directory, and typically on a location with Lustre or GPFS filesystems. For example, on Ada, it can be placed in the user's scratch directory  ``/scratch/user/$USER/rcesm_output_dir``
 
-Source code : /glade/p/work/user/RCESM/my_rcesm_sandbox
-Case directory : /glade/p/work/user/RCESM/my_case_dirs/case1
-Build and Run directories : /glade/scratch/user/case1
-A RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.
+
+An RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.
+
+ - Edit the ``my_rcesm_sandbox/cime/config/cesm/machines/config_machines.xml`` file to point to correct input file directories and output file locations before creating a case. An example on Ada. 
+
+ .. code-block:: console
+
+      <machine MACH="ada">
+      <DESC>  TAMU IBM NextScale Cluster, os is Linux, 20 pes/node, batch system is LSF  </DESC>
+      <NODENAME_REGEX>.*.ada.tamu.edu</NODENAME_REGEX>
+      <OS>LINUX</OS>
+      <COMPILERS>intel,gnu,pgi</COMPILERS>
+      <MPILIBS compiler="intel" >impi,mpt,openmpi</MPILIBS>
+      <MPILIBS compiler="pgi" >mpt</MPILIBS>
+      <MPILIBS compiler="gnu" >openmpi</MPILIBS>
+      <CIME_OUTPUT_ROOT>/scratch/user/$USER/RCESM/RegionalCESM-2.0.0</CIME_OUTPUT_ROOT>
+      <DIN_LOC_ROOT>/scratch/user/liu6/RCESM/inputdata/</DIN_LOC_ROOT>
+      <DIN_LOC_ROOT_CLMFORC>>/scratch/user/liu6/RCESM/inputdata/lmwg</DIN_LOC_ROOT_CLMFORC>
+      <DOUT_S_ROOT>$CIME_OUTPUT_ROOT/archive/$CASE</DOUT_S_ROOT>
+      <BASELINE_ROOT>>/scratch/user/liu6/RCESM/inputdata/cesm_baselines</BASELINE_ROOT>
+      <CCSM_CPRNC>>$CIME_OUTPUT_ROOT/../my_rcesm_sandbox2/cime/tools/cprnc</CCSM_CPRNC>
+      <GMAKE_J>4</GMAKE_J>
 
 
 
@@ -107,12 +124,11 @@ where:
 
 - ``run-unsupported`` is required for all RCESM compsets as these should all be considered scientifically experimental within the RCESM/CESM code base.
   
-**Here is an example** on NCAR machine cheyenne with the ``$USER`` shell environment variable
-set to your cheyenne login name:
+**Here is an example** on TAMU machine Ada. Check that your ``$USER`` shell environment variable is set to your Ada login name:
 
 .. code-block:: console
 
-   my_rcesm_sandbox/cime/scripts/create_newcase --case my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001 --compset PBSGULF2010 -res tx9k_g3x --run-unsupported
+   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 --compset PBSGULF2010 -res tx9k_g3x -mach ada --run-unsupported
 
 
 Setting up the case run script
@@ -128,7 +144,7 @@ cd to the case directory. Following **the example from above**:
 
 .. code-block:: console
 
-    cd my_case_dirs/p.r10.pbsgulf2010.tx9k_g3x.my_new_test.001
+    cd my_case_dirs/PBSGULF2010
 
 Modify settings in ``env_mach_pes.xml`` (optional). (Note: To edit any of
 the env xml files, use the *xmlchange* command.
@@ -191,15 +207,27 @@ entire month, you would change:
       ./xmlchange STOP_OPTION=nmonths,STOP_N=1
 
 
+To change the duration of the run on the cluster to 20 hours, use
+
+.. code-block:: console
+
+    ./xmlchange JOB_WALLCLOCK_TIME=20:00
+
+
 After setting the run lenght, submit the job to the batch queue using the **case.submit** command.
 
 .. code-block:: console
 
     ./case.submit
 
-When the job is complete, most output will *NOT* be written under the case directory, but
-instead under some other directories (on NCAR's cheyenne machine, these other directories
-will be in ``/glade/scratch/$USER``). Review the following directories and files, whose
+
+
+
+Reviewing the model output
+==========================
+
+When the job is complete, most of the model output will be written to the experiment's run directory. For example, on the TAMU Ada machine, the run directories
+are usually placed in ``/scratch/user/$USER``). Review the following directories and files, whose
 locations can be found with **xmlquery** (note: **xmlquery** can be run with a list of
 comma separated names and no spaces):
 
@@ -230,14 +258,13 @@ comma separated names and no spaces):
   There should be two timing files there that summarize the model performance.
 
 
-Reviewing the output
-====================
 
+To post-process the results, please follow the steps outlined in the section `Post-processing utilities <prepost_tools.html>`_
 
 Restart the case
 ================
 
-The RCESM supports the ability to restart from any point that restart files are written. To
+RCESM supports the ability to restart from any point that restart files are written. To
 set the frequency that restart files are written, first check the ``$REST_N`` and
 ``$REST_OPTION`` variables:
 
