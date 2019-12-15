@@ -4,42 +4,21 @@
  Introduction
 ==============
 
-How To Use This Document
-------------------------
-
-This guide is intended to instruct both novice and experienced users on downloading,
-building and running the **Regional Community Earth System Model (RCESM)**.
-
-RCESM is built on the `CIME framework <http://github.com/ESMCI/cime>`_.
-
-If you are a new user, we recommend reading the first few sections of
-the `CIME`_ documentation which is written so that, as much as
-possible, individual sections stand on their own and the `CIME`_
-documentation guide can be scanned and sections read in a relatively
-ad hoc order.
-
-.. code-block:: console 
-
-    Throughout the guide, this presentation style indicates shell
-    commands and options, fragments of code, namelist variables, etc.
-
-.. note:: 
-
-   Variables presented as ``$VAR`` in this guide typically refer to variables in XML files
-   in a CESM case. From within a case directory, you can determine the value of such a
-   variable with ``./xmlquery VAR``. In some instances, ``$VAR`` refers to a shell
-   variable or some other variable; we try to make these exceptions clear.
-    
-
-
 RCESM Overview
 --------------
 
 The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the `CESM webiste <http://www.cesm.ucar.edu>`_.
 
+
+.. figure:: RCESM_main.png
+   :scale: 28 %
+   :alt: RCESM schematic
+   :align: center
+
+   An overall schematic of the Regional Community Earth System model architecture.
+
 This documentation provides both a quickstart guide, including how to get the code and how to build and run an experiment, and information on the system architecture and the development changes made by software engineers at NCAR.
 
-The original TAMU model (CRESM 1.0) is documented in the GitHub repo. Once you `Download the RCESM source <downloading_cesm.html>`_ then go to the ``docs/cresm1.0/`` sub-directory and find the ``cresm_manual.pdf`` file. 
 
 
 RCESM Software/Operating System Prerequisites
@@ -85,3 +64,30 @@ higher performance by using MPI-IO. Pnetcdf is enabled by setting the
 ``$PNETCDF_PATH`` Makefile variable in the ``Macros.make`` file.
 
 .. _CIME: http://esmci.github.io/cime
+
+
+How To Use This Document
+------------------------
+
+This guide is intended to instruct both novice and experienced users on downloading,
+building and running the **Regional Community Earth System Model (RCESM)**.
+
+RCESM is built on the `CIME framework <http://github.com/ESMCI/cime>`_.
+
+If you are a new user, we recommend reading the first few sections of
+the `CIME`_ documentation which is written so that, as much as
+possible, individual sections stand on their own and the `CIME`_
+documentation guide can be scanned and sections read in a relatively
+ad hoc order.
+
+.. code-block:: console 
+
+    Throughout the guide, this presentation style indicates shell
+    commands and options, fragments of code, namelist variables, etc.
+
+.. note:: 
+
+   Variables presented as ``$VAR`` in this guide typically refer to variables in XML files
+   in a CESM case. From within a case directory, you can determine the value of such a
+   variable with ``./xmlquery VAR``. In some instances, ``$VAR`` refers to a shell
+   variable or some other variable; we try to make these exceptions clear.

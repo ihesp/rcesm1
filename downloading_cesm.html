@@ -88,14 +88,11 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Downloading RCESM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#downloading-the-code-and-scripts">Downloading the code and scripts</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Downloading RCESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="software_vers.html">Software Versions and Sourcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software_vers.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
@@ -166,9 +163,7 @@
             
   <div class="section" id="downloading-rcesm">
 <span id="downloading"></span><h1>Downloading RCESM<a class="headerlink" href="#downloading-rcesm" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="downloading-the-code-and-scripts">
-<h2>Downloading the code and scripts<a class="headerlink" href="#downloading-the-code-and-scripts" title="Permalink to this headline">¶</a></h2>
-<p>The RCESM code is available from a private repository in github. The basic components used in this model are included in the repo (unlike CESM), but the scripting infrastructure is maintained in an external repository and managed with the “manage_externals” tool. To access the repository, please email one of the collaborators with your git account information.</p>
+<p>The RCESM code is publicly available from its <a class="reference external" href="https://github.com/ihesp/cesm">github repository</a> . The basic components used in this model are included in the repo (unlike CESM), but the scripting infrastructure is maintained in an external repository and managed with the “manage_externals” tool.</p>
 <p>You will need some familiarity with git in order to modify the code and commit any changes. However, to simply checkout and run the code, no git knowledge is required other than what is documented in the following steps.</p>
 <p>To obtain the RCESM release code you need to do the following:</p>
 <ol class="arabic simple">
@@ -179,29 +174,28 @@
 </div>
 <p>This will create a directory my_rcesm_sandbox/ in your current working directory.</p>
 <ol class="arabic simple" start="2">
-<li>Go into the newly created directory and determine what version of the RCESM you want. To see what cesm tags are available, simply issue the git tag command.</li>
+<li>Go into the newly created directory (using <code class="docutils literal notranslate"><span class="pre">cd</span></code>) and determine the currently active version of RCESM using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> command.</li>
 </ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_rcesm_sandbox git tag</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_rcesm_sandbox</span>
+<span class="go">git status</span>
 </pre></div>
 </div>
+<p>By default, RCESM uses the ‘igesp-regional-master’ branch, which is the most stable configuration.</p>
 <ol class="arabic simple" start="3">
-<li>OPTIONAL: Do a git checkout of the tag you want. If you want to checkout RCESM_release_v0_1, you would issue the following.</li>
+<li>Optionally, you can checkout any specific tag of RCESM. To see the available RCESM tags, use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> command. Then use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> command to checkout the tag of interest. For example:</li>
 </ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git checkout RCESM_release_v0_1</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git tag</span>
+<span class="go">git checkout release_cesm2.0.0</span>
 </pre></div>
 </div>
 <p>(It is normal and expected to get a message about being in ‘detached HEAD’ state. For now you can ignore this, but it becomes important if you want to make changes to your Externals.cfg file and commit those changes to a branch.)</p>
 <ol class="arabic simple" start="4">
-<li>Run the script manage_externals/checkout_externals.</li>
+<li>Download the components required by RCESM, using the script <code class="docutils literal notranslate"><span class="pre">manage_externals/checkout_externals</span></code>.</li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./manage_externals/checkout_externals</span>
 </pre></div>
 </div>
-<p>The checkout_externals script is a package manager that will populate the cresm directory with the relevant version of the CIME infrastructure code.</p>
-<p>At this point you have a working version of RCESM.</p>
-<p>For general information on using the CIME framework in the context of CESM and RCESM, see the CIME documentation at <a class="reference external" href="http://esmci.github.io/cime/">http://esmci.github.io/cime/</a> .</p>
-<p>The <strong>checkout_externals</strong> script will read the configuration file called <code class="docutils literal notranslate"><span class="pre">Externals.cfg</span></code> and
-will download all the external component models and CIME into /path/to/my_cesm_sandbox.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">checkout_externals</span></code> script is a package manager that clones the source codes for CIME and active component models (WRF, ROMS, CLM) into your RCESM working directory. The script reads the <code class="docutils literal notranslate"><span class="pre">Externals.cfg</span></code> configuration file to obtain the versions and repositories of the code that will be downloaded.</p>
 <p>To see more details regarding the checkout_externals script from the command line, type:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./manage_externals/checkout_externals --help</span>
 </pre></div>
@@ -212,7 +206,7 @@ with the status flag to show the status of the externals:</p>
 </pre></div>
 </div>
 <p>Check the <code class="docutils literal notranslate"><span class="pre">manage_externals.log</span></code> file to see what errors are reported.</p>
-</div>
+<p>For general information on using the CIME framework in the context of CESM and RCESM, see the CIME documentation at <a class="reference external" href="http://esmci.github.io/cime/">http://esmci.github.io/cime/</a> .</p>
 </div>
 
 

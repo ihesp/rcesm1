@@ -16,13 +16,14 @@ color: #EFC090;
   font-size: 200%;
   border: none;
   background: #404040;
-  foreground: #404040;
   color: #F6F3E8;
   margin: 0;
 }
 
 
-
+.highlight-console.notranslate {
+    width: 80%;
+}
 /* Table colors*/
 
 

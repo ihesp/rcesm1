@@ -88,16 +88,16 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-use-this-document">How To Use This Document</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rcesm-overview">RCESM Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rcesm-software-operating-system-prerequisites">RCESM Software/Operating System Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use-this-document">How To Use This Document</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="software_vers.html">Software Versions and Sourcing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software_vers.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
@@ -168,33 +168,14 @@
             
   <div class="section" id="introduction">
 <span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="how-to-use-this-document">
-<h2>How To Use This Document<a class="headerlink" href="#how-to-use-this-document" title="Permalink to this headline">¶</a></h2>
-<p>This guide is intended to instruct both novice and experienced users on downloading,
-building and running the <strong>Regional Community Earth System Model (RCESM)</strong>.</p>
-<p>RCESM is built on the <a class="reference external" href="http://github.com/ESMCI/cime">CIME framework</a>.</p>
-<p>If you are a new user, we recommend reading the first few sections of
-the <a class="reference external" href="http://esmci.github.io/cime">CIME</a> documentation which is written so that, as much as
-possible, individual sections stand on their own and the <a class="reference external" href="http://esmci.github.io/cime">CIME</a>
-documentation guide can be scanned and sections read in a relatively
-ad hoc order.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Throughout the guide, this presentation style indicates shell</span>
-<span class="go">commands and options, fragments of code, namelist variables, etc.</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Variables presented as <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> in this guide typically refer to variables in XML files
-in a CESM case. From within a case directory, you can determine the value of such a
-variable with <code class="docutils literal notranslate"><span class="pre">./xmlquery</span> <span class="pre">VAR</span></code>. In some instances, <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> refers to a shell
-variable or some other variable; we try to make these exceptions clear.</p>
-</div>
-</div>
 <div class="section" id="rcesm-overview">
 <h2>RCESM Overview<a class="headerlink" href="#rcesm-overview" title="Permalink to this headline">¶</a></h2>
 <p>The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&amp;M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the <a class="reference external" href="http://www.cesm.ucar.edu">CESM webiste</a>.</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/RCESM_main.png"><img alt="RCESM schematic" src="_images/RCESM_main.png" style="width: 554.12px; height: 330.4px;" /></a>
+<p class="caption"><span class="caption-text">An overall schematic of the Regional Community Earth System model architecture.</span></p>
+</div>
 <p>This documentation provides both a quickstart guide, including how to get the code and how to build and run an experiment, and information on the system architecture and the development changes made by software engineers at NCAR.</p>
-<p>The original TAMU model (CRESM 1.0) is documented in the GitHub repo. Once you <a class="reference external" href="downloading_cesm.html">Download the RCESM source</a> then go to the <code class="docutils literal notranslate"><span class="pre">docs/cresm1.0/</span></code> sub-directory and find the <code class="docutils literal notranslate"><span class="pre">cresm_manual.pdf</span></code> file.</p>
 </div>
 <div class="section" id="rcesm-software-operating-system-prerequisites">
 <h2>RCESM Software/Operating System Prerequisites<a class="headerlink" href="#rcesm-software-operating-system-prerequisites" title="Permalink to this headline">¶</a></h2>
@@ -225,6 +206,28 @@ chooses to use pnetcdf, version 1.7.0 or later should be used with CESM.
 It is a library that is file-format compatible with netCDF, and provides
 higher performance by using MPI-IO. Pnetcdf is enabled by setting the
 <code class="docutils literal notranslate"><span class="pre">$PNETCDF_PATH</span></code> Makefile variable in the <code class="docutils literal notranslate"><span class="pre">Macros.make</span></code> file.</p>
+</div>
+<div class="section" id="how-to-use-this-document">
+<h2>How To Use This Document<a class="headerlink" href="#how-to-use-this-document" title="Permalink to this headline">¶</a></h2>
+<p>This guide is intended to instruct both novice and experienced users on downloading,
+building and running the <strong>Regional Community Earth System Model (RCESM)</strong>.</p>
+<p>RCESM is built on the <a class="reference external" href="http://github.com/ESMCI/cime">CIME framework</a>.</p>
+<p>If you are a new user, we recommend reading the first few sections of
+the <a class="reference external" href="http://esmci.github.io/cime">CIME</a> documentation which is written so that, as much as
+possible, individual sections stand on their own and the <a class="reference external" href="http://esmci.github.io/cime">CIME</a>
+documentation guide can be scanned and sections read in a relatively
+ad hoc order.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Throughout the guide, this presentation style indicates shell</span>
+<span class="go">commands and options, fragments of code, namelist variables, etc.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Variables presented as <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> in this guide typically refer to variables in XML files
+in a CESM case. From within a case directory, you can determine the value of such a
+variable with <code class="docutils literal notranslate"><span class="pre">./xmlquery</span> <span class="pre">VAR</span></code>. In some instances, <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> refers to a shell
+variable or some other variable; we try to make these exceptions clear.</p>
+</div>
 </div>
 </div>
 
