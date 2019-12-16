@@ -11,6 +11,16 @@ color: #EFC090;
   font-size: 120%;
 }
 
+.wy-side-nav-search > a img.logo, .wy-side-nav-search .wy-dropdown > a img.logo {
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    border-radius: 0;
+    max-width: 90%;
+    background: white;
+}
+
 
 .codeblock div[class^='highlight'], pre.literal-block div[class^='highlight'], .rst-content .literal-block div[class^='highlight'], div[class^='highlight'] div[class^='highlight'] {
   font-size: 200%;
