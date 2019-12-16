@@ -184,6 +184,33 @@ which can be queried using:
    ./xmlquery EXEROOT
 
 
+View/edit case parameters
+=========================
+
+All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the "xmlquery" and "xmlchange" scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment. To learn more about these scripts, go into a case directory and type ::
+
+  ./xmlquery --help
+
+or ::
+
+  ./xmlchange --help
+
+CESM xml variables are fully documented in the CESM2.1 release documents.  Here is a short compilation of variables that may be useful in testing or running RCESM experiments.
+
+ ===================  ========================
+  XML Variable           Description
+ ===================  ========================
+  PROJECT                Account project number to charge compute time to
+  JOB_QUEUE              Which queue to submit a job, if different than default
+  JOB_WALLCLOCK_TIME     Wall time to request for a job
+  STOP_OPTION            What units to use for the specified run length. Valid values: nsteps, ndays, nmonths, nyears
+  STOP_N                 The number of STOP_OPTION units that the experiment will complete
+  RUN_STARTDATE          The date on which the experimental run begins
+  DEBUG                  Whether to compile the model with debug flags on
+  DOUT_S                 Turns archiving of history and restart files on (TRUE) or off (FALSE)
+  DIN_LOC_ROOT           Location of the input data directory structure
+ ===================  ========================
+
 Run the case
 ============
 
@@ -221,12 +248,35 @@ After setting the run lenght, submit the job to the batch queue using the **case
     ./case.submit
 
 
+Running a RCESM case and Looking at model output
+=====================================================================
+
+After the model builds successfully, you can submit a run to the compute queue with the command ::
+
+      ./case.submit
+
+from the case directory. This will rebuild all of the model namelists and recheck to make sure that all of the correct input data has been linked and moved to the correct places within the run directory. It will then put together a submit script for the machine batch system and submit it. You can check on the status of your run either through the job status commands on your system (``qstat`` on Cheyenne) or by investigating the log output in the run directory.
+
+When the job is complete, the simulation outputs are placed in different  located as follows
+
+- *Log files*: If the simulation encounters an error, all log and output files will remain in the run directory. If the model successfully completes the simulation, log files will be zipped and copied to the ``logs/`` subdirectory of the case directory. 
+
+- *WRF per process output*: If the WRF component is running as the atmosphere, it produces two output files for each process, an rsl.out.XXXX file and an rsl.error.XXXX file (where XXXX is the process rank, ie. 0036). The standard output and standard error streams can be found in these files, which will remain in the run directory regardless of the success or failure of the model run.
+
+- *History files*: In the model's default configuration and after a successful run, all history files are moved to an archive directory on the user's larger scratch space. On Cheyenne, this is located at ::
+
+    \glade\scratch\{$user}\case_name\{$component_name}\hist
+
+This behavior can be turned off (and history files remain in the run directory) by setting the xml variable ``DOUT_S`` to False in the case directory before submition. For more information on XML variables and how to query or change them, see `Useful XML variables in the RCESM case`_.
+
+- Restart files: Currently, restarts have not been tested and are not supported in the RCESM. This is an important "to do" item on the list of `Bugs, Issues and Future work`_. Restart files are written and copied into the archive directory at ::
+
+    \glade\scratch\{$user}\case_name\{$component_name}\rest
+
+But there is no guarentee they will work currently.
 
 
-Reviewing the model output
-==========================
-
-When the job is complete, most of the model output will be written to the experiment's run directory. For example, on the TAMU Ada machine, the run directories
+ most of the model output will be written to the experiment's run directory. For example, on the TAMU Ada machine, the run directories
 are usually placed in ``/scratch/user/$USER``). Review the following directories and files, whose
 locations can be found with **xmlquery** (note: **xmlquery** can be run with a list of
 comma separated names and no spaces):
