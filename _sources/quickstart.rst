@@ -187,13 +187,15 @@ which can be queried using:
 View/edit case parameters
 =========================
 
-All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the "xmlquery" and "xmlchange" scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment. To learn more about these scripts, go into a case directory and type ::
+All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the "xmlquery" and "xmlchange" scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment. To learn more about these scripts, go into a case directory and 
 
-  ./xmlquery --help
+.. code-block:: console
 
-or ::
+    ./xmlquery --help
 
-  ./xmlchange --help
+.. code-block:: console
+
+    ./xmlchange --help
 
 CESM xml variables are fully documented in the CESM2.1 release documents.  Here is a short compilation of variables that may be useful in testing or running RCESM experiments.
 
@@ -263,15 +265,11 @@ When the job is complete, the simulation outputs are placed in different  locate
 
 - *WRF per process output*: If the WRF component is running as the atmosphere, it produces two output files for each process, an rsl.out.XXXX file and an rsl.error.XXXX file (where XXXX is the process rank, ie. 0036). The standard output and standard error streams can be found in these files, which will remain in the run directory regardless of the success or failure of the model run.
 
-- *History files*: In the model's default configuration and after a successful run, all history files are moved to an archive directory on the user's larger scratch space. On Cheyenne, this is located at ::
+- *History files*: In the model's default configuration and after a successful run, all history files are moved to an archive directory on the user's larger scratch space. On Cheyenne, this is located at ``\glade\scratch\{$user}\case_name\{$component_name}\hist``
 
-    \glade\scratch\{$user}\case_name\{$component_name}\hist
+This behavior can be turned off (and history files remain in the run directory) by setting the xml variable ``DOUT_S`` to False in the case directory before submition. For more information on XML variables and how to query or change them, see `View/edit case parameters`_.
 
-This behavior can be turned off (and history files remain in the run directory) by setting the xml variable ``DOUT_S`` to False in the case directory before submition. For more information on XML variables and how to query or change them, see `Useful XML variables in the RCESM case`_.
-
-- Restart files: Currently, restarts have not been tested and are not supported in the RCESM. This is an important "to do" item on the list of `Bugs, Issues and Future work`_. Restart files are written and copied into the archive directory at ::
-
-    \glade\scratch\{$user}\case_name\{$component_name}\rest
+- Restart files: Currently, restarts have not been tested and are not supported in the RCESM. This is an important "to do" item on the list of `Bugs, Issues and Future work`_. Restart files are written and copied into the archive directory at ``\glade\scratch\{$user}\case_name\{$component_name}\rest``
 
 But there is no guarentee they will work currently.
 

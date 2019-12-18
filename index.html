@@ -89,10 +89,9 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="software_vers.html">RCESM developmental information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
@@ -178,9 +177,23 @@
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#create-a-case">Create a case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#setting-up-the-case-run-script">Setting up the case run script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#build-the-executable-using-the-case-build-command">Build the executable using the case.build command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#view-edit-case-parameters">View/edit case parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#run-the-case">Run the case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#reviewing-the-model-output">Reviewing the model output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#running-a-rcesm-case-and-looking-at-model-output">Running a RCESM case and Looking at model output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#restart-the-case">Restart the case</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#software-versions-and-sourcing">Software Versions and Sourcing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#development-changes-made-by-ncar">Development Changes Made by NCAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-xml-configuration-files">WRF xml configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-build-changes">WRF build changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-namelist-changes">WRF namelist changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-source-changes">WRF Source changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-xml-configuration-files">ROMS xml configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-build-changes">ROMS build changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-namelist-changes">ROMS namelist changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-source-changes">ROMS Source changes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a><ul>
@@ -189,35 +202,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cesm_configurations.html#creating-a-new-domain-or-regional-set-up">Creating a New Domain or Regional Set Up</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_architecture.html#wrf">WRF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_architecture.html#roms">ROMS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_architecture.html#clm">CLM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_architecture.html#cime-coupler">CIME/coupler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_architecture.html#note-on-git-histories">Note on Git Histories</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="software_vers.html">RCESM developmental information</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#software-versions-and-sourcing">Software Versions and Sourcing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#development-changes-made-by-ncar">Development Changes Made by NCAR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#wrf-xml-configuration-files">WRF xml configuration files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#wrf-build-changes">WRF build changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#wrf-namelist-changes">WRF namelist changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#wrf-source-changes">WRF Source changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#roms-xml-configuration-files">ROMS xml configuration files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#roms-build-changes">ROMS build changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#roms-namelist-changes">ROMS namelist changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_vers.html#roms-source-changes">ROMS Source changes</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="io_files.html#wrf">WRF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io_files.html#roms">ROMS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io_files.html#clm">CLM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io_files.html#cime-coupler">CIME/coupler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="io_files.html#note-on-git-histories">Note on Git Histories</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="prepost_tools.html#post-processing-tools">Post-processing tools</a></li>
 </ul>

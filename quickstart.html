@@ -36,7 +36,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
-        <link rel="next" title="RCESM Configurations" href="cesm_configurations.html"/>
+        <link rel="next" title="RCESM developmental information" href="rcesm_arch.html"/>
         <link rel="prev" title="Downloading RCESM" href="downloading_cesm.html"/> 
 
   
@@ -94,15 +94,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#create-a-case">Create a case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-case-run-script">Setting up the case run script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-the-executable-using-the-case-build-command">Build the executable using the case.build command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#view-edit-case-parameters">View/edit case parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#run-the-case">Run the case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reviewing-the-model-output">Reviewing the model output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-a-rcesm-case-and-looking-at-model-output">Running a RCESM case and Looking at model output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restart-the-case">Restart the case</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_architecture.html">Development Changes Made by NCAR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="software_vers.html">RCESM developmental information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">Development Changes Made by NCAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
@@ -314,6 +314,59 @@ which can be queried using:</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="view-edit-case-parameters">
+<h2>View/edit case parameters<a class="headerlink" href="#view-edit-case-parameters" title="Permalink to this headline">¶</a></h2>
+<p>All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the “xmlquery” and “xmlchange” scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment. To learn more about these scripts, go into a case directory and</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlquery --help</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange --help</span>
+</pre></div>
+</div>
+<p>CESM xml variables are fully documented in the CESM2.1 release documents.  Here is a short compilation of variables that may be useful in testing or running RCESM experiments.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">XML Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PROJECT</td>
+<td>Account project number to charge compute time to</td>
+</tr>
+<tr class="row-odd"><td>JOB_QUEUE</td>
+<td>Which queue to submit a job, if different than default</td>
+</tr>
+<tr class="row-even"><td>JOB_WALLCLOCK_TIME</td>
+<td>Wall time to request for a job</td>
+</tr>
+<tr class="row-odd"><td>STOP_OPTION</td>
+<td>What units to use for the specified run length. Valid values: nsteps, ndays, nmonths, nyears</td>
+</tr>
+<tr class="row-even"><td>STOP_N</td>
+<td>The number of STOP_OPTION units that the experiment will complete</td>
+</tr>
+<tr class="row-odd"><td>RUN_STARTDATE</td>
+<td>The date on which the experimental run begins</td>
+</tr>
+<tr class="row-even"><td>DEBUG</td>
+<td>Whether to compile the model with debug flags on</td>
+</tr>
+<tr class="row-odd"><td>DOUT_S</td>
+<td>Turns archiving of history and restart files on (TRUE) or off (FALSE)</td>
+</tr>
+<tr class="row-even"><td>DIN_LOC_ROOT</td>
+<td>Location of the input data directory structure</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
 <div class="section" id="run-the-case">
 <h2>Run the case<a class="headerlink" href="#run-the-case" title="Permalink to this headline">¶</a></h2>
 <p>Modify runtime settings in <code class="docutils literal notranslate"><span class="pre">env_run.xml</span></code> (optional).</p>
@@ -338,10 +391,27 @@ entire month, you would change:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="reviewing-the-model-output">
-<h2>Reviewing the model output<a class="headerlink" href="#reviewing-the-model-output" title="Permalink to this headline">¶</a></h2>
-<p>When the job is complete, most of the model output will be written to the experiment’s run directory. For example, on the TAMU Ada machine, the run directories
-are usually placed in <code class="docutils literal notranslate"><span class="pre">/scratch/user/$USER</span></code>). Review the following directories and files, whose
+<div class="section" id="running-a-rcesm-case-and-looking-at-model-output">
+<h2>Running a RCESM case and Looking at model output<a class="headerlink" href="#running-a-rcesm-case-and-looking-at-model-output" title="Permalink to this headline">¶</a></h2>
+<p>After the model builds successfully, you can submit a run to the compute queue with the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">case</span><span class="o">.</span><span class="n">submit</span>
+</pre></div>
+</div>
+<p>from the case directory. This will rebuild all of the model namelists and recheck to make sure that all of the correct input data has been linked and moved to the correct places within the run directory. It will then put together a submit script for the machine batch system and submit it. You can check on the status of your run either through the job status commands on your system (<code class="docutils literal notranslate"><span class="pre">qstat</span></code> on Cheyenne) or by investigating the log output in the run directory.</p>
+<p>When the job is complete, the simulation outputs are placed in different  located as follows</p>
+<ul class="simple">
+<li><em>Log files</em>: If the simulation encounters an error, all log and output files will remain in the run directory. If the model successfully completes the simulation, log files will be zipped and copied to the <code class="docutils literal notranslate"><span class="pre">logs/</span></code> subdirectory of the case directory.</li>
+<li><em>WRF per process output</em>: If the WRF component is running as the atmosphere, it produces two output files for each process, an rsl.out.XXXX file and an rsl.error.XXXX file (where XXXX is the process rank, ie. 0036). The standard output and standard error streams can be found in these files, which will remain in the run directory regardless of the success or failure of the model run.</li>
+<li><em>History files</em>: In the model’s default configuration and after a successful run, all history files are moved to an archive directory on the user’s larger scratch space. On Cheyenne, this is located at <code class="docutils literal notranslate"><span class="pre">\glade\scratch\{$user}\case_name\{$component_name}\hist</span></code></li>
+</ul>
+<p>This behavior can be turned off (and history files remain in the run directory) by setting the xml variable <code class="docutils literal notranslate"><span class="pre">DOUT_S</span></code> to False in the case directory before submition. For more information on XML variables and how to query or change them, see <a class="reference internal" href="#view-edit-case-parameters">View/edit case parameters</a>.</p>
+<ul class="simple">
+<li>Restart files: Currently, restarts have not been tested and are not supported in the RCESM. This is an important “to do” item on the list of <a href="#id3"><span class="problematic" id="id4">`Bugs, Issues and Future work`_</span></a>. Restart files are written and copied into the archive directory at <code class="docutils literal notranslate"><span class="pre">\glade\scratch\{$user}\case_name\{$component_name}\rest</span></code></li>
+</ul>
+<p>But there is no guarentee they will work currently.</p>
+<blockquote>
+<div>most of the model output will be written to the experiment’s run directory. For example, on the TAMU Ada machine, the run directories</div></blockquote>
+<p>are usually placed in <code class="docutils literal notranslate"><span class="pre">/scratch/user/$USER</span></code>). Review the following directories and files, whose
 locations can be found with <strong>xmlquery</strong> (note: <strong>xmlquery</strong> can be run with a list of
 comma separated names and no spaces):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlquery RUNDIR,CASE,CASEROOT</span>
@@ -405,7 +475,7 @@ manually edit the filenames in each of the <code class="docutils literal notrans
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cesm_configurations.html" class="btn btn-neutral float-right" title="RCESM Configurations" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="rcesm_arch.html" class="btn btn-neutral float-right" title="RCESM developmental information" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="downloading_cesm.html" class="btn btn-neutral" title="Downloading RCESM" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
