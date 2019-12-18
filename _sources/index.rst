@@ -20,6 +20,7 @@ Table of contents
    io_files.rst
    prepost_tools.rst
    newgridsapp.rst
+   contribute.rst
    updates.rst
    unfinished.rst
 
