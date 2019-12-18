@@ -95,8 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-case-run-script">Setting up the case run script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-the-executable-using-the-case-build-command">Build the executable using the case.build command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#view-edit-case-parameters">View/edit case parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#run-the-case">Run the case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-a-rcesm-case-and-looking-at-model-output">Running a RCESM case and Looking at model output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-an-rcesm-case-and-looking-at-model-output">Running an RCESM case and Looking at model output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restart-the-case">Restart the case</a></li>
 </ul>
 </li>
@@ -316,11 +315,18 @@ which can be queried using:</p>
 </div>
 <div class="section" id="view-edit-case-parameters">
 <h2>View/edit case parameters<a class="headerlink" href="#view-edit-case-parameters" title="Permalink to this headline">¶</a></h2>
-<p>All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the “xmlquery” and “xmlchange” scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment. To learn more about these scripts, go into a case directory and</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlquery --help</span>
+<p>All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the “xmlquery” and “xmlchange” scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment.</p>
+<p>As an example, the model is set to run for 5 days by default. This is controlled by the <code class="docutils literal notranslate"><span class="pre">$STOP_N</span></code> and
+<code class="docutils literal notranslate"><span class="pre">$STOP_OPTION</span></code> variables. To view the current values of these variables, use the <code class="docutils literal notranslate"><span class="pre">xlmquery</span></code> command</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlquery STOP_OPTION,STOP_N</span>
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange --help</span>
+<p>The <strong>Gulf of Mexico example</strong> from above has mostly been tested for this 5 day period. If you wanted to run it for an
+entire month, you can use <code class="docutils literal notranslate"><span class="pre">xmlchange</span></code></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange STOP_OPTION=nmonths,STOP_N=1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>CESM xml variables are fully documented in the CESM2.1 release documents.  Here is a short compilation of variables that may be useful in testing or running RCESM experiments.</p>
@@ -367,32 +373,8 @@ which can be queried using:</p>
 </table>
 </div></blockquote>
 </div>
-<div class="section" id="run-the-case">
-<h2>Run the case<a class="headerlink" href="#run-the-case" title="Permalink to this headline">¶</a></h2>
-<p>Modify runtime settings in <code class="docutils literal notranslate"><span class="pre">env_run.xml</span></code> (optional).</p>
-<p>Run length: By default, the model is set to run for 5 days based on the <code class="docutils literal notranslate"><span class="pre">$STOP_N</span></code> and
-<code class="docutils literal notranslate"><span class="pre">$STOP_OPTION</span></code> variables:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlquery STOP_OPTION,STOP_N</span>
-</pre></div>
-</div>
-<p>These default settings can be useful in <a class="reference external" href="http://esmci.github.io/cime/users_guide/troubleshooting.html">troubleshooting</a> runtime problems
-before submitting for a longer time. The <strong>Gulf of Mexico example</strong> from above
-has mostly been tested for this 5 day period. If you wanted to run it for an
-entire month, you would change:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange STOP_OPTION=nmonths,STOP_N=1</span>
-</pre></div>
-</div>
-<p>To change the duration of the run on the cluster to 20 hours, use</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange JOB_WALLCLOCK_TIME=20:00</span>
-</pre></div>
-</div>
-<p>After setting the run lenght, submit the job to the batch queue using the <strong>case.submit</strong> command.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./case.submit</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="running-a-rcesm-case-and-looking-at-model-output">
-<h2>Running a RCESM case and Looking at model output<a class="headerlink" href="#running-a-rcesm-case-and-looking-at-model-output" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="running-an-rcesm-case-and-looking-at-model-output">
+<h2>Running an RCESM case and Looking at model output<a class="headerlink" href="#running-an-rcesm-case-and-looking-at-model-output" title="Permalink to this headline">¶</a></h2>
 <p>After the model builds successfully, you can submit a run to the compute queue with the command</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">case</span><span class="o">.</span><span class="n">submit</span>
 </pre></div>
@@ -441,6 +423,7 @@ TERMINATION OF CPL7-cesm”.</p>
 </div>
 <div class="section" id="restart-the-case">
 <h2>Restart the case<a class="headerlink" href="#restart-the-case" title="Permalink to this headline">¶</a></h2>
+<p><strong>Not presently supported</strong></p>
 <p>RCESM supports the ability to restart from any point that restart files are written. To
 set the frequency that restart files are written, first check the <code class="docutils literal notranslate"><span class="pre">$REST_N</span></code> and
 <code class="docutils literal notranslate"><span class="pre">$REST_OPTION</span></code> variables:</p>

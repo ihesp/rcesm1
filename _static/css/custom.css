@@ -32,7 +32,8 @@ color: #EFC090;
 
 
 .highlight-console.notranslate {
-    width: 80%;
+    /*width: 80%;*/
+    width: 100%;
 }
 /* Table colors*/
 

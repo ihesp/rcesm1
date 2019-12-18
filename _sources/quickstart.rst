@@ -187,16 +187,25 @@ which can be queried using:
 View/edit case parameters
 =========================
 
-All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the "xmlquery" and "xmlchange" scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment. To learn more about these scripts, go into a case directory and 
+All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the "xmlquery" and "xmlchange" scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment.
+
+
+As an example, the model is set to run for 5 days by default. This is controlled by the ``$STOP_N`` and
+``$STOP_OPTION`` variables. To view the current values of these variables, use the ``xlmquery`` command
 
 .. code-block:: console
 
-    ./xmlquery --help
+   ./xmlquery STOP_OPTION,STOP_N
+
+The **Gulf of Mexico example** from above has mostly been tested for this 5 day period. If you wanted to run it for an
+entire month, you can use ``xmlchange``
 
 .. code-block:: console
 
-    ./xmlchange --help
+      ./xmlchange STOP_OPTION=nmonths,STOP_N=1
+.. code-block:: console
 
+    
 CESM xml variables are fully documented in the CESM2.1 release documents.  Here is a short compilation of variables that may be useful in testing or running RCESM experiments.
 
  ===================  ========================
@@ -213,44 +222,9 @@ CESM xml variables are fully documented in the CESM2.1 release documents.  Here 
   DIN_LOC_ROOT           Location of the input data directory structure
  ===================  ========================
 
-Run the case
-============
-
-Modify runtime settings in ``env_run.xml`` (optional).
-
-Run length: By default, the model is set to run for 5 days based on the ``$STOP_N`` and
-``$STOP_OPTION`` variables:
-
-.. code-block:: console
-
-   ./xmlquery STOP_OPTION,STOP_N
-
-These default settings can be useful in `troubleshooting
-<http://esmci.github.io/cime/users_guide/troubleshooting.html>`_ runtime problems
-before submitting for a longer time. The **Gulf of Mexico example** from above
-has mostly been tested for this 5 day period. If you wanted to run it for an
-entire month, you would change:
-
-.. code-block:: console
-
-      ./xmlchange STOP_OPTION=nmonths,STOP_N=1
 
 
-To change the duration of the run on the cluster to 20 hours, use
-
-.. code-block:: console
-
-    ./xmlchange JOB_WALLCLOCK_TIME=20:00
-
-
-After setting the run lenght, submit the job to the batch queue using the **case.submit** command.
-
-.. code-block:: console
-
-    ./case.submit
-
-
-Running a RCESM case and Looking at model output
+Running an RCESM case and Looking at model output
 =====================================================================
 
 After the model builds successfully, you can submit a run to the compute queue with the command ::
@@ -311,6 +285,8 @@ To post-process the results, please follow the steps outlined in the section `Po
 
 Restart the case
 ================
+
+**Not presently supported**
 
 RCESM supports the ability to restart from any point that restart files are written. To
 set the frequency that restart files are written, first check the ``$REST_N`` and
