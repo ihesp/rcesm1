@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pre-processing and Post-processing Utilities &mdash; RCESM Quickstart Guide and Development Doc</title>
+  <title>Contributing to RCESM &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
-        <link rel="next" title="Making New Grids and Applications" href="newgridsapp.html"/>
-        <link rel="prev" title="RCESM Input/Output Files" href="io_files.html"/> 
+        <link rel="next" title="Issues or processes for updates" href="updates.html"/>
+        <link rel="prev" title="Making New Grids and Applications" href="newgridsapp.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -93,15 +93,13 @@
 <li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-processing and Post-processing Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#post-processing-tools">Post-processing tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ncar-cesm-postprocessing">NCAR CESM Postprocessing</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to RCESM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#contributing-to-rcesm-source-code">Contributing to RCESM source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-this-document">Updating This Document</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
 </ul>
@@ -148,13 +146,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Pre-processing and Post-processing Utilities</li>
+      <li>Contributing to RCESM</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/prepost_tools.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/contribute.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,66 +165,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pre-processing-and-post-processing-utilities">
-<span id="prepost-tools"></span><h1>Pre-processing and Post-processing Utilities<a class="headerlink" href="#pre-processing-and-post-processing-utilities" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="post-processing-tools">
-<h2>Post-processing tools<a class="headerlink" href="#post-processing-tools" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="ncar-cesm-postprocessing">
-<h3>NCAR CESM Postprocessing<a class="headerlink" href="#ncar-cesm-postprocessing" title="Permalink to this headline">¶</a></h3>
-<p>See <a class="reference external" href="https://github.com/NCAR/CESM_postprocessing">https://github.com/NCAR/CESM_postprocessing</a></p>
-<p>Requires <a class="reference external" href="https://github.com/NCAR/ASAPPyTools">https://github.com/NCAR/ASAPPyTools</a></p>
-<p>Instructions</p>
-<p>Step:0 - Install a local copy of asaptools
-This step is needed only the first time you run the tool</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">module purge</span>
-<span class="go">module load python/2.7.13-intel-2017b</span>
-<span class="go">cd ~</span>
-<span class="go">git clone https://github.com/NCAR/ASAPPyTools</span>
-<span class="go">cd /ihesp/altuntas/CESM_postprocessing//cesm-env2/bin</span>
-<span class="go">./activate</span>
-<span class="go">cd ~/ASAPPyTools</span>
-<span class="go">python setup.py install --user</span>
+  <div class="section" id="contributing-to-rcesm">
+<span id="contribute"></span><h1>Contributing to RCESM<a class="headerlink" href="#contributing-to-rcesm" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="contributing-to-rcesm-source-code">
+<h2>Contributing to RCESM source code<a class="headerlink" href="#contributing-to-rcesm-source-code" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="updating-this-document">
+<h2>Updating This Document<a class="headerlink" href="#updating-this-document" title="Permalink to this headline">¶</a></h2>
+<p>The source files for this webiste and the RCESM documentation are contained within the GitHub repository at: <a class="reference external" href="https://github.com/ihesp/rcesm1">https://github.com/ihesp/rcesm1</a> . To update the content of these web pages follow these simple steps.</p>
+<ol class="arabic simple">
+<li>Check out a copy of the repository, and go to the docs/source sub directory.</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/rcesm1.git rcesm_docs</span>
+<span class="go">git checkout gh-pages</span>
+<span class="go">cd rcesm_docs/_sources</span>
 </pre></div>
 </div>
-<p>Step:1 - Activate cesm virtual environment</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">module load python/2.7.13-intel-2017b</span>
-<span class="go">export POSTPROCESS_PATH=/ihesp/altuntas/CESM_postprocessing/</span>
-<span class="go">alias cesm_pp_activate=&#39;. $POSTPROCESS_PATH/cesm-env2/bin/activate&#39;</span>
-<span class="go">cesm_pp_activate</span>
+<ol class="arabic simple" start="2">
+<li>Edit the exist re-Structured text files (.rst) or add new sections to the documentation by creating a new file with a “.rst” extension, and adding it’s name to the Table of Contents in the <cite>index.rst</cite> file. The new file must have the following code at the top of the file and content can be specified via HTML or <a class="reference external" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">markdown</a>. So, a new file about ROMS configuration options, for example could be named “roms_config.rst” and the top of the file would look like:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.. _roms_config:</span>
+
+<span class="go">==========================</span>
+<span class="go">ROMS Configuration Options</span>
+<span class="go">==========================</span>
 </pre></div>
 </div>
-<p>Step:2 - Create your postprocessing instance</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">create_postprocess -case [your-case-directory]</span>
+<ol class="arabic simple" start="3">
+<li>Build the HTML pages from the documentation. The machine to build the source must have python and Sphinx installed. The example code below works on any CGD linux machine:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">module load lang/python/2.7.14</span>
+<span class="go">make html</span>
 </pre></div>
 </div>
-<p>Step:3 - Edit env_postprocess.xml and env_diags_ocn.xml files
-see the files in the following directory as an example:
-/scratch/user/altuntas/g.e20.G.TL319_t13.control.001_contd</p>
-<p>Step:4 - Generate average files</p>
-<p>Step:4.1: - Enter your project id in ocn_averages file by
-replacing “None” in the following line with your project id:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub -P None</span>
+<ol class="arabic simple" start="4">
+<li>Save and commit your changes to the repository master branch.</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git add _sources/filename.rst</span>
+<span class="go">git add filename.html</span>
+<span class="go">git commit</span>
+<span class="go">git push</span>
 </pre></div>
 </div>
-<p>Note: depending on the duration of the simulation, you may
-also need to increase the wallclock time.</p>
-<p>Step:4.2 - Submit the job:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub &lt; ocn_averages</span>
-</pre></div>
-</div>
-<p>Step:4.3 - Check the latest log file to see if averaging was
-completed successfully: [your-case-directory]/logs/</p>
-<p>Step:5 - Generate the diagnostics</p>
-<p>Step:5.1: - Enter your project id in ocn_diagnostics file by
-replacing “None” in the following line with your project id:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub -P None</span>
-</pre></div>
-</div>
-<p>Step:5.2 - Submit the job:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">bsub &lt; ocn_diagnostics</span>
-</pre></div>
-</div>
-</div>
+<p>Congratulations! The documentation website at <a class="reference external" href="https://ihesp.github.io/rcesm1">https://ihesp.github.io/rcesm1</a> should now be updated! You may need to wait a minute or two, or refresh the page a few times to clear the cashe before your changes show up.</p>
 </div>
 </div>
 
@@ -237,10 +218,10 @@ replacing “None” in the following line with your project id:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="newgridsapp.html" class="btn btn-neutral float-right" title="Making New Grids and Applications" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="updates.html" class="btn btn-neutral float-right" title="Issues or processes for updates" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="io_files.html" class="btn btn-neutral" title="RCESM Input/Output Files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="newgridsapp.html" class="btn btn-neutral" title="Making New Grids and Applications" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
