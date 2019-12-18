@@ -8,6 +8,12 @@ RCESM developmental information
 Software Versions and Sourcing
 ==============================
 
+CESM
+----
+
+The current version of RCESM is based CESM v2.1 (2019). 
+
+
 Common Infrastructure for Modeling the Earth (CIME) 
 ---------------------------------------------------
 
