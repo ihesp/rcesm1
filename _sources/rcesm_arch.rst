@@ -1,6 +1,47 @@
-.. _dev_changes:
+.. _rcesm_arch:
 
-================================
+===============================
+RCESM developmental information
+===============================
+
+
+Software Versions and Sourcing
+==============================
+
+CESM
+----
+
+The current version of RCESM is based CESM v2.1 (2019). 
+
+
+Common Infrastructure for Modeling the Earth (CIME) 
+---------------------------------------------------
+
+	The Common Infrastructure for Modeling the Earth (CIME) provides the top level driver . RCESM uses a modified version of the CIME code (tag:cime_cesm2_1_rel_06, Nov, 11, 2018) to support regional grids. The modified code is available publicly on the `repository <https://github.com/ihesp/cime>`_. The Master branch points to a fork of the main CIME repository with changes to support our regional grids. This is not kept up-to-date with the current CIME development for several reasons. The implications for updates are discussed in section 5 below. 
+
+	These data and stub components are all included in the CIME framework. All data and their components are included in this package, as well as the coupling code (Cpl 7, with MCT support). 
+
+Atmospheric Component
+---------------------
+
+	The active atmospheric model used by RCESM is a modified version of NCAR's `Weather Research and Forecasting Model (WRF) <https://www.mmm.ucar.edu/weather-research-and-forecasting-model>`_ v3.5.1 (rev 6868, Sep 23, 2013). The iHESP team modified parts of the WRF code (See next section) to work alongside the RCESM driver. The modified code is available publicly on the `wrf_ihesp repository <https://github.com/ihesp/wrf_ihesp>`_, and the appropriate tag is pulled from this repository during ``checkout_externals``.
+
+	While the WRF atmospheric model has been integrated into the CESM at least one time before this project, it is not the typical atmosphere used in the fully coupled CESM. All usages of WRF within CESM should be considered extremely experimental.
+    
+Ocean Component
+---------------
+
+    For the active ocean component, RCESM uses a modified version of the code from the `Regional Ocean Modeling System (ROMS) <https://www.myroms.org/>`_ v3.5 (rev 568, Sep 21, 2011). The modified code is available publicly on the `roms_ihesp repository <https://github.com/ihesp/roms_ihesp>`_, and the appropriate tag is pulled from this repository during ``checkout_externals``. 
+
+Land Component
+--------------
+
+    The active model used is the `Community Land Model (CLM) <http://www.cesm.ucar.edu/models/clm/>`_, v4.0 (tag:clm4_5_14_r213). CLM is the typical land model in the coupled CESM system. This is a global land surface model that works in a regional mode when given a regional grid.  In the original, TAMU-built RCESM 1.0.0, the internal WRF land surface model was used. In our system, the CESM land surface from CLM is passed through the coupler to WRF. This has several implications discussed further in sections 4 and 5. 
+
+
+
+
+
 Development Changes Made by NCAR
 ================================
 
@@ -78,4 +119,3 @@ Note on Git Histories
 ---------------------
 
     All of the notes here about changes to the various parts of the RCESM code came from histories generated in GitHub. To see a history of every change made to the RCESM code since the creation of repository, simply go to the main repository (https://github.com/NCAR/TAMURegionalCESM) and click on the “XX Commits” (Some number of commits) link, just above the branch pull-down menu. You can also look at certain directories or files in GitHub, and click the “History” button (top left) to see every commit made that impacts those files. When looking at a specific file, you can click the “Blame” button (top left) to see which commits resulted in each line of code within the file.
-

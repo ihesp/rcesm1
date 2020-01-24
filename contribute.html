@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Contributing to RCESM &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="next" title="Issues or processes for updates" href="updates.html"/>
+        <link rel="prev" title="Making New Grids and Applications" href="newgridsapp.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+            
+            <img src="_static/ihesplogo.svg" class="logo" />
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to RCESM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#contributing-to-rcesm-source-code">Contributing to RCESM source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-this-document">Updating This Document</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Contributing to RCESM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/contribute.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="contributing-to-rcesm">
+<span id="contribute"></span><h1>Contributing to RCESM<a class="headerlink" href="#contributing-to-rcesm" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="contributing-to-rcesm-source-code">
+<h2>Contributing to RCESM source code<a class="headerlink" href="#contributing-to-rcesm-source-code" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="updating-this-document">
+<h2>Updating This Document<a class="headerlink" href="#updating-this-document" title="Permalink to this headline">¶</a></h2>
+<p>The source files for this webiste and the RCESM documentation are contained within the GitHub repository at: <a class="reference external" href="https://github.com/ihesp/rcesm1">https://github.com/ihesp/rcesm1</a> . To update the content of these web pages follow these simple steps.</p>
+<ol class="arabic simple">
+<li>Check out a copy of the repository, and go to the docs/source sub directory.</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/rcesm1.git rcesm_docs</span>
+<span class="go">git checkout gh-pages</span>
+<span class="go">cd rcesm_docs/_sources</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Edit the exist re-Structured text files (.rst) or add new sections to the documentation by creating a new file with a “.rst” extension, and adding it’s name to the Table of Contents in the <cite>index.rst</cite> file. The new file must have the following code at the top of the file and content can be specified via HTML or <a class="reference external" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">markdown</a>. So, a new file about ROMS configuration options, for example could be named “roms_config.rst” and the top of the file would look like:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.. _roms_config:</span>
+
+<span class="go">==========================</span>
+<span class="go">ROMS Configuration Options</span>
+<span class="go">==========================</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Build the HTML pages from the documentation. The machine to build the source must have python and Sphinx installed. The example code below works on any CGD linux machine:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">module load lang/python/2.7.14</span>
+<span class="go">make html</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Save and commit your changes to the repository master branch.</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git add _sources/filename.rst</span>
+<span class="go">git add filename.html</span>
+<span class="go">git commit</span>
+<span class="go">git push</span>
+</pre></div>
+</div>
+<p>Congratulations! The documentation website at <a class="reference external" href="https://ihesp.github.io/rcesm1">https://ihesp.github.io/rcesm1</a> should now be updated! You may need to wait a minute or two, or refresh the page a few times to clear the cashe before your changes show up.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="updates.html" class="btn btn-neutral float-right" title="Issues or processes for updates" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="newgridsapp.html" class="btn btn-neutral" title="Making New Grids and Applications" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

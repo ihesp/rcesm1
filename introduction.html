@@ -1,83 +1,181 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Introduction &#8212; RCESM  documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Downloading RCESM" href="downloading_cesm.html" />
-    <link rel="prev" title="RCESM Quickstart Guide and Development Doc" href="index.html" /> 
-  </head>
-  <body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="downloading_cesm.html" title="Downloading RCESM"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="RCESM Quickstart Guide and Development Doc"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">RCESM  documentation</a> &#187;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="next" title="Downloading RCESM" href="downloading_cesm.html"/>
+        <link rel="prev" title="RCESM Quickstart Guide and Development Doc" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+            
+            <img src="_static/ihesplogo.svg" class="logo" />
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rcesm-overview">RCESM Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rcesm-software-operating-system-prerequisites">RCESM Software/Operating System Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use-this-document">How To Use This Document</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="introduction">
 <span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="how-to-use-this-document">
-<h2>How To Use This Document<a class="headerlink" href="#how-to-use-this-document" title="Permalink to this headline">¶</a></h2>
-<p>This guide instructs both novice and experienced users on downloading,
-building and running the <strong>Regional Community Earth System Model (RCESM)</strong>.</p>
-<p>RCESM is built on the <a class="reference external" href="http://github.com/ESMCI/cime">CIME framework</a>.</p>
-<p>If you are a new user, we recommend reading the first few sections of
-the <a class="reference external" href="http://esmci.github.io/cime">CIME</a> documentation which is written so that, as much as
-possible, individual sections stand on their own and the <a class="reference external" href="http://esmci.github.io/cime">CIME</a>
-documentation guide can be scanned and sections read in a relatively
-ad hoc order.</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">Throughout the guide, this presentation style indicates shell</span>
-<span class="go">commands and options, fragments of code, namelist variables, etc.</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Variables presented as <code class="docutils literal"><span class="pre">$VAR</span></code> in this guide typically refer to variables in XML files
-in a CESM case. From within a case directory, you can determine the value of such a
-variable with <code class="docutils literal"><span class="pre">./xmlquery</span> <span class="pre">VAR</span></code>. In some instances, <code class="docutils literal"><span class="pre">$VAR</span></code> refers to a shell
-variable or some other variable; we try to make these exceptions clear.</p>
-</div>
-</div>
 <div class="section" id="rcesm-overview">
 <h2>RCESM Overview<a class="headerlink" href="#rcesm-overview" title="Permalink to this headline">¶</a></h2>
-<p>The RCESM is a fully coupled regional model developed jointly by NCAR and Texas A&amp;M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, see the webiste for documentation here</p>
-<p><a class="reference external" href="http://www.cesm.ucar.edu">http://www.cesm.ucar.edu</a></p>
+<p>The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&amp;M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the <a class="reference external" href="http://www.cesm.ucar.edu">CESM webiste</a>.</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/RCESM_main.png"><img alt="RCESM schematic" src="_images/RCESM_main.png" style="width: 554.12px; height: 330.4px;" /></a>
+<p class="caption"><span class="caption-text">An overall schematic of the Regional Community Earth System model architecture.</span></p>
+</div>
 <p>This documentation provides both a quickstart guide, including how to get the code and how to build and run an experiment, and information on the system architecture and the development changes made by software engineers at NCAR.</p>
-<p>The original TAMU model (CRESM 1.0) is documented in the GitHub repo. Once you <a class="reference external" href="https://ncar.github.io/TAMURegionalCESM/downloading_cesm.html">Download the RCESM source</a> then go to the <code class="docutils literal"><span class="pre">docs/cresm1.0/</span></code> sub-directory and find the <code class="docutils literal"><span class="pre">cresm_manual.pdf</span></code> file.</p>
 </div>
 <div class="section" id="rcesm-software-operating-system-prerequisites">
 <h2>RCESM Software/Operating System Prerequisites<a class="headerlink" href="#rcesm-software-operating-system-prerequisites" title="Permalink to this headline">¶</a></h2>
@@ -107,71 +205,100 @@ installing and running RCESM.</p>
 chooses to use pnetcdf, version 1.7.0 or later should be used with CESM.
 It is a library that is file-format compatible with netCDF, and provides
 higher performance by using MPI-IO. Pnetcdf is enabled by setting the
-<code class="docutils literal"><span class="pre">$PNETCDF_PATH</span></code> Makefile variable in the <code class="docutils literal"><span class="pre">Macros.make</span></code> file.</p>
+<code class="docutils literal notranslate"><span class="pre">$PNETCDF_PATH</span></code> Makefile variable in the <code class="docutils literal notranslate"><span class="pre">Macros.make</span></code> file.</p>
+</div>
+<div class="section" id="how-to-use-this-document">
+<h2>How To Use This Document<a class="headerlink" href="#how-to-use-this-document" title="Permalink to this headline">¶</a></h2>
+<p>This guide is intended to instruct both novice and experienced users on downloading,
+building and running the <strong>Regional Community Earth System Model (RCESM)</strong>.</p>
+<p>RCESM is built on the <a class="reference external" href="http://github.com/ESMCI/cime">CIME framework</a>.</p>
+<p>If you are a new user, we recommend reading the first few sections of
+the <a class="reference external" href="http://esmci.github.io/cime">CIME</a> documentation which is written so that, as much as
+possible, individual sections stand on their own and the <a class="reference external" href="http://esmci.github.io/cime">CIME</a>
+documentation guide can be scanned and sections read in a relatively
+ad hoc order.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Throughout the guide, this presentation style indicates shell</span>
+<span class="go">commands and options, fragments of code, namelist variables, etc.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Variables presented as <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> in this guide typically refer to variables in XML files
+in a CESM case. From within a case directory, you can determine the value of such a
+variable with <code class="docutils literal notranslate"><span class="pre">./xmlquery</span> <span class="pre">VAR</span></code>. In some instances, <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> refers to a shell
+variable or some other variable; we try to make these exceptions clear.</p>
+</div>
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Introduction</a><ul>
-<li><a class="reference internal" href="#how-to-use-this-document">How To Use This Document</a></li>
-<li><a class="reference internal" href="#rcesm-overview">RCESM Overview</a></li>
-<li><a class="reference internal" href="#rcesm-software-operating-system-prerequisites">RCESM Software/Operating System Prerequisites</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="downloading_cesm.html" class="btn btn-neutral float-right" title="Downloading RCESM" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="RCESM Quickstart Guide and Development Doc" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">RCESM Quickstart Guide and Development Doc</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="downloading_cesm.html"
-                        title="next chapter">Downloading RCESM</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/introduction.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="downloading_cesm.html" title="Downloading RCESM"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="RCESM Quickstart Guide and Development Doc"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">RCESM  documentation</a> &#187;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2018, U.S. National Science Foundation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
