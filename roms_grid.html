@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Generating the Ocean input files &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="up" title="Creating new grids and cases" href="preprocessing.html"/>
+        <link rel="next" title="Post-processing Utilities" href="postprocessing.html"/>
+        <link rel="prev" title="1. Generating the Atmospheric input files" href="wrf_grid.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#changes-to-input-files">Changes to Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#steps-to-make-new-model-grids-and-input-files">Steps to Make New Model Grids and Input Files</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="preprocessing.html#next-steps">Next Steps</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">2. Generating the Ocean input files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-bathymetry">4) Get Bathymetry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#edit-coastline">5) Edit coastline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#smooth-bathymetry">5) Smooth Bathymetry</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="preprocessing.html">Creating new grids and cases</a> &raquo;</li>
+        
+      <li>2. Generating the Ocean input files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/roms_grid.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generating-the-ocean-input-files">
+<span id="roms-grid"></span><h1>2. Generating the Ocean input files<a class="headerlink" href="#generating-the-ocean-input-files" title="Permalink to this headline">¶</a></h1>
+<p>Date: Nov/24/2020
+Author: Jaison Kurian (<a class="reference external" href="mailto:jaisonk&#37;&#52;&#48;tamu&#46;edu">jaisonk<span>&#64;</span>tamu<span>&#46;</span>edu</a>)</p>
+<p>Copyright: This tool is shared within iHESP group for internal use.</p>
+<p>R-CESM uses ROMS as the ocean compotnent and WRF as the atmospheric component. Since WRF and ROMS are coupled within R-CESM, it is ideal to have similar land-sea mask in both models. If ROMS and WRF have identical resolution and overlapping grid points, the land-sea mask can be matched exactly and if the resolutions are different, then the matching will be only possible to some level.</p>
+<p>WRF have a dedicated pre-processing system (WPS) to make WRF grid files and decides land sea mask (and so the coastline too) based on the resolution of datasets specified during grid creation. Once a grid is created, WRF needs several variables on the land-grid point (like details of soil, vegetation etc.). So, it is not advisible to edit WRF-land sea mask after creating WRF grid. However, the datasets and methods to define bathymetry and land-sea mask in ROMS are different. This is where the relevance of this tool comes in. Also note that this method will allow to have matching grid points between WRF and ROMS, which is not required in R-CESM but very convenient for budgetting type of analysis (for example, one can define box regions with same coverage in WRF and ROMS).</p>
+<p>WRF lateral boudnary conditions are applied over few grid points close to the boundary and there will be some inconsistency between the interios WRF solution and the forcing provided at the lateral boundaries. In order to avoid such inconsistencies forcing or propagating to ROMS solution in R-CESM, the ROMS model domain in R-CESM is always designed to be slightly smaller than (about 1 degree or 10-15 WRF grid points) that of WRF. This is described as the “buffer points” in this documentation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">test</dt>
+<dd class="field-odd"><p>hello</p>
+</dd>
+</dl>
+<ol class="arabic simple">
+<li><p>Get ROMS lat-lon grid &amp; land-sea mask</p></li>
+</ol>
+<blockquote>
+<div><p>The main script is grid_wrf2roms.m.  The “USER INPUT” part towards the beginning is the only place a user is supposed to make changes. See the documentation in this script for step-by-step details but some general concepts are explained here.</p>
+<blockquote>
+<div><p>–&gt; edit the user input part of grid_wrf2roms.m as need and run it</p>
+</div></blockquote>
+<p>Step.1: Create WRF grid using standard WRF pre-processing System (WPS).
+Step.2: Using tools like Matlab, find the “buffer points”.</p>
+<blockquote>
+<div><blockquote>
+<div><p>bufr_pts = [41 13 216 43] ; % [S E N W]</p>
+</div></blockquote>
+<p>leave  41 WRF grid points at the South side
+leave  13 WRF grid points at the East side
+leave 216 WRF grid points at the North side
+leave  43 WRF grid points at the West side</p>
+</div></blockquote>
+<dl>
+<dt>Step.3: Decide a dummy bathymetry dataset, just to fill variable “h” in ROMS grid.</dt><dd><p>Proper bathymetry data will be written to the grid file at a later stage.</p>
+</dd>
+<dt>Step.4: Resolution Factor –&gt; specify ROMS resolution based on WRF</dt><dd><blockquote>
+<div><p>1 –&gt; ROMS_res   = WRF_res –&gt; same resolution ROMS (as that of WRF)
+2 –&gt; ROMS_res*2 = WRF_res –&gt; high-resolution ROMS</p>
+</div></blockquote>
+<p>-2 –&gt; ROMS_res/2 = WRF_res –&gt; coarse-resolutinn ROMS</p>
+</dd>
+<dt>Step.5: Dist_method</dt><dd><ul class="simple">
+<li><p>there are sevaral different methods/approximations to compute distance on the Earth surface. “geodesic” method is recommented (which seems to match well with the distance estimates within WRF tools/grid).</p></li>
+</ul>
+</dd>
+<dt>Functions/tables needed:</dt><dd><blockquote>
+<div><p>netcdf tool box: Complete tool box - tool box to handle netcdf files</p>
+</div></blockquote>
+<p>x  func_wrf2roms_latlon.m  - compute ROMS grid’s lat and lon from that of WRF
+x  func_create_grid_file.m - create ROMS grid netcdf file</p>
+<blockquote>
+<div><p>func_gcdist.m          - distance on earth surface
+func_spherical_dist.m  - distance on earth surface
+func_geodesic_dist.m   - distance on earth surface</p>
+</div></blockquote>
+<dl class="simple">
+<dt>x  func_roms_angle.m      - compute ROMS angle if it is a curvilinear grid.</dt><dd><p>func_lon_chk.m         - to check the longitude orientation of ROMS grid and bathymetry data.
+func_flip_lon.m        - to flip the longitude orientation of data to match that of ROMS grid.</p>
+</dd>
+<dt>x  roms_table             - a handy table with ROMS grid file variables</dt><dd><dl class="simple">
+<dt>Roms Tools package:</dt><dd><p>rho2uvp
+uvp_mask</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<div class="section" id="get-bathymetry">
+<h2>4) Get Bathymetry<a class="headerlink" href="#get-bathymetry" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Add bathymetry data to the ROMS grid file from (3) above. This is done as a dedicated step for more control over the process.</p></li>
+<li><p>Use Alexandaer Schpetkin’s Fortran tools to sample bathymetry data from the source grid to ROMS grid.</p></li>
+<li><p>Jaison will udpate this part of the documentation later.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="edit-coastline">
+<h2>5) Edit coastline<a class="headerlink" href="#edit-coastline" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>If ROMS and WRF are at same resolution then the land-sea mask interpolated on to ROMS grid in step (3) will be sufficient. If not, then read on.</p></li>
+<li><p>Use a ROMS land-sea mask editing GUI for fine tuning ROMS land-sea mask</p></li>
+<li><p>An example is given in the grid_edit_coastline.m. The actual program used is editmask.m which is a part of ROMS pre-processing toolkit.</p></li>
+<li><p>Jaison will provide documentation for this step later.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="smooth-bathymetry">
+<h2>5) Smooth Bathymetry<a class="headerlink" href="#smooth-bathymetry" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><blockquote>
+<div><ul class="simple">
+<li><p>ROMS is a sigma coordinate model and prone to pressure gradient errors with rough bathymetry.</p></li>
+<li><p>It is customary to smooth the bathymetry to limit rx0 &lt;= 0.25 and rx1 &lt;= AB. AB can be anywhere from 7 to 15 depending on how complex/rough is the bathymetry. Having rx1=7 means the model will run smoothly without blowing up events. But sometime it smooth bathymetry too much and final bathmetry may not be realistic. So, choose rx1 maximum as 12 or 15 and do some test runs.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>Jaison will provide the tools and documentation for this step later.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="postprocessing.html" class="btn btn-neutral float-right" title="Post-processing Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="wrf_grid.html" class="btn btn-neutral" title="1. Generating the Atmospheric input files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

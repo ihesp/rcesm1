@@ -60,9 +60,6 @@
           
 
           
-            
-            <img src="_static/ihesplogo.svg" class="logo" />
-          
           </a>
 
           
@@ -93,8 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
@@ -167,14 +164,14 @@
 <p>You will need some familiarity with git in order to modify the code and commit any changes. However, to simply checkout and run the code, no git knowledge is required other than what is documented in the following steps.</p>
 <p>To obtain the RCESM release code you need to do the following:</p>
 <ol class="arabic simple">
-<li>Clone the repository.</li>
+<li><p>Clone the repository.</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/cesm.git my_rcesm_sandbox</span>
 </pre></div>
 </div>
 <p>This will create a directory my_rcesm_sandbox/ in your current working directory.</p>
 <ol class="arabic simple" start="2">
-<li>Go into the newly created directory (using <code class="docutils literal notranslate"><span class="pre">cd</span></code>) and determine the currently active version of RCESM using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> command.</li>
+<li><p>Go into the newly created directory (using <code class="docutils literal notranslate"><span class="pre">cd</span></code>) and determine the currently active version of RCESM using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> command.</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_rcesm_sandbox</span>
 <span class="go">git status</span>
@@ -182,7 +179,7 @@
 </div>
 <p>By default, RCESM uses the ‘igesp-regional-master’ branch, which is the most stable configuration.</p>
 <ol class="arabic simple" start="3">
-<li>Optionally, you can checkout any specific tag of RCESM. To see the available RCESM tags, use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> command. Then use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> command to checkout the tag of interest. For example:</li>
+<li><p>Optionally, you can checkout any specific tag of RCESM. To see the available RCESM tags, use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> command. Then use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> command to checkout the tag of interest. For example:</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git tag</span>
 <span class="go">git checkout release_cesm2.0.0</span>
@@ -190,7 +187,7 @@
 </div>
 <p>(It is normal and expected to get a message about being in ‘detached HEAD’ state. For now you can ignore this, but it becomes important if you want to make changes to your Externals.cfg file and commit those changes to a branch.)</p>
 <ol class="arabic simple" start="4">
-<li>Download the components required by RCESM, using the script <code class="docutils literal notranslate"><span class="pre">manage_externals/checkout_externals</span></code>.</li>
+<li><p>Download the components required by RCESM, using the script <code class="docutils literal notranslate"><span class="pre">manage_externals/checkout_externals</span></code>.</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./manage_externals/checkout_externals</span>
 </pre></div>

@@ -18,8 +18,9 @@ Table of contents
    rcesm_arch.rst
    cesm_configurations.rst
    io_files.rst
-   prepost_tools.rst
+   preprocessing.rst
    newgridsapp.rst
+   postprocessing.rst
    contribute.rst
    updates.rst
    unfinished.rst

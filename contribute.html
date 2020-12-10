@@ -37,7 +37,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
         <link rel="next" title="Issues or processes for updates" href="updates.html"/>
-        <link rel="prev" title="Making New Grids and Applications" href="newgridsapp.html"/> 
+        <link rel="prev" title="Post-processing Utilities" href="postprocessing.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -59,9 +59,6 @@
             <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
           
 
-          
-            
-            <img src="_static/ihesplogo.svg" class="logo" />
           
           </a>
 
@@ -93,8 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to RCESM</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#contributing-to-rcesm-source-code">Contributing to RCESM source code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#updating-this-document">Updating This Document</a></li>
@@ -174,7 +171,7 @@
 <h2>Updating This Document<a class="headerlink" href="#updating-this-document" title="Permalink to this headline">¶</a></h2>
 <p>The source files for this webiste and the RCESM documentation are contained within the GitHub repository at: <a class="reference external" href="https://github.com/ihesp/rcesm1">https://github.com/ihesp/rcesm1</a> . To update the content of these web pages follow these simple steps.</p>
 <ol class="arabic simple">
-<li>Check out a copy of the repository, and go to the docs/source sub directory.</li>
+<li><p>Check out a copy of the repository, and go to the docs/source sub directory.</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/rcesm1.git rcesm_docs</span>
 <span class="go">git checkout gh-pages</span>
@@ -182,7 +179,7 @@
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>Edit the exist re-Structured text files (.rst) or add new sections to the documentation by creating a new file with a “.rst” extension, and adding it’s name to the Table of Contents in the <cite>index.rst</cite> file. The new file must have the following code at the top of the file and content can be specified via HTML or <a class="reference external" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">markdown</a>. So, a new file about ROMS configuration options, for example could be named “roms_config.rst” and the top of the file would look like:</li>
+<li><p>Edit the exist re-Structured text files (.rst) or add new sections to the documentation by creating a new file with a “.rst” extension, and adding it’s name to the Table of Contents in the <cite>index.rst</cite> file. The new file must have the following code at the top of the file and content can be specified via HTML or <a class="reference external" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">markdown</a>. So, a new file about ROMS configuration options, for example could be named “roms_config.rst” and the top of the file would look like:</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.. _roms_config:</span>
 
@@ -192,14 +189,14 @@
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li>Build the HTML pages from the documentation. The machine to build the source must have python and Sphinx installed. The example code below works on any CGD linux machine:</li>
+<li><p>Build the HTML pages from the documentation. The machine to build the source must have python and Sphinx installed. The example code below works on any CGD linux machine:</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">module load lang/python/2.7.14</span>
 <span class="go">make html</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
-<li>Save and commit your changes to the repository master branch.</li>
+<li><p>Save and commit your changes to the repository master branch.</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git add _sources/filename.rst</span>
 <span class="go">git add filename.html</span>
@@ -221,7 +218,7 @@
         <a href="updates.html" class="btn btn-neutral float-right" title="Issues or processes for updates" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="newgridsapp.html" class="btn btn-neutral" title="Making New Grids and Applications" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="postprocessing.html" class="btn btn-neutral" title="Post-processing Utilities" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -60,9 +60,6 @@
           
 
           
-            
-            <img src="_static/ihesplogo.svg" class="logo" />
-          
           </a>
 
           
@@ -98,8 +95,8 @@
 <li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newgridsapp.html">Making New Grids and Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
@@ -172,8 +169,8 @@
 <h2>RCESM Overview<a class="headerlink" href="#rcesm-overview" title="Permalink to this headline">¶</a></h2>
 <p>The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&amp;M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the <a class="reference external" href="http://www.cesm.ucar.edu">CESM webiste</a>.</p>
 <div class="figure align-center" id="id2">
-<a class="reference internal image-reference" href="_images/RCESM_main.png"><img alt="RCESM schematic" src="_images/RCESM_main.png" style="width: 554.12px; height: 330.4px;" /></a>
-<p class="caption"><span class="caption-text">An overall schematic of the Regional Community Earth System model architecture.</span></p>
+<a class="reference internal image-reference" href="./_images/RCESM_main.png"><img alt="RCESM schematic" src="./_images/RCESM_main.png" style="width: 554.12px; height: 330.40000000000003px;" /></a>
+<p class="caption"><span class="caption-text">An overall schematic of the Regional Community Earth System model architecture.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>This documentation provides both a quickstart guide, including how to get the code and how to build and run an experiment, and information on the system architecture and the development changes made by software engineers at NCAR.</p>
 </div>
@@ -182,24 +179,24 @@
 <p>The following are the external system and software requirements for
 installing and running RCESM.</p>
 <ul class="simple">
-<li>UNIX style operating system such as CNL, AIX or Linux</li>
-<li>python &gt;= 2.7</li>
-<li>perl 5</li>
-<li>subversion client (version 1.8 or greater but less than v1.11) for downloading CAM, POP, and WW3</li>
-<li>git client (1.8 or greater)</li>
-<li>Fortran compiler with support for Fortran 2003</li>
-<li>C compiler</li>
-<li>MPI (although CESM does not absolutely require it for running on one processor)</li>
-<li><a class="reference external" href="http://www.unidata.ucar.edu/software/netcdf/">NetCDF 4.3 or newer</a>.</li>
-<li><a class="reference external" href="http://www.earthsystemmodeling.org/">ESMF 5.2.0 or newer (optional)</a>.</li>
-<li><a class="reference external" href="http://trac.mcs.anl.gov/projects/parallel-netcdf/">pnetcdf 1.7.0 is required and 1.8.1 is optional but recommended</a></li>
-<li><a class="reference external" href="http://trilinos.gov/">Trilinos</a> may be required for certain configurations</li>
-<li><a class="reference external" href="http://www.netlib.org/lapack/">LAPACK</a> and <a class="reference external" href="http://www.netlib.org/blas/">BLAS</a></li>
-<li><a class="reference external" href="http://www.cmake.org/">CMake 2.8.6 or newer</a></li>
+<li><p>UNIX style operating system such as CNL, AIX or Linux</p></li>
+<li><p>python &gt;= 2.7</p></li>
+<li><p>perl 5</p></li>
+<li><p>subversion client (version 1.8 or greater but less than v1.11) for downloading CAM, POP, and WW3</p></li>
+<li><p>git client (1.8 or greater)</p></li>
+<li><p>Fortran compiler with support for Fortran 2003</p></li>
+<li><p>C compiler</p></li>
+<li><p>MPI (although CESM does not absolutely require it for running on one processor)</p></li>
+<li><p><a class="reference external" href="http://www.unidata.ucar.edu/software/netcdf/">NetCDF 4.3 or newer</a>.</p></li>
+<li><p><a class="reference external" href="http://www.earthsystemmodeling.org/">ESMF 5.2.0 or newer (optional)</a>.</p></li>
+<li><p><a class="reference external" href="http://trac.mcs.anl.gov/projects/parallel-netcdf/">pnetcdf 1.7.0 is required and 1.8.1 is optional but recommended</a></p></li>
+<li><p><a class="reference external" href="http://trilinos.gov/">Trilinos</a> may be required for certain configurations</p></li>
+<li><p><a class="reference external" href="http://www.netlib.org/lapack/">LAPACK</a> and <a class="reference external" href="http://www.netlib.org/blas/">BLAS</a></p></li>
+<li><p><a class="reference external" href="http://www.cmake.org/">CMake 2.8.6 or newer</a></p></li>
 </ul>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">NetCDF must be built with the same Fortran compiler as CESM. In the netCDF build the FC environment variable specifies which Fortran compiler to use. CESM is written mostly in Fortran, netCDF is written in C. Because there is no standard way to call a C program from a Fortran program, the Fortran to C layer between CESM and netCDF will vary depending on which Fortran compiler you use for CESM. When a function in the netCDF library is called from a Fortran application, the netCDF Fortran API calls the netCDF C library. If you do not use the same compiler to build netCDF and CESM you will in most cases get errors from netCDF saying certain netCDF functions cannot be found.</p>
+<p class="admonition-title">Warning</p>
+<p>NetCDF must be built with the same Fortran compiler as CESM. In the netCDF build the FC environment variable specifies which Fortran compiler to use. CESM is written mostly in Fortran, netCDF is written in C. Because there is no standard way to call a C program from a Fortran program, the Fortran to C layer between CESM and netCDF will vary depending on which Fortran compiler you use for CESM. When a function in the netCDF library is called from a Fortran application, the netCDF Fortran API calls the netCDF C library. If you do not use the same compiler to build netCDF and CESM you will in most cases get errors from netCDF saying certain netCDF functions cannot be found.</p>
 </div>
 <p>Parallel-netCDF, also referred to as pnetcdf, is optional. If a user
 chooses to use pnetcdf, version 1.7.0 or later should be used with CESM.
@@ -222,8 +219,8 @@ ad hoc order.</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Variables presented as <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> in this guide typically refer to variables in XML files
+<p class="admonition-title">Note</p>
+<p>Variables presented as <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> in this guide typically refer to variables in XML files
 in a CESM case. From within a case directory, you can determine the value of such a
 variable with <code class="docutils literal notranslate"><span class="pre">./xmlquery</span> <span class="pre">VAR</span></code>. In some instances, <code class="docutils literal notranslate"><span class="pre">$VAR</span></code> refers to a shell
 variable or some other variable; we try to make these exceptions clear.</p>

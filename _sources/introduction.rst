@@ -10,7 +10,7 @@ RCESM Overview
 The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the `CESM webiste <http://www.cesm.ucar.edu>`_.
 
 
-.. figure:: RCESM_main.png
+.. figure:: ./_images/RCESM_main.png
    :scale: 28 %
    :alt: RCESM schematic
    :align: center

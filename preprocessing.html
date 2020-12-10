@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Making New Grids and Applications &mdash; RCESM Quickstart Guide and Development Doc</title>
+  <title>Creating new grids and cases &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
-        <link rel="next" title="Contributing to RCESM" href="contribute.html"/>
-        <link rel="prev" title="Pre-processing and Post-processing Utilities" href="prepost_tools.html"/> 
+        <link rel="next" title="1. Generating the Atmospheric input files" href="wrf_grid.html"/>
+        <link rel="prev" title="RCESM Input/Output Files" href="io_files.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -59,9 +59,6 @@
             <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
           
 
-          
-            
-            <img src="_static/ihesplogo.svg" class="logo" />
           
           </a>
 
@@ -93,12 +90,17 @@
 <li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prepost_tools.html">Pre-processing and Post-processing Utilities</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Making New Grids and Applications</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating new grids and cases</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#changes-to-input-files">Changes to Input Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#steps-to-make-new-model-grids-and-input-files">Steps to Make New Model Grids and Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roms_grid.html">2. Generating the Ocean input files</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
@@ -146,13 +148,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Making New Grids and Applications</li>
+      <li>Creating new grids and cases</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/newgridsapp.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/preprocessing.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -165,8 +167,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="making-new-grids-and-applications">
-<span id="newgridsapp"></span><h1>Making New Grids and Applications<a class="headerlink" href="#making-new-grids-and-applications" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="creating-new-grids-and-cases">
+<span id="prepost-tools"></span><h1>Creating new grids and cases<a class="headerlink" href="#creating-new-grids-and-cases" title="Permalink to this headline">¶</a></h1>
 <p>The best method is to try the Gulf of Mexico test case first and then adapt
 it (including cresm_1.0.0 source code) to the new grids and application.
 The guidelines for this are provided in this section.</p>
@@ -186,46 +188,47 @@ with change in any component model grids.</p>
 </div>
 <div class="section" id="steps-to-make-new-model-grids-and-input-files">
 <h2>Steps to Make New Model Grids and Input Files<a class="headerlink" href="#steps-to-make-new-model-grids-and-input-files" title="Permalink to this headline">¶</a></h2>
-<p>Please follow the steps below to adapt the Gulf of Mexico test case to a
-new domain or grid.</p>
-<ul class="simple">
-<li><dl class="first docutils">
-<dt>Determine the ROMS and WRF model domains. Make ROMS domain slighly (0.2-1degrees,</dt>
-<dd>or few grid points)
-smaller (all four sides) than the WRF domain, in order to reduce the
-impact of WRF boundary effects affecting ROMS interior solution.</dd>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Determine the ROMS and WRF model domains.</dt><dd><p>Make ROMS domain slighly (0.2-1degrees, or few grid points) smaller (all four sides) than the WRF domain, in order to reduce the impact of WRF boundary effects affecting ROMS interior solution.</p>
+</dd>
 </dl>
 </li>
-<li>Make WRF model grid using WRF tools.</li>
-<li>Make WRF initial and boundary conditions using WRF/WPS tools.</li>
-<li><dl class="first docutils">
-<dt>Make ROMS grid using ROMS tools. Edit ROMS grid coastline to match that from</dt>
-<dd>WRF model grid. This is easier than otherway around, since land points on
-WRF grid need lot of additional information like vegetation type, land cover etc.</dd>
-</dl>
+<li><p>Make WRF model grid using WRF tools.</p></li>
+<li><p>Make WRF initial and boundary conditions using WRF/WPS tools.</p></li>
+<li><p>Make ROMS grid using ROMS tools.</p></li>
+</ol>
+<blockquote>
+<div><p>Edit ROMS grid coastline to match that from WRF model grid. This is easier than otherway around, since land points on WRF grid need lot of additional information like vegetation type, land cover etc.</p>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>Make ROMS initial and boundary conditions using matlab/python based ROMS pre-processing tools.</p></li>
+<li><p>If planning to use xroms, then create data ocean domain file.</p></li>
+<li><p>Create mapping weight files.</p></li>
+<li><p>Compile CRESM with proper options for the new domain and copy executable to new run directory.</p></li>
+<li><p>Copy input files (like namelist, *_in, job/pbs etc. files, not the netCDF files) for CRESM, WRF and ROMS from Gulf of Mexico test case to the new run directory and edit it with proper optios/fields for the new grid/domain.</p></li>
+<li><p>Make a test run for few days and make sure the results are as expected.</p></li>
+<li><p>Now edit the input files for the long production run as required and proceed with production run.</p></li>
+</ol>
+</div>
+<div class="section" id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wrf_grid.html#obtain-and-build-wrf-preprocessing-system-wps-source">1. Obtain and build WRF Preprocessing System (WPS) source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrf_grid.html#wrf-preprocessing-system">2. WRF Preprocessing System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrf_grid.html#common-issues-and-their-fixes">Common issues and their fixes</a></li>
+</ul>
 </li>
-<li><dl class="first docutils">
-<dt>Make ROMS initial and boundary conditions using matlab/python based ROMS</dt>
-<dd>pre-processing tools.</dd>
-</dl>
-</li>
-<li>If planning to use xroms, then create data ocean domain file.</li>
-<li>Create mapping weight files.</li>
-<li>Compile CRESM with proper options for the new domain and copy executable to new run directory.</li>
-<li><dl class="first docutils">
-<dt>Copy input files (like namelist, *_in, job/pbs etc. files, not the netCDF files)</dt>
-<dd>for CRESM, WRF and ROMS from Gulf of Mexico test case
-to the new run directory and edit it with proper optios/fields for the
-new grid/domain.</dd>
-</dl>
-</li>
-<li>Make a test run for few days and make sure the results are as expected.</li>
-<li><dl class="first docutils">
-<dt>Now edit the input files for the long production run as required and proceed with</dt>
-<dd>production run.</dd>
-</dl>
+<li class="toctree-l1"><a class="reference internal" href="roms_grid.html">2. Generating the Ocean input files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="roms_grid.html#get-bathymetry">4) Get Bathymetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roms_grid.html#edit-coastline">5) Edit coastline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="roms_grid.html#smooth-bathymetry">5) Smooth Bathymetry</a></li>
+</ul>
 </li>
 </ul>
+</div>
 </div>
 </div>
 
@@ -236,10 +239,10 @@ new grid/domain.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="contribute.html" class="btn btn-neutral float-right" title="Contributing to RCESM" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="wrf_grid.html" class="btn btn-neutral float-right" title="1. Generating the Atmospheric input files" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="prepost_tools.html" class="btn btn-neutral" title="Pre-processing and Post-processing Utilities" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="io_files.html" class="btn btn-neutral" title="RCESM Input/Output Files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
