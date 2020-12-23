@@ -73,3 +73,12 @@ WRF lateral boudnary conditions are applied over few grid points close to the bo
   - It is customary to smooth the bathymetry to limit rx0 <= 0.25 and rx1 <= AB. AB can be anywhere from 7 to 15 depending on how complex/rough is the bathymetry. Having rx1=7 means the model will run smoothly without blowing up events. But sometime it smooth bathymetry too much and final bathmetry may not be realistic. So, choose rx1 maximum as 12 or 15 and do some test runs. 
  - Jaison will provide the tools and documentation for this step later.
 
+
+
+
+
+
+
+
+
+https://www.myroms.org/wiki/easygrid

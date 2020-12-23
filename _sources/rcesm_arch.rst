@@ -119,3 +119,25 @@ Note on Git Histories
 ---------------------
 
     All of the notes here about changes to the various parts of the RCESM code came from histories generated in GitHub. To see a history of every change made to the RCESM code since the creation of repository, simply go to the main repository (https://github.com/NCAR/TAMURegionalCESM) and click on the “XX Commits” (Some number of commits) link, just above the branch pull-down menu. You can also look at certain directories or files in GitHub, and click the “History” button (top left) to see every commit made that impacts those files. When looking at a specific file, you can click the “Blame” button (top left) to see which commits resulted in each line of code within the file.
+
+
+
+Code additions for CESM flux to WRF coupling
+---------------------------------------------
+In order to use the CESM flux coupler with WRF, the flux coupler had to be adapted to compute and/or output several variables needed by the WRF boundary layer scheme. The following variables were needed: 
+    • Bulk Richardson number BR, defined above,for ocean-atmosphere fluxes. In the land model we use the equivalent expression: 
+Since the m terms etc are non-dimensional vertical gradients, multipling by  makes it dimensional. 
+    • Roughness length z0, referred to in WRF as ZNT. Here it is derived using (XX). Over land it is got from routines BareGroundFluxesMod.F90, UrbanMod.F90, BiogeophysicsLakeMod.F90, CanopyFluxesMod.F90
+    • Stability parameter =z/L, referred to as HOL in the CESM flux and ZOL in WRF.
+    • 10m actual wind velocity, U10, V10. This is not a neutral quantity. Nor is it a relative wind. It is derived using 
+
+where Wz, is wind speed at height z, zbot is the level of the model state variables (lowest model level) and CD is drag coefficient at that same level and stability. In the land model it is obtained from FrictionVelocityMod.F90
+    • Integrated similarity functions m() h() etc, referred to as psimh, psixh in CESM air-sea flux code and PSIM, PSIH in WRF. In the land model these are got from FrictionVelocityMod.F90
+    • Similarity functions m(), h() referred to in WRF code as FM, FH. For momentum, 
+
+where roughness length z0 has been derived as above and m() has already been calculated. For heat and moisture, we use
+
+The roughness length for heat, z uses equation (12) of Large and Yeager (2009), e.g. for unstable conditions an empirical relationship
+
+so that  giving z~4.9e-5 m.   Similar relationships for the stable roughness length for heat, and the roughness length for moisture are given in Large and Yeager (2009).
+    • Stability regime, which is dependent on BR (see above)

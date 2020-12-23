@@ -19,7 +19,6 @@ Table of contents
    cesm_configurations.rst
    io_files.rst
    preprocessing.rst
-   newgridsapp.rst
    postprocessing.rst
    contribute.rst
    updates.rst
