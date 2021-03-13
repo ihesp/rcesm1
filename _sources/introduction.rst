@@ -4,10 +4,10 @@
  Introduction
 ==============
 
-RCESM Overview
+R-CESM Overview
 --------------
 
-The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the `CESM webiste <http://www.cesm.ucar.edu>`_.
+The Regional Community Earth System Model (R-CESM) is a fully-coupled regional model, developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&M University (TAMU). This model is built on the coupling framework and software infrastructure available in the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the `CESM webiste <http://www.cesm.ucar.edu>`_.
 
 
 .. figure:: ../_images/RCESM_main.png
@@ -21,11 +21,11 @@ This documentation provides both a quickstart guide, including how to get the co
 
 
 
-RCESM Software/Operating System Prerequisites
+R-CESM Software/Operating System Prerequisites
 ---------------------------------------------
 
 The following are the external system and software requirements for
-installing and running RCESM.
+installing and running R-CESM.
 
 -  UNIX style operating system such as CNL, AIX or Linux
 
