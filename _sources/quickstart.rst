@@ -1,21 +1,22 @@
 .. _quickstart:
 
 ====================================
- Quick Start (RCESM Model Workflow)
+ Quick Start (R-CESM Model Workflow)
 ====================================
 
-The following quick start guide is for versions of RCESM that have
-already been ported to the local target machine. RCESM is built on the
-CIME (Common Infrastructure for Modeling Earth) framework.
-Please refer to the `CIME Porting Documentation <http://esmci.github.io/cime/users_guide/porting-cime.html>`_ if CIME has not
-yet been ported to the target machine. 
+This quick start guide walks through the steps necessary in setting up an R-CESM model run. The R-CESM model was developed and tested around a fully-coupled Gulf of Mexico (GoM) case. We will use this case as the example throughout this quick start guide. Before you can proceed, you will need to download the R-CESM source code (see `Downloading R-CESM <downloading_cesm.html>`_).
 
-If you are new to RCESM or CESM2, please consider reading the
-`CIME Case Control System Part 1: Basic Usage guide <https://esmci.github.io/cime/index.html>`_ first.
+.. note:: 
 
-This is the procedure for quickly setting up and running a RCESM case.
+   This tutorial assumes that the R-CESM model code has been ported to your computational cluster. Please refer to the `CIME Porting Documentation <http://esmci.github.io/cime/users_guide/porting-cime.html>`_ if CIME has not yet been ported to the target machine.
 
-Download the RCESM source (see `Downloading RCESM <downloading_cesm.html>`_).
+
+
+If you are unfamiliar with the CIME Case Control system, we strongly recommend reading the `CIME basic usage guide <https://esmci.github.io/cime/index.html>`_ first.
+
+
+
+
 
 Select a component set, and a resolution for your case.  Details of available
 component sets and resolutions are available from the *query_config* tool located
@@ -33,59 +34,48 @@ supported component sets, grids and computational platforms.
 
 .. note::
 
-   The RCESM code was developed and tested around a fully-coupled Gulf of Mexico (GOM) case. We
-   will use this case as the example throughout this quick start guide. There are options
+    There are options
    for other grids and configurations available. Please see the
    `available RCESM component sets <cesm_configurations.html>`_ and
    `supported model resolutions <cesm_configurations.html>`_ for more information.
 
-.. note:: 
-
-   Variables presented as ``$VAR`` in this guide typically refer to variables in XML files
-   in a CESM case. From within a case directory, you can determine the value of such a
-   variable with ``./xmlquery VAR``. In some instances, ``$VAR`` refers to a shell
-   variable or some other variable; we try to make these exceptions clear.
 
 
-RCESM Case Directories
+
+Relevant directories
 ======================
 
-When building and running the RCESM it is good to have your working directories set up as follows:
+Just like for CESM, the following directories are relevant for every model run:
 
-- The RCESM source code, typically placed in the user's home directory  ``~/my_rcesm_sandbox``
-- The root RCESM case directory, located in a directory separate from the source code ``~/my_case_dirs``
-- The RCESM build and run directories should be placed outside the home directory, and typically on a location with Lustre or GPFS filesystems. For example, on Ada, it can be placed in the user's scratch directory  ``/scratch/user/$USER/rcesm_output_dir``
-
-
-An RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.
-
- - Edit the ``my_rcesm_sandbox/cime/config/cesm/machines/config_machines.xml`` file to point to correct input file directories and output file locations before creating a case. An example on Ada. 
-
- .. code-block:: console
-
-      <machine MACH="ada">
-      <DESC>  TAMU IBM NextScale Cluster, os is Linux, 20 pes/node, batch system is LSF  </DESC>
-      <NODENAME_REGEX>.*.ada.tamu.edu</NODENAME_REGEX>
-      <OS>LINUX</OS>
-      <COMPILERS>intel,gnu,pgi</COMPILERS>
-      <MPILIBS compiler="intel" >impi,mpt,openmpi</MPILIBS>
-      <MPILIBS compiler="pgi" >mpt</MPILIBS>
-      <MPILIBS compiler="gnu" >openmpi</MPILIBS>
-      <CIME_OUTPUT_ROOT>/scratch/user/$USER/RCESM/RegionalCESM-2.0.0</CIME_OUTPUT_ROOT>
-      <DIN_LOC_ROOT>/scratch/user/liu6/RCESM/inputdata/</DIN_LOC_ROOT>
-      <DIN_LOC_ROOT_CLMFORC>>/scratch/user/liu6/RCESM/inputdata/lmwg</DIN_LOC_ROOT_CLMFORC>
-      <DOUT_S_ROOT>$CIME_OUTPUT_ROOT/archive/$CASE</DOUT_S_ROOT>
-      <BASELINE_ROOT>>/scratch/user/liu6/RCESM/inputdata/cesm_baselines</BASELINE_ROOT>
-      <CCSM_CPRNC>>$CIME_OUTPUT_ROOT/../my_rcesm_sandbox2/cime/tools/cprnc</CCSM_CPRNC>
-      <GMAKE_J>4</GMAKE_J>
+- ``$SRCROOT`` The directory containing the R-CESM source code. This is typically placed in a location that is backed up (Ex: user's home directory). In the current example, `$SRCROOT=~/my_rcesm_sandbox`
+- ``$CIMEROOT`` The subdirectory of `$SRCROOT` containing the cime source code. Typically, `CIMEROOT=~/my_rcesm_sandbox/cime`
+- ``$CASEROOT`` refers to the full pathname of the root directory where the R-CESM case (`$CASE`) will be created. Note that this is different from `$SRCROOT`.
+- ``$CIME_OUTPUT_ROOT`` is the base directory for the CESM case output. Contains the **bld** and **run** directories. **$CIME_OUTPUT_ROOT/run** is where R-CESM generates .nc and log files.
+- ``$DIN_LOC_ROOT`` The CESM inputdata directory
+- ``$DOUT_S_ROOT``  The CESM short-term archive directory. If variable $DOUT_S was set to TRUE, then the log, history, and restart files will be copied into this directory by the short-term archiver. 
 
 
 
-Create a case
-==============
 
-The *create_newcase* command creates a case directory containing the scripts and XML
-files to configure a case (see below) for the requested resolution, component set, and
+
+.. note:: 
+
+   It's strongly recommend to point the ``$CIME_OUTPUT_ROOT`` to a location using a parallel Lustre or GPFS filesystems. On most HPC clusters, this is usually the scratch directory.
+
+
+
+Assuming the R-CESM model has already been ported to your cluster, you may need to edit the paths in ``CIME_OUTPUT_ROOT``, ``DIN_LOC_ROOT`` and ``DOUT_S_ROOT`` corresponding to your cluster in ``$CIMEROOT/config/cesm/machines/config_machines.xml``. For a full list of modifications, please consult the R-CESM porting guide.
+
+
+
+Create a new case
+==================
+
+An R-CESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a R-CESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.
+
+
+The **create_newcase** command creates a case directory containing the scripts and XML
+files to configure a case for the requested resolution, component set, and
 machine. **create_newcase** has three required arguments: ``--case``, ``--compset`` and
 ``--res`` (invoke **create_newcase --help** for help).
 
@@ -128,7 +118,8 @@ where:
 
 .. code-block:: console
 
-   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 --compset PBSGULF2010 -res tx9k_g3x -mach ada --run-unsupported
+   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 
+   --compset PBSGULF2010 -res tx9k_g3x -mach ada --run-unsupported
 
 
 Setting up the case run script
