@@ -76,7 +76,16 @@ An R-CESM case directory contains all of the configuration xml files, case contr
 
 The **create_newcase** command creates a case directory containing the scripts and XML
 files to configure a case for the requested resolution, component set, and
-machine. **create_newcase** has three required arguments: ``--case``, ``--compset`` and
+machine. In the following step, we are going to create a new case on the TAMU cluster Ada, based on the **PBSGULF2010** compset and the **tx9k_g3x** grid.
+
+
+.. code-block:: console
+
+   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 
+   --compset PBSGULF2010 -res tx9k_g3x -mach ada --run-unsupported
+
+
+ **create_newcase** has three required arguments: ``--case``, ``--compset`` and
 ``--res`` (invoke **create_newcase --help** for help).
 
 On machines where a project or account code is needed (including NCAR's machines), you
@@ -116,10 +125,6 @@ where:
   
 **Here is an example** on TAMU machine Ada. Check that your ``$USER`` shell environment variable is set to your Ada login name:
 
-.. code-block:: console
-
-   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 
-   --compset PBSGULF2010 -res tx9k_g3x -mach ada --run-unsupported
 
 
 Setting up the case run script

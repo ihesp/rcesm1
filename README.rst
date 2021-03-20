@@ -1,55 +1,54 @@
 ==================================
- Regional Community Earth System Model - RCESM1
+ Regional Community Earth System Model - R-CESM
 ==================================
 
-RCESM1 is developed by iHESP, a joint QNML/NCAR/TAMU project.  
-This code adds regional coupled model functionality to the CESM2.1 model.
+The Regional Community Earth System Model (R-CESM) is a fully-coupled regional model, developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&M University (TAMU). This model is built on the coupling framework and software infrastructure available in the Community Earth System Model (CESM) version 2.1. To learn more about the base model for this project, CESM, please see the `CESM webiste <http://www.cesm.ucar.edu>`_.
 
-See the CESM2.x web site for documentation and information on the base model:
 
-http://www.cesm.ucar.edu
+.. figure:: _images/RCESM_main.png
+   :scale: 28 %
+   :alt: RCESM schematic
+   :align: center
 
-This repository provides tools for managing the external components required to run and build the RCESM.
+   An overall schematic of the Regional Community Earth System model architecture.
+
+
+The current repository provides tools for managing the external components required to run and build the RCESM.
 
 .. sectnum::
 
 .. contents::
 
-Obtaining the full RCESM model code and associated scripting infrastructure
+Obtaining the full R-CESM model code and associated scripting infrastructure
 =====================================================================
 
-The RCESM code is available from this repository in github. You will need some familiarity with git in order to modify the code and commit any changes. However, to simply checkout and run the code, no git knowledge is required other than what is documented in the following steps.
+The R-CESM code is publicly available through our `github repository <https://github.com/ihesp/cesm>`_ . To simply download and use the model, no git knowledge is required other than what is documented in the following steps.
 
-To obtain the rcesm1.0 (release version 1.0) code you need to do the following:
 
-#. Clone the repository. ::
+1. Navigate to a suitable working directory, and clone the current stable tag of the R-CESM model source code
 
-      git clone https://github.com/ihesp/rcesm1 my_rcesm_sandbox
+.. code-block:: console
+    
+    git clone https://github.com/ihesp/cesm.git -b ihesp-regional-master_200911 my_rcesm_sandbox
+  
+This will create a new directory *my_rcesm_sandbox* in your current working directory.
 
-   This will create a directory ``my_rcesm_sandbox/`` in your current working directory.
 
-#. Go into the newly created directory and determine what version of the RCESM you want.
-   To see what ihesp/cesm tags are available, simply issue the **git tag** command. ::
+2. Optionally, you can checkout the current unstable, developmental branch of R-CESM using
 
-      cd my_rcesm_sandbox
-      git tag
+.. code-block:: console
 
-#. Do a git checkout of the tag you want. If you want to checkout ihesp_release_rcesm1.0, you would issue the following. ::
+    git clone https://github.com/ihesp/cesm.git -b ihesp-regional-master my_rcesm_sandbox
+   
 
-      git checkout ihesp_release_rcesm1.0
+3. Navigate into the source directory, and use the ``manage_externals/checkout_externals`` script to download the individual R-CESM components
 
-   (It is normal and expected to get a message about being in 'detached
-   HEAD' state. For now you can ignore this, but it becomes important if
-   you want to make changes to your Externals.cfg file and commit those
-   changes to a branch.)
+.. code-block:: console
+    
+    ./manage_externals/checkout_externals
+   
+The ``checkout_externals`` script is a package manager that pulls the appropriate versions of the CIME and active component (WRF, ROMS, CLM) source codes into your R-CESM working directory. The script reads the ``Externals.cfg`` configuration file to obtain the versions and repositories of the code that will be downloaded.
 
-#. Run the script **manage_externals/checkout_externals**. ::
-
-      ./manage_externals/checkout_externals
-
-   The **checkout_externals** script is a package manager that will
-   populate the rcesm directory with the relevant version of the CIME 
-   infrastructure code.
 
 At this point you have a working version of RCESM.
 
