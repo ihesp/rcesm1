@@ -1,8 +1,191 @@
-.. _rcesm_arch:
+.. _R-CESM_arch:
 
-===============================
-RCESM developmental information
-===============================
+
+==========================
+ R-CESM Modeling Framework
+==========================
+
+
+R-CESM version 1.0.0 is based on Cummunity Earth System Model (CESM)
+coupling framework (CPL7, :raw-latex:`\citet{cpl7}`) distributed with
+CESM version 1.1 :raw-latex:`\citep{cesm1p1}`. It includes active and
+data regional ocean, atmosphere, land and ice components (Table
+`[tab:compo] <#tab:compo>`__). The Gulf of Mexico test case utilize WRF
+for atmospheric model and xROMS for ocean component. Important aspects
+of the component models are discussed in this chapter.
+
+.. table:: Model components available in CRESM (from
+:raw-latex:`\citet{montuoro17}`).
+
+   +-----------------+-----------------+-----------------+-----------------+
+   | Component       | Model           | Status          | Description     |
+   +=================+=================+=================+=================+
+   |                 |                 |                 |                 |
+   +-----------------+-----------------+-----------------+-----------------+
+   | Atmosphere      | WRF 3.5.1       | Stable          | Adavanced       |
+   |                 |                 |                 | Research        |
+   |                 |                 |                 | Weather         |
+   |                 |                 |                 | Reasearch and   |
+   |                 |                 |                 | Forecasting     |
+   |                 |                 |                 | model (WRF-ARW) |
+   |                 |                 |                 | :raw-latex:`\ci |
+   |                 |                 |                 | tep{wrf351}`.   |
+   +-----------------+-----------------+-----------------+-----------------+
+   | Ocean           | ROMS 3.5        | Stable          | Regional Ocean  |
+   |                 |                 |                 | Modelling       |
+   |                 |                 |                 | System, rev 568 |
+   |                 |                 |                 | :raw-latex:`\ci |
+   |                 |                 |                 | tep{shchepetkin |
+   |                 |                 |                 | 05}`.           |
+   +-----------------+-----------------+-----------------+-----------------+
+   |                 | Data/Slab       | Stable          | Data/slab ocean |
+   |                 |                 |                 | model, as       |
+   |                 |                 |                 | provided with   |
+   |                 |                 |                 | CESM 1.1        |
+   +-----------------+-----------------+-----------------+-----------------+
+   |                 | xROMS           | Stable          | New regional    |
+   |                 |                 |                 | component,      |
+   |                 |                 |                 | featuring ROMS  |
+   |                 |                 |                 | nested in data  |
+   |                 |                 |                 | ocean           |
+   +-----------------+-----------------+-----------------+-----------------+
+   | Land            | CLM 4.0         | Stable          | Community Land  |
+   |                 |                 |                 | Model, version  |
+   |                 |                 |                 | 4.0             |
+   |                 |                 |                 | :raw-latex:`\ci |
+   |                 |                 |                 | tep{clm4}`      |
+   +-----------------+-----------------+-----------------+-----------------+
+   |                 | WRF built-in    | Stable          | WRF-provided    |
+   |                 |                 |                 | land models:    |
+   |                 |                 |                 | Unified Noah,   |
+   |                 |                 |                 | Noah-MP, CLM 4  |
+   +-----------------+-----------------+-----------------+-----------------+
+   |                 |                 |                 |                 |
+   +-----------------+-----------------+-----------------+-----------------+
+   |                 |                 |                 |                 |
+   +-----------------+-----------------+-----------------+-----------------+
+   | Sea Ice         | CICE 4.0 beta   | Experim.        | Los Alamos Sea  |
+   |                 |                 |                 | Ice Model,      |
+   |                 |                 |                 | version 4.0     |
+   |                 |                 |                 | (beta)          |
+   |                 |                 |                 | :raw-latex:`\ci |
+   |                 |                 |                 | tep{cice4}`     |
+   +-----------------+-----------------+-----------------+-----------------+
+   | Land Ice        | stub            | Inactive        | Unavailable.    |
+   |                 |                 |                 | Code for CISM   |
+   |                 |                 |                 | included but    |
+   |                 |                 |                 | inactive.       |
+   +-----------------+-----------------+-----------------+-----------------+
+   | Runoff          | stub            | Inactive        | Unavailable.    |
+   |                 |                 |                 | Experimental    |
+   |                 |                 |                 | code for data,  |
+   |                 |                 |                 | MOSART, RTM,    |
+   |                 |                 |                 | and RVIC        |
+   |                 |                 |                 | included but    |
+   |                 |                 |                 | inactive.       |
+   +-----------------+-----------------+-----------------+-----------------+
+   |                 |                 |                 |                 |
+   +-----------------+-----------------+-----------------+-----------------+
+
+
+--------------------------------
+ R-CESM Configurations
+--------------------------------
+
+
+
+The current R-CESM system was developed around a coupled Gulf of Mexico configuration to try and repeat the results of the TAMU version of the model as closely as possible. During development of the model, several different component configurations and grid resolutions were tested. This document gives a brief description of these component configurations (compsets) and grids, as well as the machines that are generally supported by the CESM/CIME software used in the R-CESM.
+
+
+R-CESM Components
+=================
+
+Available compsets
+------------------
+During the course of a CESM/R-CESM run, the model components integrate forward
+in time, periodically exchanging information with the coupler.
+The coupler meanwhile receives fields from the component models,
+computes, maps, and merges this information, then sends the fields back
+to the component models. The coupler brokers this sequence of
+communication interchanges and manages the overall time progression of
+the coupled system. A R-CESM component set is comprised of eight
+components: one component from each model (atm, lnd, rof, ocn, ice, glc,
+wav, and esp) plus the coupler. 
+
+The active (dynamical) components available in R-CESM include the WRF atmosphere, ROMS ocean and CLM land model. Because
+the active models are relatively expensive to run, data models that
+cycle input data are included for testing and spin-up. Stub components
+exist only to satisfy interface requirements when the component is not
+needed for the model configuration (e.g., the active ocean component
+forced with atmospheric data does not need land or glc components,
+so lnd and glc stubs are used).
+
+
+Compsets in CESM/R-CESM describe which components are active and their basic configurations for the run. R-CESM currently supports four different configurations of WRF, ROMS, CLM and various data or stub components.
+
+ ================  ========================
+  COMPSET Name         Components Used
+ ================  ========================
+  PKWUS2003         atmosphere - WRF , ocean -  data, ice - data, land - CLM 4.0
+  PRSGULF2010       atmosphere - data, ocean -  ROMS, ice - stub, land - stub
+  PRDXGULF2010      atmosphere - data, ocean - ROMS*, ice - stub, land - stub   
+  PBSGULF2010       atmosphere - WRF , ocean - ROMS*, ice - data, land - CLM 4.0
+ ================  ========================
+
+* indicates that the ROMS ocean component has been extended via XROMS
+
+- Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command
+
+.. code-block:: console
+
+    ./xmlchange RUN_STARTDATE=2010-01-01
+
+
+Creating a new component set
+----------------------------
+To create a new configuration, you will need to create a new compset in the ``config_compsets.xml`` file in the ``cime_config`` subdirectory of your desired active component. For example, a new compset with a WRF atmosphere should go in the ``my_R-CESM_sandbox/components/wrf/cime_config/config_compsets.xml`` file. There is documentation and examples on how to specify compsets in each of the ``config_compset.xml`` files in R-CESM.
+
+.. note::
+   
+   If you want to add an entirely new component model to R-CESM, please read the CIME documentation on this process at:
+   https://esmci.github.io/cime/build_cpl/adding-components.html
+
+
+R-CESM Grids
+===========
+
+Available resolutions/grids
+---------------------------
+
+R-CESM code has been tested to support three different grid/domain sets.
+
+ =================  ========================
+   Resolution          Description
+ =================  ========================
+  wus12_wus12         A 12km Western US domain. Ocean, land, and atmosphere all on the same grid. Has not been tested with ROMS.
+  3x3_gulfmexico      A 3km Gulf of Mexico domain for ROMS only (not extended). Data atmosphere on the same grid.
+  tx9k_g3x            A 9km atmosphere grid and 3km ocean grid (extended for XROMS) in the Gulf of Mexico (as used for the coupled simulation test case).
+ =================  ========================
+
+Once the model resolution is set, components will read in appropriate
+grid files and the coupler will read in appropriate mapping weights
+files. Coupler mapping weights are always generated externally in
+CESM/R-CESM. The components will send the grid data to the coupler at
+initialization, and the coupler will check that the component grids
+are consistent with each other and with the mapping weights files.
+
+In CESM and R-CESM, the ocean and ice must be on the same grid, but the
+atmosphere, land, river runoff and land ice can each be on different grids.
+Each component determines its own unique grid decomposition based upon
+the total number of pes or processing elements assigned to that component.
+
+
+
+
+--------------------------------
+ R-CESM developmental changes
+--------------------------------
+
 
 
 Software Versions and Sourcing
@@ -11,32 +194,32 @@ Software Versions and Sourcing
 CESM
 ----
 
-The current version of RCESM is based CESM v2.1 (2019). 
+The current version of R-CESM is based CESM v2.1 (2019). 
 
 
 Common Infrastructure for Modeling the Earth (CIME) 
 ---------------------------------------------------
 
-	The Common Infrastructure for Modeling the Earth (CIME) provides the top level driver . RCESM uses a modified version of the CIME code (tag:cime_cesm2_1_rel_06, Nov, 11, 2018) to support regional grids. The modified code is available publicly on the `repository <https://github.com/ihesp/cime>`_. The Master branch points to a fork of the main CIME repository with changes to support our regional grids. This is not kept up-to-date with the current CIME development for several reasons. The implications for updates are discussed in section 5 below. 
+	The Common Infrastructure for Modeling the Earth (CIME) provides the top level driver . R-CESM uses a modified version of the CIME code (tag:cime_cesm2_1_rel_06, Nov, 11, 2018) to support regional grids. The modified code is available publicly on the `repository <https://github.com/ihesp/cime>`_. The Master branch points to a fork of the main CIME repository with changes to support our regional grids. This is not kept up-to-date with the current CIME development for several reasons. The implications for updates are discussed in section 5 below. 
 
 	These data and stub components are all included in the CIME framework. All data and their components are included in this package, as well as the coupling code (Cpl 7, with MCT support). 
 
 Atmospheric Component
 ---------------------
 
-	The active atmospheric model used by RCESM is a modified version of NCAR's `Weather Research and Forecasting Model (WRF) <https://www.mmm.ucar.edu/weather-research-and-forecasting-model>`_ v3.5.1 (rev 6868, Sep 23, 2013). The iHESP team modified parts of the WRF code (See next section) to work alongside the RCESM driver. The modified code is available publicly on the `wrf_ihesp repository <https://github.com/ihesp/wrf_ihesp>`_, and the appropriate tag is pulled from this repository during ``checkout_externals``.
+	The active atmospheric model used by R-CESM is a modified version of NCAR's `Weather Research and Forecasting Model (WRF) <https://www.mmm.ucar.edu/weather-research-and-forecasting-model>`_ v3.5.1 (rev 6868, Sep 23, 2013). The iHESP team modified parts of the WRF code (See next section) to work alongside the R-CESM driver. The modified code is available publicly on the `wrf_ihesp repository <https://github.com/ihesp/wrf_ihesp>`_, and the appropriate tag is pulled from this repository during ``checkout_externals``.
 
 	While the WRF atmospheric model has been integrated into the CESM at least one time before this project, it is not the typical atmosphere used in the fully coupled CESM. All usages of WRF within CESM should be considered extremely experimental.
     
 Ocean Component
 ---------------
 
-    For the active ocean component, RCESM uses a modified version of the code from the `Regional Ocean Modeling System (ROMS) <https://www.myroms.org/>`_ v3.5 (rev 568, Sep 21, 2011). The modified code is available publicly on the `roms_ihesp repository <https://github.com/ihesp/roms_ihesp>`_, and the appropriate tag is pulled from this repository during ``checkout_externals``. 
+    For the active ocean component, R-CESM uses a modified version of the code from the `Regional Ocean Modeling System (ROMS) <https://www.myroms.org/>`_ v3.5 (rev 568, Sep 21, 2011). The modified code is available publicly on the `roms_ihesp repository <https://github.com/ihesp/roms_ihesp>`_, and the appropriate tag is pulled from this repository during ``checkout_externals``. 
 
 Land Component
 --------------
 
-    The active model used is the `Community Land Model (CLM) <http://www.cesm.ucar.edu/models/clm/>`_, v4.0 (tag:clm4_5_14_r213). CLM is the typical land model in the coupled CESM system. This is a global land surface model that works in a regional mode when given a regional grid.  In the original, TAMU-built RCESM 1.0.0, the internal WRF land surface model was used. In our system, the CESM land surface from CLM is passed through the coupler to WRF. This has several implications discussed further in sections 4 and 5. 
+    The active model used is the `Community Land Model (CLM) <http://www.cesm.ucar.edu/models/clm/>`_, v4.0 (tag:clm4_5_14_r213). CLM is the typical land model in the coupled CESM system. This is a global land surface model that works in a regional mode when given a regional grid.  In the original, TAMU-built R-CESM 1.0.0, the internal WRF land surface model was used. In our system, the CESM land surface from CLM is passed through the coupler to WRF. This has several implications discussed further in sections 4 and 5. 
 
 
 
@@ -101,24 +284,24 @@ ROMS namelist changes
 ROMS Source changes
 ===================
 
-    Very little was changed within the actual ROMS source from when it was shared with NCAR by TAMU. The interfaces for rocn_init_mct, rocn_run_mct, and rocn_final_mct all needed to be updated in the rocn_comp_mct.F90 file to support a small change in the coupler. Indexes for river runoff fields were removed from ocn_cplindices.F90 as this model does not include a river model (and the WRF land/rivers were no longer being used). An updated version of docn_comp_mod.F90 was used for the extended ROMS ocean grid points (pulled from the same CIME release as is currently used in the RCESM code). And the mct header files were duplicated to support both the extended XROMS ocean in rxocn_comp_mct.F90 and a simple non-extended roms grid (for use with a data atmosphere) in the rocn_comp_mct.F90 file. A simple if-statement in ocn_comp_mct.F90 supports these two modes as well, but currently the XROMS mode is hard-coded via an if-def in this file. A few changes were made to the rxocn_comp_mct.F90 module by TAMU software engineers to support multiple instances of ROMS as well. Finally, a few debug statements were added to the ROMS source, but have since all been removed.  
+    Very little was changed within the actual ROMS source from when it was shared with NCAR by TAMU. The interfaces for rocn_init_mct, rocn_run_mct, and rocn_final_mct all needed to be updated in the rocn_comp_mct.F90 file to support a small change in the coupler. Indexes for river runoff fields were removed from ocn_cplindices.F90 as this model does not include a river model (and the WRF land/rivers were no longer being used). An updated version of docn_comp_mod.F90 was used for the extended ROMS ocean grid points (pulled from the same CIME release as is currently used in the R-CESM code). And the mct header files were duplicated to support both the extended XROMS ocean in rxocn_comp_mct.F90 and a simple non-extended roms grid (for use with a data atmosphere) in the rocn_comp_mct.F90 file. A simple if-statement in ocn_comp_mct.F90 supports these two modes as well, but currently the XROMS mode is hard-coded via an if-def in this file. A few changes were made to the rxocn_comp_mct.F90 module by TAMU software engineers to support multiple instances of ROMS as well. Finally, a few debug statements were added to the ROMS source, but have since all been removed.  
 
 CLM
 ---
 
-    The land model in the RCESM is only used when the model is fully coupled or in WRF-atmosphere mode (data ocean). We used CLM version 4.0 because that version was supported in the earlier WRF integration into CESM 1.2 and surface data set files for a western US case were available for testing. Most of the changes to CLM were in namelist_defaults_clm4_0.xml, because as new grids for WRF were added, the CLM namelist generating scripts needed to be updated with those grids. The I-compset (CLM only) was updated in this model to work with stub ice and stub ocean. Some debug output was added to two or three files to help track down an error with extremely high LWUP in CLM. These, apparently, did not get removed, but will only trigger when LWUP > 6000 W/m2. 
+    The land model in the R-CESM is only used when the model is fully coupled or in WRF-atmosphere mode (data ocean). We used CLM version 4.0 because that version was supported in the earlier WRF integration into CESM 1.2 and surface data set files for a western US case were available for testing. Most of the changes to CLM were in namelist_defaults_clm4_0.xml, because as new grids for WRF were added, the CLM namelist generating scripts needed to be updated with those grids. The I-compset (CLM only) was updated in this model to work with stub ice and stub ocean. Some debug output was added to two or three files to help track down an error with extremely high LWUP in CLM. These, apparently, did not get removed, but will only trigger when LWUP > 6000 W/m2. 
 
     Other changes include the tolerance for surface data mis-match increased to 0.5 degrees lat/lon in surfrdMod.F90 to help get some early tests running. Function names for mct_gsMap calls had to be changed when a newer version of CIME was added to the repo in March 2018. And the automatically generated files for buildcppc and buildnmlc were accidently added to the repository a few times. These could be removed.
 
 CIME/coupler
 ------------
 
-    The CIME infrastructure code used in this repository is kept on a fork as an external repository at https://github.com/Katetc/cime . As discussed in section 5, below, this should change in the future. But for now, all updates to CIME needed for this model are in the master branch of my CIME fork. The CIME changes for this model are all contained within a handful of xml configuration files. There were no changes to CIME source code, the coupler source code, or any data or stub models to support the RCESM. The changes to CIME include adding WRF and ROMS as components with relative paths to their cime-supporting scripts in cime/config/cesm/config_files.xml. WRF, ROMS, and fully coupled grids were added to the cime/config/cesm/config_grids.xml file. Finally, the clusters Ada, Terra and Stampede2 were added to cime/config/cesm/machines/config_batch.xml, config_compilers.xml, and config_machines.xml.
+    The CIME infrastructure code used in this repository is kept on a fork as an external repository at https://github.com/Katetc/cime . As discussed in section 5, below, this should change in the future. But for now, all updates to CIME needed for this model are in the master branch of my CIME fork. The CIME changes for this model are all contained within a handful of xml configuration files. There were no changes to CIME source code, the coupler source code, or any data or stub models to support the R-CESM. The changes to CIME include adding WRF and ROMS as components with relative paths to their cime-supporting scripts in cime/config/cesm/config_files.xml. WRF, ROMS, and fully coupled grids were added to the cime/config/cesm/config_grids.xml file. Finally, the clusters Ada, Terra and Stampede2 were added to cime/config/cesm/machines/config_batch.xml, config_compilers.xml, and config_machines.xml.
 
 Note on Git Histories
 ---------------------
 
-    All of the notes here about changes to the various parts of the RCESM code came from histories generated in GitHub. To see a history of every change made to the RCESM code since the creation of repository, simply go to the main repository (https://github.com/NCAR/TAMURegionalCESM) and click on the “XX Commits” (Some number of commits) link, just above the branch pull-down menu. You can also look at certain directories or files in GitHub, and click the “History” button (top left) to see every commit made that impacts those files. When looking at a specific file, you can click the “Blame” button (top left) to see which commits resulted in each line of code within the file.
+    All of the notes here about changes to the various parts of the R-CESM code came from histories generated in GitHub. To see a history of every change made to the R-CESM code since the creation of repository, simply go to the main repository (https://github.com/NCAR/TAMURegionalCESM) and click on the “XX Commits” (Some number of commits) link, just above the branch pull-down menu. You can also look at certain directories or files in GitHub, and click the “History” button (top left) to see every commit made that impacts those files. When looking at a specific file, you can click the “Blame” button (top left) to see which commits resulted in each line of code within the file.
 
 
 

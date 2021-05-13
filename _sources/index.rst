@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-RCESM Quickstart Guide and Development Doc
+R-CESM Quickstart Guide and Development Doc
 ==========================================
 
 Table of contents
@@ -16,9 +16,9 @@ Table of contents
    downloading_cesm.rst
    quickstart.rst
    rcesm_arch.rst
-   cesm_configurations.rst
    io_files.rst
    preprocessing.rst
+   porting.rst
    postprocessing.rst
    contribute.rst
    updates.rst

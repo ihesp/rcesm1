@@ -1,48 +1,32 @@
 .. _prepost_tools:
 
 ============================================
-Creating new grids and cases
+Creating a new R-CESM application/domain
 ============================================
 
+In order to add an application to focus on a new region domain, we would first need to create the necessary grids and mapping files, then change the R-CESM configuration files to support the new domain. We would also need to modify the namelist options for the components in use. 
 
-The best method is to try the Gulf of Mexico test case first and then adapt
-it (including cresm\_1.0.0 source code) to the new grids and application. 
-The guidelines for this are provided in this section.
-
-
-Changes to Input Files
-======================
-
-Please take a look at Chapter to know the basic details and
-requirements of CRESM modeling framework. Based on the specific options 
-selected for the application with CRESM, WRF and ROMS, prepare input files. 
-Input files are discussed in detail in Chapter. Use the input 
-files from the Gulf of Mexico test case as a reference. Tools and scripts to
-create input netCDF files are provided in Chapter.
-
-As with any models, all CRESM, WRF and ROMS files are model grid dependent.
-Please make new input files for experiments with a new component model grid
-(WRF or ROMS). Also note that the xroms files and mapping weight files 
-(Section ) are also grid dependend and needs to be recreated 
-with change in any component model grids.
+In this tutorial, we will walk through the steps involved in adding the low-resolution Gulf of Mexico domain to R-CESM. 
 
 
-Steps to Make New Model Grids and Input Files
+
+Steps inolved in creating a new domain
 =============================================
 
 1. Determine the ROMS and WRF model domains. 
       Make ROMS domain slighly (0.2-1\degrees, or few grid points) smaller (all four sides) than the WRF domain, in order to reduce the impact of WRF boundary effects affecting ROMS interior solution.
-2. Make WRF model grid using WRF tools. 
-3. Make WRF initial and boundary conditions using WRF/WPS tools.
-4. Make ROMS grid using ROMS tools. 
- Edit ROMS grid coastline to match that from WRF model grid. This is easier than otherway around, since land points on WRF grid need lot of additional information like vegetation type, land cover etc.
-5. Make ROMS initial and boundary conditions using matlab/python based ROMS pre-processing tools.
-6. If planning to use xroms, then create data ocean domain file.
-7. Create mapping weight files.
+
+2. Generate the WRF atmosphere grid, initial and boundary conditions using WRF pre-processing tools. Then generate the domain file for the atmosphere. Follow the steps `here <wrf_grid.rst>`__
+
+3. Generate the ROMS ocean grid, and the intial, boundary and nudging files. Detailed in `here <roms_grid.rst>`__.
+.. Edit ROMS grid coastline to match that from WRF model grid. This is easier than otherway around, since land points on WRF grid need lot of additional information like vegetation type, land cover etc.
+
+4. If the application will be configured to use XROMS, then create the domain file for the data ocean. 
+5. Generate the SCRIP mapping files for the domains.
+6. Create the domain files using the ``gen_domain`` tool.
+7. Create mapping files from the input data sets to the land grid, using the ``mkmapdata`` tool in CLM. Then use the ``mksurfdata_map`` to create the surface datasets required to run CLM. These steps are detailed `here <clm_grid.rst>`__.
 8. Compile CRESM with proper options for the new domain and copy executable to new run directory.
 9. Copy input files (like namelist, \*\_in, job/pbs etc. files, not the netCDF files) for CRESM, WRF and ROMS from Gulf of Mexico test case to the new run directory and edit it with proper optios/fields for the new grid/domain.
-10. Make a test run for few days and make sure the results are as expected.
-11. Now edit the input files for the long production run as required and proceed with production run.
 
 
 
@@ -55,4 +39,3 @@ Next Steps
   wrf_grid.rst
   roms_grid.rst
   clm_grid.rst
-   

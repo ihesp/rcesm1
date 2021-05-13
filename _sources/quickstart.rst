@@ -220,8 +220,31 @@ CESM xml variables are fully documented in the CESM2.1 release documents.  Here 
 
 
 
+
+Input Files
+===========
+
+The standard test case for CRESM is a Gulf of Mexico configuration with
+9 km WRF and 3 km ROMS. Please obtain the input data files
+(cresm-1.0.0_gom_input.tar.gz) from Jaison Kurian (jaisonk@tamu.edu).
+
+These files are for a run initialized on 2010-01-01_00:00:00. Time
+varying data is available till 2010-01-11_00:00:0.
+
+There are several different input files for the CRESM, which are
+discssed in detail in Chapter `[cha:io] <#cha:io>`__. See this section
+before trying to adapt the test case discussed below for a new
+application.
+
+Please note that this test case have 3D-nuding option for ROMS (nudging
+3D temperature and salinity to HYCOM data). This is not normally used
+for ROMS runs. See Section `[sec:3Dnudg] <#sec:3Dnudg>`__ for tuning off
+the 3D-nudging.
+
+
+
 Running an RCESM case and Looking at model output
-=====================================================================
+===================================================
 
 After the model builds successfully, you can submit a run to the compute queue with the command ::
 
@@ -314,3 +337,166 @@ is because the model uses the ``rpointer.*`` files in the case run directory to 
 the restart date and time. These files are automatically set to point to the most recently written
 set of restart files. If you were interested in restarting from an earlier write, you would need to
 manually edit the filenames in each of the ``rpointer.*`` files in the case run directory.
+
+
+
+
+Checking Output
+===============
+
+Please obtain E01_run1_output.tar from Jaison Kurian (jaisonk@tamu.edu)
+for verifying the output from above test run and E01_run2_output.tar for
+verifying the restart run discussed in Section `5 <#sec:restart>`__.
+
+Make a directory and untar the output.tar file.
+
+::
+
+     [user@comp]$ mkdir /scratch/user/..../CRESM/test_case
+     [user@comp]$ cd /scratch/user/..../CRESM/test_case
+     [user@comp]$ tar -xvf /path/to/this/file/E01_run1_output.tar
+
+Directories E01_run1_output and E01_run2_output correspond to the run
+described in Section `3 <#sec:run>`__ and in Section
+`5 <#sec:restart>`__ respectively. The output netCDF file string has the
+following meaning:
+
++-----------------------------------+-----------------------------------+
+| TXGLO:                            | name of the domain/experiment     |
++-----------------------------------+-----------------------------------+
+| atm/ocn/cpl:                      | component model (atm=atmosphere,  |
+|                                   | ocn=ocean, cpl=coupler)           |
++-----------------------------------+-----------------------------------+
+| hi/r:                             | file type (hi=history, r=restart) |
++-----------------------------------+-----------------------------------+
+| YYYY-MM-DD_hh:mm:ss:              | date and time for first record in |
+|                                   | the file                          |
++-----------------------------------+-----------------------------------+
+
+For More details about the CRESM output files, please see Section
+`[sec:output] <#sec:output>`__. Compare the output netCDF files in this
+directory with that from the test run (described in Section
+`3 <#sec:run>`__). Make sure it matches perfectly. If the test case is
+made on a different machine than TAMU Ada, you may notice slight
+missmatch in values (eg. difference around 3rd or 4th decimal place for
+K=50 temp in ocean history files) which is quite normal.
+
+Also compare the log files to see they have similar integrated values
+(eg. ocn.log) and run times.
+
+.. _sec:restart:
+
+Restarting CRESM
+================
+
+Assume E01_run1 is the existing run directory, with restart files (from
+the run described inSection `3 <#sec:run>`__). In order to make a
+restart run, make a new run directory E01_run2.
+
+::
+
+     [user@comp]$ mkdir -p /scratch/..../CRESM/run/E01_run2
+     [user@comp]$ cd /scratch/..../CRESM/run/E01_run2
+
+Now use the mkcopy.csh tool (see Section `[sec:mkcopy] <#sec:mkcopy>`__)
+to copy all the input files from previous run directory
+(/scratch/..../CRESM/run/E01_run1) to current restart run directory.
+Here gom03 is the prefix for ROMS files, "../E01_run1" is the source run
+directory and "./" is the destination run directory.
+
+::
+
+     [user@comp]$ ~/bin/mkcopy.csh gom03 ../E01_run1 ./
+
+Manually copy the map files from E01_run01
+
+::
+
+     [user@comp]$ cp -a ../E01_run1/map_???_????.nc .
+
+Please note that "rpointer.*" files in E01_run1 will have the most
+recent restart dates (here 2010-01-04_00:00:00). If the restart date is
+different, please edit the "rpointer.*" files.
+
+From E01_run1 directory, link ROMS, WRF, CPL restart file to E01_run2.
+Use the restart date string to copy just the required restart files.
+
+::
+
+     [user@comp]$ ln -s ../E01_run1/TXGLO.*.r.2010-01-04*.nc ./
+
+ROMS model can handle multiple boundary (BRYNAME) and nudging (CLMNAME)
+netCDF files (eg. one file for each month and 12 such files for a 1-year
+run). For the restart example here, the BRYNAME and CLMNAME for ROMS can
+be the same but for real-life applications, it can be different. Also
+note that the CLMNAME is required only if ROMS is running with
+3D-nudging (see Section `[sec:3Dnudg] <#sec:3Dnudg>`__).
+
+For the 3 day run from the restart file for 2010-01-04_00:00:00, the
+model start date/time is 2010-01-04_00:00:00 and the end time is
+2010-01-07_00:00:00. Edit the following files as suggested (for details
+on the input files discussed below, please see Chapter
+`[cha:io] <#cha:io>`__).
+
+ocean.in
+
+change NTIMES from 8640 to 17280 (note that ROMS need cumulative number
+of timesteps from the very first run).
+
+change NRREC from 0 to 1 (check ROMS restart file to make sure)
+
+| change ININAME from ./gom03_N050_md15m_ini.....201001.nc to
+| ./TXGLO.ocn.r.2010-01-04_00:00:00.nc
+
+Keep BRYNAME the same
+
+Keep CLMNAME the same
+
+drv_in (&seq_timemgr_inparm)
+
+start date: change start_ymd from 20100101 to 20100104
+
+run length: Keep stop_n the same, 3 (if run length is different change
+this)
+
+restart interval: Keep restart_n the same, 3 (if run length is different
+change this)
+
+ocn_in (&ocn_timemgr)
+
+change start_day from 01 to 04 (in general, edit the start year, month,
+day, hour, minute, and second according to the restart time)
+
+docn_ocn_in
+
+keep strems the same (the numeric entries represent yrAlign, yrFirst &
+yrLast, please see Section `[sec:docnyr] <#sec:docnyr>`__ for details on
+editing this for a multi-year run)
+
+namelist.input (&time_control)
+
+change start_day from 01 to 04 (in general, edit the start year, month,
+day, hour, minute, and second according to the restart time)
+
+change end_day from 04 to 07 (in general, edit the end year, month, day,
+hour, minute, and second according to the run end time)
+
+change restart from .false. to .true. (this is a restart run).
+
+keep restart_interval_d same at 3 (restart interval in days, change if
+needed)
+
+rpointer.
+
+Make sure the entries in every rpointer file refers to the model restart
+date and time (2010-01-04_00:00:00).
+
+Please mind the syntax difference between rpointer files.
+
+Edit if required (see Section `[sec:rpointer] <#sec:rpointer>`__ for
+details).
+
+With these changes the restart run is ready to be submitted. After
+submitting the job, monitor its progress and completion as described in
+Section `3 <#sec:run>`__. It is highly recommended to check the output
+as described in Section `4 <#sec:chk>`__.
