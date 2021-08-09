@@ -11,8 +11,22 @@
 /* Controlling the font of text in code block*/
 .go {
 /*color: #F6F3E8;*/
-color: #EFC090;
+ /*color: #EFC090;*/
+ background-color:  #515E63;
+ color:  #F1ECC3;
   font-size: 120%;
+}
+
+.n {
+    color:  #F1ECC3;
+}
+
+.o {
+    color:  #F1ECC3;
+}
+
+pre {
+    color:  #F1ECC3;
 }
 
 .wy-side-nav-search > a img.logo, .wy-side-nav-search .wy-dropdown > a img.logo {
@@ -26,11 +40,22 @@ color: #EFC090;
 }
 
 
+.codeblock, pre.literal-block, .rst-content .literal-block, .rst-content pre.literal-block, div[class^='highlight'] {
+    border: 1px solid #e1e4e5;
+    padding: 0px;
+    overflow-x: auto;
+     background: #515E63;
+    color: #F1ECC3;
+    margin: 1px 0 24px 0;
+}
+
 .codeblock div[class^='highlight'], pre.literal-block div[class^='highlight'], .rst-content .literal-block div[class^='highlight'], div[class^='highlight'] div[class^='highlight'] {
   font-size: 200%;
   border: none;
-  background: #404040;
-  color: #F6F3E8;
+  /*background: #404040;
+  color: #F6F3E8;*/
+  background: #515E63;
+  color: #F1ECC3;
   margin: 0;
 }
 
@@ -44,7 +69,8 @@ color: #EFC090;
 
 
 .wy-table td, .rst-content table.docutils td, .rst-content table.field-list td {
-  background-color: #a4978e;
+  background-color: #F1ECC3;
+  /*color:  #515E63;*/
   vertical-align: middle;
   font-weight: 600;
 
@@ -53,12 +79,15 @@ color: #EFC090;
 .wy-table thead th, .rst-content table.docutils thead th, .rst-content table.field-list thead th {
   font-weight: bold;
   border-bottom: solid 2px #e1e4e5;
-  background-color: #a4978e;
+  /*background-color: #515E63;*/
+  background: #57837B;
+  color:  #fff;
 }
 
 .wy-table-odd td, .wy-table-striped tr:nth-child(2n-1) td, .rst-content table.docutils:not(.field-list) tr:nth-child(2n-1) td {
- /* background-color: #ddf1f7;*/
- background-color: #8a8683;
+  background-color: #C9D8B6;
+  /*color:  #515E63;*/
+ /*background-color: #8a8683;*/
   font-weight: 600;
 }
 

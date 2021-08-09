@@ -82,7 +82,7 @@ machine. In the following step, we are going to create a new case on the TAMU cl
 .. code-block:: console
 
    my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 
-   --compset PBSGULF2010 -res tx9k_g3x -mach ada --run-unsupported
+   --compset PBSGULF2010 --res txlw27k_gom27k --mach grace --run-unsupported
 
 
  **create_newcase** has three required arguments: ``--case``, ``--compset`` and
@@ -193,12 +193,11 @@ As an example, the model is set to run for 5 days by default. This is controlled
 
    ./xmlquery STOP_OPTION,STOP_N
 
-The **Gulf of Mexico example** from above has mostly been tested for this 5 day period. If you wanted to run it for an
-entire month, you can use ``xmlchange``
+The **Gulf of Mexico example** from above has mostly been tested for this 5 day period. If you wanted to run it for a period of three months, you can use ``xmlchange``
 
 .. code-block:: console
 
-      ./xmlchange STOP_OPTION=nmonths,STOP_N=1
+      ./xmlchange STOP_OPTION=nmonths,STOP_N=3
 .. code-block:: console
 
     
@@ -361,9 +360,9 @@ described in Section `3 <#sec:run>`__ and in Section
 `5 <#sec:restart>`__ respectively. The output netCDF file string has the
 following meaning:
 
-+-----------------------------------+-----------------------------------+
++===================================+====================================+
 | TXGLO:                            | name of the domain/experiment     |
-+-----------------------------------+-----------------------------------+
++===================================+====================================+
 | atm/ocn/cpl:                      | component model (atm=atmosphere,  |
 |                                   | ocn=ocean, cpl=coupler)           |
 +-----------------------------------+-----------------------------------+

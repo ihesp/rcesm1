@@ -20,8 +20,6 @@ of the component models are discussed in this chapter.
    +-----------------+-----------------+-----------------+-----------------+
    | Component       | Model           | Status          | Description     |
    +=================+=================+=================+=================+
-   |                 |                 |                 |                 |
-   +-----------------+-----------------+-----------------+-----------------+
    | Atmosphere      | WRF 3.5.1       | Stable          | Adavanced       |
    |                 |                 |                 | Research        |
    |                 |                 |                 | Weather         |
@@ -60,10 +58,6 @@ of the component models are discussed in this chapter.
    |                 |                 |                 | Unified Noah,   |
    |                 |                 |                 | Noah-MP, CLM 4  |
    +-----------------+-----------------+-----------------+-----------------+
-   |                 |                 |                 |                 |
-   +-----------------+-----------------+-----------------+-----------------+
-   |                 |                 |                 |                 |
-   +-----------------+-----------------+-----------------+-----------------+
    | Sea Ice         | CICE 4.0 beta   | Experim.        | Los Alamos Sea  |
    |                 |                 |                 | Ice Model,      |
    |                 |                 |                 | version 4.0     |
@@ -84,8 +78,6 @@ of the component models are discussed in this chapter.
    |                 |                 |                 | included but    |
    |                 |                 |                 | inactive.       |
    +-----------------+-----------------+-----------------+-----------------+
-   |                 |                 |                 |                 |
-   +-----------------+-----------------+-----------------+-----------------+
 
 
 --------------------------------
@@ -95,6 +87,39 @@ of the component models are discussed in this chapter.
 
 
 The current R-CESM system was developed around a coupled Gulf of Mexico configuration to try and repeat the results of the TAMU version of the model as closely as possible. During development of the model, several different component configurations and grid resolutions were tested. This document gives a brief description of these component configurations (compsets) and grids, as well as the machines that are generally supported by the CESM/CIME software used in the R-CESM.
+
+
+
+CIME
+------
+
+R-CESM is built upon the CESM2/CIME infrastructure. This infrastructure includes the support scripts (configure, build, run, test), a coupler component, data models, essential utility external libraries and other tools required to build a single-executable ESM. CIME uses a flexible hub-and-spoke inter-component coupling architecture with CIME’s coupler component at the hub to which other component models are connected (Figure 1 of Danabasoglu et al. 2020). 
+
+
+The CIME coupler functionality includes computation of air-sea surface fluxes. CIME also includes tools for generating user-defined mapping weight files that enable regridding between various resolutions in different component models. As such, R-CESM model domain geographic coverage and resolution settings are very flexible, potentially ranging from hundreds of meters to tens of kilometers at any geographic locations depending on user’s research focuses. In addition, R-CESM adds the functionality of using active regional models within the CIME’s global data models and allows coupling between regional and global component models. Some applications include: i) the Community Atmosphere Model version 6 (CAM6) can be coupled to ROMS in a user-specified region while data ocean model provides observed SST elsewhere, ii) the Parallel Ocean Program version 2 (POP2) can be coupled to WRF in a regional domain while data atmosphere model provides observation-based atmospheric surface variables elsewhere of the globe, or iii) using a slab ocean component model coupled to WRF in a data atmosphere. This broad versatility further distinguishes R-CESM from other existing regional ESMs.
+
+
+
+
+ROMS
+------
+
+ROMS (Haidvogel et al. 2008; Shchepetkin and McWilliams 2005) is a primitive equation, hydrostatic, free-surface, split-explicit ocean model with horizontal curvilinear coordinates and terrain-following “z-sigma” vertical coordinates (Lemarié et al. 2012; Shchepetkin and McWilliams 2009). The ROMS component of R-CESM uses identical settings in all configurations: harmonic horizontal mixing of momentum and tracers, the K-profile Parameterization (KPP) scheme (Large et al. 1994) for vertical mixing, the 4th-order Akima horizontal and vertical tracer advection (Shchepetkin and McWilliams 2005), and 50 layers in the vertical. ROMS receives surface fluxes from CIME. Open boundary conditions are configured with radiation and nudging schemes for the three-dimensional velocity and tracers, Chapman (1985) scheme for the free-surface, and Flather (1976) scheme for the two-dimensional velocities. 
+
+The ROMS domain in R-CESM is designed to be slightly smaller than that of WRF (Figs. 1 c-d) so that the WRF boundary artifacts (due to a dynamic inconsistency between WRF’s interior solution and prescribed lateral boundary conditions) do not affect the actively coupled ROMS region. To provide SST for the gap-region between ROMS and WRF domains, a new X-ROMS (extended-ROMS) horizontal-grid, which covers the WRF domain with matching grid points with ROMS grid over the overlapping region, has been used. The X-ROMS blends SST from ROMS with that provided from data [on X-ROMS grid, from the dataset used for ROMS initial and boundary conditions] before passing it to the coupler. 
+
+
+WRF
+------
+
+The Advanced Research version of the WRF model (Skamarock et al. 2008) is a fully compressible, Eulerian, nonhydrostatic atmospheric model with a terrain-following vertical coordinate. In this initial release of R-CESM, the incorporated WRF version is 3.5.1. Besides the inherited flexibility from original WRF (only three surface layer schemes are available in the first release), WRF in the R-CESM configuration is also capable of receiving air-sea fluxes from CIME and bypass the WRF built-in surface layer subroutines, which is one of the unique features in our open-source system. In this work, all the simulations are conducted with the Yonsei University (YSU) planetary boundary layer scheme (Hong et al. 2006), Purdue-Lin microphysics scheme (Lin et al. 1983), Rapid Radiative Transfer Model for GCMs (RRTMG) short wave and long wave radiation schemes (Iacono et al. 2008). No cumulus parameterization is utilized in any set of experiments.
+
+
+CLM4
+------
+
+CLM4 is the standard land component in the R-CESM system. There are several key differences between native CLM4 and WRF built-in CLM4 package. As of WRF3.5.1, lake and urban canopy models, including CLM4 urban parameterization (CLMU; Oleson et al. 2010), are not available in WRF built-in CLM4, whereas they are actively working in R-CESM. This is of critical importance to assess the regional climate, as high population density makes urban climate significantly different from other land surface area and may have discernible impacts on the regional climate (Zhao et al. 2021). Secondly, the number of vertical soil levels in WRF CLM4 is 10 but it is 15 in R-CESM CLM4. Thirdly, WRF CLM4 is “cold” started by direct interpolation of soil data from atmospheric reanalysis products (typically 4 vertical layers) using the WRF preprocessing system, while R-CESM CLM4 is first integrated for 10 years using the surface atmospheric forcing from reanalysis (CESM data atmosphere) products as spin-up to “warm” start.
+
 
 
 R-CESM Components
