@@ -9,23 +9,85 @@ An RCESM case directory contains all of the configuration xml files, case contro
 
  - Edit the ``my_rcesm_sandbox/cime/config/cesm/machines/config_machines.xml`` file to point to correct input file directories and output file locations before creating a case. An example on Ada. 
 
- .. code-block:: console
+ .. code-block:: XML
 
-      <machine MACH="ada">
-      <DESC>  TAMU IBM NextScale Cluster, os is Linux, 20 pes/node, batch system is LSF  </DESC>
-      <NODENAME_REGEX>.*.ada.tamu.edu</NODENAME_REGEX>
-      <OS>LINUX</OS>
-      <COMPILERS>intel,gnu,pgi</COMPILERS>
-      <MPILIBS compiler="intel" >impi,mpt,openmpi</MPILIBS>
-      <MPILIBS compiler="pgi" >mpt</MPILIBS>
-      <MPILIBS compiler="gnu" >openmpi</MPILIBS>
-      <CIME_OUTPUT_ROOT>/scratch/user/$USER/RCESM/RegionalCESM-2.0.0</CIME_OUTPUT_ROOT>
-      <DIN_LOC_ROOT>/scratch/user/liu6/RCESM/inputdata/</DIN_LOC_ROOT>
-      <DIN_LOC_ROOT_CLMFORC>>/scratch/user/liu6/RCESM/inputdata/lmwg</DIN_LOC_ROOT_CLMFORC>
-      <DOUT_S_ROOT>$CIME_OUTPUT_ROOT/archive/$CASE</DOUT_S_ROOT>
-      <BASELINE_ROOT>>/scratch/user/liu6/RCESM/inputdata/cesm_baselines</BASELINE_ROOT>
-      <CCSM_CPRNC>>$CIME_OUTPUT_ROOT/../my_rcesm_sandbox2/cime/tools/cprnc</CCSM_CPRNC>
-      <GMAKE_J>4</GMAKE_J>
+    <machine MACH="grace">
+        <OS>LINUX</OS>
+        <COMPILERS>intel</COMPILERS>
+        <MPILIBS>impi</MPILIBS>
+        
+        <CIME_OUTPUT_ROOT>/ihesp/shared/rundir/rcesm</CIME_OUTPUT_ROOT>
+        <DIN_LOC_ROOT>/ihesp/obs_root/inputdata</DIN_LOC_ROOT>
+        
+        <DOUT_S_ROOT>$ENV{SCRATCH}/archive/$CASE</DOUT_S_ROOT>
+        
+        <BATCH_SYSTEM>slurm</BATCH_SYSTEM>
+        <mpirun mpilib="impi">
+          <executable>mpirun</executable>
+          <arguments>
+             <arg name="num_tasks"> -np $TOTALPES</arg>
+          </arguments>
+        </mpirun>
+        <module_system type="module">
+          <modules>
+            <command name="purge"></command>
+            <command name="load">intel/2019b</command>
+            ....
+            <command name="load">PnetCDF/1.12.1</command>
+            <command name="load">netCDF/4.7.4</command>
+            <command name="load">netCDF-Fortran/4.5.3</command>
+          </modules>
+       </module_system>
+        <environment_variables>
+          <env name="NETCDF_PATH">$IHESP/software/easybuild/eb/x86_64/sw/netCDF/4.7.4-iimpi-2019b</env>
+          <env name="PNETCDF_PATH">$IHESP/software/easybuild/eb/x86_64/sw/PnetCDF/1.12.1-iimpi-2019b</env>
+          <env name="NETCDFF_INCDIR">$IHESP/software/easybuild/eb/x86_64/sw/netCDF-Fortran/4.5.3-iimpi-2019b/include</env>
+        </environment_variables>
+
+    </machine>
+
+
+.. code-block:: XML
+
+    <compiler MACH="grace" COMPILER="intel">
+        <MPIFC>mpiifort</MPIFC>
+        <MPICC>mpiicc</MPICC>
+        <MPICXX>mpiicpc</MPICXX>
+        <SFC>ifort</SFC>
+        <SCC>icc</SCC>
+        <SCXX>icpc</SCXX>
+        <NETCDF_PATH>$IHESP/software/easybuild/eb/x86_64/sw/netCDF/4.7.4-iimpi-2019b</NETCDF_PATH>
+        <NETCDF_C_PATH>$IHESP/software/easybuild/eb/x86_64/sw/netCDF/4.7.4-iimpi-2019b</NETCDF_C_PATH>
+        <NETCDF_FORTRAN_PATH>$IHESP/software/easybuild/eb/x86_64/sw/netCDF-Fortran/4.5.3-iimpi-2019b</NETCDF_FORTRAN_PATH>
+        <PNETCDF_PATH>$IHESP/software/easybuild/eb/x86_64/sw/PnetCDF/1.12.1-iimpi-2019b</PNETCDF_PATH>
+        <SLIBS>
+            <append>-L$(NETCDF_C_PATH)/lib -Wl,-rpath,$(NETCDF_PATH)/lib -lnetcdf</append>
+            <append>-L$(NETCDF_FORTRAN_PATH)/lib -Wl,-rpath,$(NETCDF_FORTRAN_PATH)/lib -lnetcdff</append>
+            <append>-L$(PNETCDF_PATH)/lib -Wl,-rpath,$(PNETCDF_PATH)/lib -lpnetcdf</append>
+        </SLIBS>
+        <PIO_FILESYSTEM_HINTS>lustre</PIO_FILESYSTEM_HINTS>
+    </compiler>
+
+
+.. code-block:: XML
+
+    <batch_system MACH="grace" type="slurm" >
+        <batch_submit>sbatch</batch_submit>
+        <submit_args>
+          <arg flag="--time" name="$JOB_WALLCLOCK_TIME"/>
+          <arg flag="-p" name="$JOB_QUEUE"/>
+        </submit_args>
+        <directives>
+        <directive>--mem=360GB </directive>
+        </directives>
+        <queues>
+          <queue walltimemax="02:00:00" nodemin="1" nodemax="32">short</queue>
+          <queue walltimemax="24:00:00" nodemin="1" nodemax="128" default="true">medium</queue>
+          <queue walltimemax="168:00:00" nodemin="1" nodemax="64" >long</queue>
+          <queue walltimemax="504:00:00" nodemin="1" nodemax="32" >xlong</queue>
+          <queue walltimemax="24:00:00" nodemin="1" nodemax="800" >special</queue>
+        </queues>
+    </batch_system>
 
 
 

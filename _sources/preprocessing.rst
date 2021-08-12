@@ -43,4 +43,6 @@ Next Steps
 
   wrf_grid.rst
   roms_grid.rst
+  xroms.rst
   clm_grid.rst
+  edit_config.rst

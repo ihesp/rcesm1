@@ -1,5 +1,8 @@
 .. _quickstart:
 
+.. include:: special.rst
+
+
 ====================================
  Quick Start (R-CESM Model Workflow)
 ====================================
@@ -24,8 +27,8 @@ in the ``my_rcesm_sandbox/cime/scripts`` directory
 
 .. code-block:: console
 
-    cd my_rcesm_sandbox/cime/scripts
-    ./query_config --help
+    $ cd my_rcesm_sandbox/cime/scripts
+    $ ./query_config --help
 
 See the `available RCESM component sets <cesm_configurations.html>`_,
 `supported model resolutions <cesm_configurations.html>`_ and `supported
@@ -81,7 +84,7 @@ machine. In the following step, we are going to create a new case on the TAMU cl
 
 .. code-block:: console
 
-   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 
+   :red:`my_rcesm_sandbox/cime/scripts/create_newcase` :yellow:`--case` :blue:`./my_case_dirs/PBSGULF2010` 
    --compset PBSGULF2010 --res txlw27k_gom27k --mach grace --run-unsupported
 
 
@@ -98,9 +101,9 @@ to specify the ``--machine`` argument to **create_newcase**.
 
 Invoke **create_newcase** as follows:
 
-.. code-block:: console
+.. code-block:: bash
 
-    ./create_newcase --case CASENAME --compset COMPSET --res GRID --mach MACH
+    $ ./create_newcase --case CASENAME --compset COMPSET --res GRID --mach MACH
 
 where:
 
@@ -312,7 +315,7 @@ set the frequency that restart files are written, first check the ``$REST_N`` an
 
 .. code-block:: console
 
-   ./xmlquery REST_OPTION,REST_N
+   $./xmlquery REST_OPTION,REST_N
 
 The default values for these variables are set to the end of the simulation (so they should
 be the same as ``$STOP_N`` and ``$STOP_OPTION`` variables initially). To set the
@@ -321,7 +324,7 @@ values you want. For example, to write daily restart files, set:
 
 .. code-block:: console
 
-      ./xmlchange REST_OPTION=ndays,REST_N=1
+      $ ./xmlchange REST_OPTION=ndays,REST_N=1
 
 Once your simulation is finished and you want to restart the run, you will need to change the
 ``$CONTINUE_RUN`` xml variable to true, and then submit the run again.  
@@ -394,7 +397,7 @@ restart run, make a new run directory E01_run2.
 
 ::
 
-     [user@comp]$ mkdir -p /scratch/..../CRESM/run/E01_run2
+     :red:`[user@comp]$` mkdir -p /scratch/..../CRESM/run/E01_run2
      [user@comp]$ cd /scratch/..../CRESM/run/E01_run2
 
 Now use the mkcopy.csh tool (see Section `[sec:mkcopy] <#sec:mkcopy>`__)
