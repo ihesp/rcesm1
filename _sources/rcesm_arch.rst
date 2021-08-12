@@ -148,14 +148,19 @@ so lnd and glc stubs are used).
 
 Compsets in CESM/R-CESM describe which components are active and their basic configurations for the run. R-CESM currently supports four different configurations of WRF, ROMS, CLM and various data or stub components.
 
- ================  ========================
-  COMPSET Name         Components Used
- ================  ========================
-  PKWUS2003         atmosphere - WRF , ocean -  data, ice - data, land - CLM 4.0
-  PRSGULF2010       atmosphere - data, ocean -  ROMS, ice - stub, land - stub
-  PRDXGULF2010      atmosphere - data, ocean - ROMS*, ice - stub, land - stub   
-  PBSGULF2010       atmosphere - WRF , ocean - ROMS*, ice - data, land - CLM 4.0
- ================  ========================
+ ================  ==================================
+  COMPSET                     Components
+ ----------------- ----------------------------------
+      sf            atm      ocn    lnd     ice
+ ================  ===== ========= ======== =========
+ 
+  PKWUS2003         WRF    data     CLM4.0    data
+  PRSGULF2010       data   ROMS      stub     stub
+  PRDXGULF2010      data   ROMS      stub     stub
+  PBSGULF2010       WRF    ROMS*    CLM4.0    data
+  
+ ================  ===== ========= ======== =========
+
 
 * indicates that the ROMS ocean component has been extended via XROMS
 
@@ -177,7 +182,7 @@ To create a new configuration, you will need to create a new compset in the ``co
 
 
 R-CESM Grids
-===========
+==============
 
 Available resolutions/grids
 ---------------------------

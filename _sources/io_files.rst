@@ -4,14 +4,14 @@
 R-CESM Input/Output Files
 ================================
 
-All files required during CRESM running phase are called input files and
-files created by CRESM during a run are called output files. Please note
+All files required during R-CESM running phase are called input files and
+files created by R-CESM during a run are called output files. Please note
 that for models like ROMS configurable options are chosen during both
 compilation and running phases. Since the source code always contain
 files required during compilation stage, their list is not presented
 here. But the important files for the compilation phase are discussed in
 detail. Since the files needed during model running phase (for a new
-experiment) are not available as a package like the CRESM source code,
+experiment) are not available as a package like the R-CESM source code,
 their list is presented for each component model. Again, most important
 among these are discussed in detail. Please use the input files for the
 Gulf of Mexico test case (Chapter `[cha:qkstart] <#cha:qkstart>`__) as a
@@ -20,9 +20,12 @@ provided in this chapter and for information on tools and procedure for
 creating some of these input files, please see Chapter
 `[cha:tools] <#cha:tools>`__.
 
-: If the model run involves many restart runs, keep the input files (for
-the running phase) which are invariant across the runs in a separate
-directory and make symbolic links in the run directory as required.
+
+
+.. note:: 
+
+   If the model run involves many restart runs, keep the input files (for the running phase) which are invariant across the runs in a separate directory and make symbolic links in the run directory as required.
+
 
 .. _sec:inpR:
 
@@ -36,7 +39,7 @@ Compilation Phase
 
 For the ROMS model, some of the scheme/parametrization choices are made
 pre-compilation using header (file with ‘.h’ extension) files. File
-txgla_3dnudg.h in src/cresm-1.0.0/ directory is the ROMS header file for
+txgla_3dnudg.h in src/R-CESM-1.0.0/ directory is the ROMS header file for
 the Gulf of Mexico test case. A copy of the header file used during
 compilation will be available in src ‘exec/include’ directory (Section
 `[sec:comp] <#sec:comp>`__).
@@ -55,38 +58,25 @@ Table `[tab:inpR] <#tab:inpR>`__.
 
 .. table:: List of ROMS input files. Optional file is marked with #.
 
-   +-------------+-------------+-------------+-------------+-------------+
-   | Sl.         | Filename    | Component   | File        | File        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | No.         |             | Model       | Type        | Description |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 1           | :math:`*`\  | ROMS        | netCDF      | Grid file   |
-   |             | \_roms_grd. |             |             |             |
-   |             | nc          |             |             |             |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 2           | :math:`*`\  | ROMS        | netCDF      | Boundary    |
-   |             | \_roms_bry. |             |             | condition   |
-   |             | nc          |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 3           | :math:`*`\  | ROMS        | netCDF      | Initial     |
-   |             | \_roms_ini/ |             |             | condition   |
-   |             | rst.nc      |             |             | or restart  |
-   |             |             |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 4           | #\ :math:`* | ROMS        | netCDF      | 3D nudging  |
-   |             | `\ \_roms_n |             |             | file        |
-   |             | udg.nc      |             |             | (temp/salt/ |
-   |             |             |             |             | u/v)        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 5           | ocean.in    | ROMS        | txt         | Namelist/op |
-   |             |             |             |             | tions       |
-   |             |             |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 6           | varinfo.dat | ROMS        | txt         | Input &     |
-   |             |             |             |             | Output      |
-   |             |             |             |             | variable    |
-   |             |             |             |             | details     |
-   +-------------+-------------+-------------+-------------+-------------+
+
+
+   +----+-------------------+-------------+---------------------------------+
+   | #  |      Filename     |  File Type  | Description                     |
+   +----+-------------------+-------------+---------------------------------+
+   | 1  |  ∗_roms_grd.nc    |   netCDF    | Grid file                       |
+   +----+-------------------+-------------+---------------------------------+
+   | 2  | ∗_roms_ini/rst.nc |   netCDF    | Initial condition or restart file |
+   +----+-------------------+-------------+---------------------------------+
+   | 3  |  ∗_roms_bry.nc    |   netCDF    | Boundary condition file         |
+   +----+-------------------+-------------+---------------------------------+
+   | 4  | #∗_roms_nudg.nc   |   netCDF    | 3D nudging file (temp/salt/u/v) |
+   +----+-------------------+-------------+---------------------------------+
+   | 5  | ocean.in          |   txt       |   ROMS namelist/options file    |
+   +----+-------------------+-------------+---------------------------------+
+   | 5  | varinfo.dat       |   txt       | Input & Output variable details |
+   +----+-------------------+-------------+---------------------------------+
+
+  
 
 .. _sec:gridR:
 
@@ -164,45 +154,33 @@ WRF input netCDF and namelist files are listed in Table
 .. table:: List of WRF input netCDF and namelist files. Item 4 is
 required only for restart runs.
 
-   +-------------+-------------+-------------+-------------+-------------+
-   | Sl.         | Filename    | Component   | File        | File        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | No.         |             | Model       | Type        | Description |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 1           | wrfinput_d0 | WRF         | netCDF      | Grid file   |
-   |             | 1           |             |             |             |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 2           | wrflowinp_d | WRF         | netCDF      | Lower       |
-   |             | 01          |             |             | boundary    |
-   |             |             |             |             | conditions  |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 3           | wrfbdy_d01  | WRF         | netCDF      | Lateral     |
-   |             |             |             |             | boundary    |
-   |             |             |             |             | conditions  |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 4           | #atm.r.2010 | WRF         | netCDF      | Restart     |
-   |             | -01-04.\ :m |             |             | file        |
-   |             | ath:`*`.nc  |             |             |             |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 5           | namelist.in | WRF         | txt         | Namelist/op |
-   |             | put         |             |             | tions       |
-   |             |             |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
+   +----+-------------------+-------------+---------------------------------+
+   | #  |      Filename     |  File Type  | Description                     |
+   +----+-------------------+-------------+---------------------------------+
+   | 1  |  wrfinput_d01.nc  |   netCDF    | Grid file                       |
+   +----+-------------------+-------------+---------------------------------+
+   | 2  |  wrflowinp_d01    |   netCDF    | Lower boundary conditions       |
+   +----+-------------------+-------------+---------------------------------+
+   | 3  |  wrfbdy_d01       |   netCDF    | Lateral boundary conditions     |
+   +----+-------------------+-------------+---------------------------------+
+   | 4  | #atm.r.2010-01-04.∗.nc |   netCDF    |  WRF restart files         |
+   +----+-------------------+-------------+---------------------------------+
+   | 5  | namelist.input    |   txt       |   WRF namelist/options file     |
+   +----+-------------------+-------------+---------------------------------+
+   
 
 For WRF there are serveral table files in addition to input netCDF and
 namelist files. All files in a WRF directory
-(cresm-1.0.0/models/atm/wrf/3.5.1/WRFV3/run/*) are linked to run
+(R-CESM-1.0.0/models/atm/wrf/3.5.1/WRFV3/run/*) are linked to run
 directory as table files and no check has been done to see which all of
-these files are mandatory for running CRESM and which all reduntant. A
+these files are mandatory for running R-CESM and which all reduntant. A
 list of table files are given in Table
 `[tab:inpWtable] <#tab:inpWtable>`__.
 
 .. table:: List of WRF table input files.
 
    +-----+----------------------------------+-----+-------------------------+
-   | Sl. | Filename                         | Sl. | Filename                |
-   +-----+----------------------------------+-----+-------------------------+
-   | No. |                                  | No. |                         |
+   |  #  | Filename                         |  #  | Filename                |
    +-----+----------------------------------+-----+-------------------------+
    | 1   | aerosol.formatted                | 24  | ETAMPNEW_....._rain     |
    +-----+----------------------------------+-----+-------------------------+
@@ -259,29 +237,29 @@ namelist.input
 Please adapt the namelist.input file provided with Gulf of Mexico test
 case for a new application rather than using namelist.input file
 available with independant WRF distribution. Please note that the domain
-decomposition (processor tiling) is automatically determined by CRESM
+decomposition (processor tiling) is automatically determined by R-CESM
 and there is no field in namelist.input to control this aspect for the
 WRF component. Please see Section `3.2.3 <#sec:drvin>`__ for details
-about processor specifying options for CRESM.
+about processor specifying options for R-CESM.
 
 .. _sec:inpC:
 
-CRESM Input Files
-=================
+R-CESM/Coupler Input Files
+=========================
 
 .. _sec:inpCcomp:
 
 Compilation Phase
 -----------------
 
-Files during compilation CRESM
+Files during compilation R-CESM
 
 .. _sec:inpCrun:
 
 Running Phase
 -------------
 
-For CRESM and its coupler, there are several input files which are
+For R-CESM and its coupler, there are several input files which are
 listed in Table `[tab:inpC] <#tab:inpC>`__. Please provide all of these
 files even if some of the component models (like ice) are not used. All
 files which do not belong exclusively to either ROMS or WRF is included
@@ -290,138 +268,74 @@ used interchangably: ocean/ROMS, atmosphere/WRF, data ocean/xroms in
 Table `[tab:inpC] <#tab:inpC>`__ and this will be corrected in the
 future.)
 
-.. table:: List of CRESM specific input netCDF and namelist files. Item
+.. table:: List of R-CESM specific input netCDF and namelist files. Item
 24 is only required for restart runs.
 
-   +-------------+-------------+-------------+-------------+-------------+
-   | Sl.         | Filename    | Component   | File        | File        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | No.         |             | Model       | Type        | Description |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 1           | domain.txgl | CRESM       | netCDF      | Domain file |
-   |             | o.nc        |             |             |             |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 2           | map_a2o_aav | CRESM       | netCDF      | Mapping     |
-   |             | e.nc        |             |             | weight,     |
-   |             |             |             |             | atm2ocn,    |
-   |             |             |             |             | area-averag |
-   |             |             |             |             | e           |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 3           | map_a2o_bli | CRESM       | netCDF      | Mapping     |
-   |             | n.nc        |             |             | weight,     |
-   |             |             |             |             | atm2ocn,    |
-   |             |             |             |             | bi-linear   |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 4           | map_o2a_aav | CRESM       | netCDF      | Mapping     |
-   |             | e.nc        |             |             | weight,     |
-   |             |             |             |             | ocn2atm,    |
-   |             |             |             |             | area-averag |
-   |             |             |             |             | e           |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 5           | seq_maps.rc | CRESM       | txt         | path to     |
-   |             |             |             |             | mapping     |
-   |             |             |             |             | weight      |
-   |             |             |             |             | files       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 6           | #\ :math:`* | CRESM       | netCDF      | SST, ice &  |
-   |             | `\ \_xroms_ |             |             | mask for    |
-   |             | sstice.nc   |             |             | xroms       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 7           | drv_in      | CRESM       | txt         | driver file |
-   |             |             |             |             | with date,  |
-   |             |             |             |             | time,       |
-   |             |             |             |             | processor   |
-   |             |             |             |             | information |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 8           | ocn_in      | CRESM       | txt         | ocean model |
-   |             |             |             |             | time        |
-   |             |             |             |             | manager &   |
-   |             |             |             |             | IO          |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 9           | lnd_in      | CRESM       | txt         | path to     |
-   |             |             |             |             | land model  |
-   |             |             |             |             | files       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 10          | ice_in      | CRESM       | txt         | path to ice |
-   |             |             |             |             | model files |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 11          | docn_in     | CRESM       | txt         | data ocean  |
-   |             |             |             |             | namelist    |
-   |             |             |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 12          | docn_ocn_in | CRESM       | txt         | data ocean  |
-   |             |             |             |             | namelist    |
-   |             |             |             |             | file & map  |
-   |             |             |             |             | scheme      |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 13          | docn.stream | CRESM       | txt         | path to     |
-   |             | s.txt.presc |             |             | CRESM       |
-   |             | ribed       |             |             | domain and  |
-   |             |             |             |             | xroms files |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 14          | ocn_modelio | CRESM       | txt         | ocean model |
-   |             | .nml        |             |             | IO settings |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 15          | atm_modelio | CRESM       | txt         | atmospheric |
-   |             | .nml        |             |             | model IO    |
-   |             |             |             |             | settings    |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 16          | cpl_modelio | CRESM       | txt         | coupler IO  |
-   |             | .nml        |             |             | settings    |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 17          | lnd_modelio | CRESM       | txt         | land model  |
-   |             | .nml        |             |             | IO settings |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 18          | ice_modelio | CRESM       | txt         | ice model   |
-   |             | .nml        |             |             | IO settings |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 19          | glc_modelio | CRESM       | txt         | ice-sheet   |
-   |             | .nml        |             |             | model IO    |
-   |             |             |             |             | settings    |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 20          | rpointer.oc | CRESM       | txt         | ocean       |
-   |             | n           |             |             | restart     |
-   |             |             |             |             | pointer     |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 21          | rpointer.ro | CRESM       | txt         | ROMS        |
-   |             | ms          |             |             | restart     |
-   |             |             |             |             | pointer     |
-   |             |             |             |             | (same as    |
-   |             |             |             |             | rpointer.oc |
-   |             |             |             |             | n)          |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 22          | rpointer.at | CRESM       | txt         | atmosphere/ |
-   |             | m           |             |             | WRF         |
-   |             |             |             |             | restart     |
-   |             |             |             |             | pointer     |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 23          | rpointer.dr | CRESM       | txt         | coupler/dri |
-   |             | v           |             |             | ver         |
-   |             |             |             |             | restart     |
-   |             |             |             |             | pointer     |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 24          | rpointer.do | CRESM       | txt         | data ocean  |
-   |             | cn          |             |             | restart     |
-   |             |             |             |             | pointer     |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 25          | #cpl.r.2010 | CRESM       | netCDF      | coupler     |
-   |             | -\ :math:`* |             |             | restart     |
-   |             | `.nc        |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 26          | cresm       | CRESM       | exe         | cresm       |
-   |             |             |             |             | executable  |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 27          | run_cresm.j | CRESM       | txt         | job         |
-   |             | ob          |             |             | submission  |
-   |             |             |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
+
+
+   +------+-------------------------+--------------+------------------------------------------+-----------------+
+   | Sl.  |             Filename    | File Type   |        Purpose                            |   Source        |
+   +======+=========================+=============+===========================================+=================+
+   |                          X-ROMS (Data Ocean)                                                               |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 1    |   gom_lr_docn_grd.nc    | netCDF      |            Domain file                    |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 2    | map_a2o_aave.nc         | netCDF      | Area-averaged mapping file from atm2ocn   |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 3    | map_a2o_blin.nc         | netCDF      | Bi-linear interp mapping file from atm2ocn |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 4    | map_o2a_aave.nc         | netCDF      | Area-averaged mapping file from ocn2atm   |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 5    | seq_maps.rc             |    txt      | Specifies to above mapping files          |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 6    | *_xroms_sstice_*_solo.nc | netCDF     | SST, ICE forcing & land-sea               |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 7    | docn_in                 | txt     |     DOCN stream-independent namelist file               |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 8    | docn_ocn_in             | txt     |     DOCN stream-dependent namelist file       |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   | 8    | docn.streams.txt.prescribed | txt     |  Settings required for running DOCN with prescribed SST and ice-coverage |     User        |
+   +------+-------------------------+-------------+-------------------------------------------+-----------------+
+   |                          CPL7                                                                              |
+   +------+-------------------------+-------------+-------------------------------------------------------------+
+   | 7    | drv_in                  | txt      | CPL namelist file  general options, time manager options, pe layout, timing output, and parallel IO settings | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 7    | ocn_in                  | txt      | CPL namelist file  general options, time manager options, pe layout, timing output, and parallel IO settings | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 7    | lnd_in                  | txt      | CPL namelist file  general options, time manager options, pe layout, timing output, and parallel IO settings | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 7    | ice_in                  | txt      | CPL namelist file  general options, time manager options, pe layout, timing output, and parallel IO settings | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  cpl_modelio.nml        | txt      | sets the filename for the primary standard output file | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  ocn_modelio.nml        | txt      | sets the filename for the primary standard output file | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  atm_modelio.nml        | txt      | sets the filename for the primary standard output file | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  lnd_modelio.nml        | txt      | sets the filename for the primary standard output file | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  ice_modelio.nml        | txt      | sets the filename for the primary standard output file | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  glc_modelio.nml        | txt      | sets the filename for the primary standard output file | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  rpointer.ocn           | txt      | ocean restart pointer | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  rpointer.roms           | txt      | ocean restart pointer | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  rpointer.atm           | txt      | ocean restart pointer | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  rpointer.drv           | txt      | ocean restart pointer | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+   | 8    |  rpointer.docn           | txt      | ocean restart pointer | Code | 
+   +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
+
 
 .. _sec:rpointer:
 
 rpointer Files
 ~~~~~~~~~~~~~~
 
-The rpointer here means "restart pointer" which informs CRESM about
+The rpointer here means "restart pointer" which informs R-CESM about
 restart date and time. There are 5 rpointer files, one for each
 component as shown below:
 
@@ -487,10 +401,10 @@ It appears that the YrAlign should be same as YrFirst always!!!!!
 drv_in
 ~~~~~~
 
-The number of processors/cores (PEs) for running CRESM and its component
+The number of processors/cores (PEs) for running R-CESM and its component
 models should be clearly mentioned in drv_in (&ccsm_pes namelist). If
 drv_in is edited to update PE count or layout, pleae edit the ocean.in
-(Section `1.2.5 <#sec:nlistR>`__) and run_cresm.job file (Section
+(Section `1.2.5 <#sec:nlistR>`__) and run_R-CESM.job file (Section
 `4.1 <#sec:jobfl>`__) accordingly. Please note that the total number of
 PEs are devided between atm_ntasks and ocn_ntasks. Also, atm_rootpe is 0
 and ocn_rootpe is same as atm_ntasks. All other component model mirrors
@@ -582,7 +496,7 @@ entries as appropriate.
 Mapping Weight Files
 ~~~~~~~~~~~~~~~~~~~~
 
-Coupled model components can have different resolutions. CRESM requires
+Coupled model components can have different resolutions. R-CESM requires
 precomputed interpolation weights to map surface quantities between
 different coupled model components. Interpolation options like bilinear
 and averaging options like area-average are available with the ESMF
@@ -596,7 +510,7 @@ please see Section 5.2 in :raw-latex:`\citet{montuoro17}`.
 xroms_sstice.nc
 ~~~~~~~~~~~~~~~
 
-CRESM need data for SST and ice over entire domain. With xROMS set up
+R-CESM need data for SST and ice over entire domain. With xROMS set up
 (Section `[sec:frxroms] <#sec:frxroms>`__), user has to provide an xROMS
 file with SST and ice for the entire xROMS domain. SST for the bigger
 domain is typycally available in WRF lower boundary input files. Current
@@ -611,10 +525,10 @@ file (use the file from Gulf of Mexico test case as a reference).
 Other Input Files
 =================
 
-Other files required by CRESM during running phase are listed in Table
+Other files required by R-CESM during running phase are listed in Table
 `[tab:inpO] <#tab:inpO>`__.
 
-.. table:: List ofother machine dependent input files, including CRESM
+.. table:: List ofother machine dependent input files, including R-CESM
 executable.
 
    +-----+---------------+-----------+------+---------------------+
@@ -622,17 +536,17 @@ executable.
    +-----+---------------+-----------+------+---------------------+
    | No. |               | Model     | Type | Description         |
    +-----+---------------+-----------+------+---------------------+
-   | 1   | cresm         | CRESM     | exe  | cresm executable    |
+   | 1   | R-CESM         | R-CESM     | exe  | R-CESM executable    |
    +-----+---------------+-----------+------+---------------------+
-   | 2   | run_cresm.job | CRESM     | txt  | job submission file |
+   | 2   | run_R-CESM.job | R-CESM     | txt  | job submission file |
    +-----+---------------+-----------+------+---------------------+
 
 .. _sec:jobfl:
 
-run_cresm.job
+run_R-CESM.job
 -------------
 
-This is the file used to submit a CRESM job to the job scheduler on the
+This is the file used to submit a R-CESM job to the job scheduler on the
 supercomputer. The total PEs requested should be in agreement with the
 total PEs in drv_in (Section `3.2.3 <#sec:drvin>`__) computed as the sum
 of atm_ntasks and ocn_ntasks.
@@ -642,70 +556,36 @@ of atm_ntasks and ocn_ntasks.
 All Output Files
 ================
 
-Complete list of output files from a CRESM run is provided in Table
+Complete list of output files from a R-CESM run is provided in Table
 `[tab:outC] <#tab:outC>`__.
 
-.. table:: List of all output files from a CRESM run.
+.. table:: List of all output files from a R-CESM run.
 
-   +-------------+-------------+-------------+-------------+-------------+
-   | Sl.         | Filename    | Component   | File        | File        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | No.         |             | Model       | Type        | Description |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 1           | atm.log     | CRESM       | txt         | atm model   |
-   |             |             |             |             | log file    |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 2           | cpl.log     | CRESM       | txt         | coupler log |
-   |             |             |             |             | file, run   |
-   |             |             |             |             | statistics  |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 3           | ocn.log     | ROMS        | txt         | ocean log   |
-   |             |             |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 4           | roms.ocn.lo | ROMS        | txt         | ocean log   |
-   |             | g           |             |             | file (same  |
-   |             |             |             |             | as ocn.log) |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 5           | cresm.log   | CRESM       | txt         | CRESM log   |
-   |             |             |             |             | file        |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 6           | data.ocn.lo | CRESM       | txt         | data ocean  |
-   |             | g           |             |             | log file    |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 7           | main.ocn.lo | CRESM       | txt         | mct log     |
-   |             | g           |             |             |             |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 8           | namelist.ou | WRF         | txt         | WRF options |
-   |             | tput        |             |             | summary     |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 9           | rsl.error.? | WRF         | txt         | WRF std.    |
-   |             | ???         |             |             | error       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 10          | rsl.out.??? | WRF         | txt         | WRF std.    |
-   |             | ?           |             |             | out         |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 11          | :math:`*`.o | ROMS        | netCDF      | ROMS/ocn    |
-   |             | cn.hi.\ :ma |             |             | history     |
-   |             | th:`*`.nc   |             |             | files       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 12          | :math:`*`.o | ROMS        | netCDF      | ROMS/ocn    |
-   |             | cn.r.\ :mat |             |             | restart     |
-   |             | h:`*`.nc    |             |             | files       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 13          | :math:`*`.a | WRF         | netCDF      | WRF/atm     |
-   |             | tm.hi.\ :ma |             |             | history     |
-   |             | th:`*`.nc   |             |             | files       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 14          | :math:`*`.a | WRF         | netCDF      | WRF/atm     |
-   |             | tm.r.\ :mat |             |             | restart     |
-   |             | h:`*`.nc    |             |             | files       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 15          | :math:`*`.c | CRESM       | netCDF      | coupler     |
-   |             | pl.r.\ :mat |             |             | restart     |
-   |             | h:`*`.nc    |             |             | files       |
-   +-------------+-------------+-------------+-------------+-------------+
-   | 16          | :math:`*`.d | CRESM       | binary      | data ocean  |
-   |             | ocn.rs1.\ : |             |             | restart     |
-   |             | math:`*`.bi |             |             | files       |
-   |             | n           |             |             |             |
-   +-------------+-------------+-------------+-------------+-------------+
+
+   +------+-------------------------+--------------+------------------------------------------+
+   | Sl.  |             Filename    | File Type   |        Purpose                            |
+   +======+=========================+=============+===========================================+
+   | 1    |   *.log                 | txt         |      Log files from each component        |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | rsl.error.*              | txt      |     WRF std error                           |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | rsl.out.*               | txt         |     WRF std error                         |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | rpointer.*              | txt      |    restart file pointers                     |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | <case>.atm.hi.<time>.nc | netCDF      |      WRF output file                      |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | <case>.ocn.hi.<time>.nc | netCDF      |      ROMS output file                     |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | <case>.docn.rs1.<time>.nc | netCDF      |      DOCN restart file                  |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | <case>.clm2.h0.<time>.nc | netCDF      |     CLM 4.0 monthly output file          |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | <case>.<comp>.r.<time>.nc | netCDF      |     Restart files from each component   |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | <case>.clm2.h0.<time>.nc | netCDF      |     CLM 4.0 monthly output file          |
+   +------+-------------------------+-------------+-------------------------------------------+
+   | 2    | <case>.clm2.rh0.<time>.nc | netCDF      |     CLM 4.0 restart file                |
+   +------+-------------------------+-------------+-------------------------------------------+
+
+   
