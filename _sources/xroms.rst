@@ -67,43 +67,6 @@ This yields the DOCN domain file: gom_lr_docn_grd.nc
 
 
 -----------------------------
-Generating the mapping files
------------------------------
-
-Mapping files are required if the ROMS and WRF grid are not exactly same or you are using xROMS. These files store the mapping weights from one type of grid to the other.
-
-1. Convert the WRF and X-ROMS grid files to the SCRIP format domain files so that ESMF can read them. 
-
-.. code-block:: bash
-
-    ./create_map.py -g gom_lr_docn_grd.nc -o scrip_docn_grd.nc -t Data_Ocean_grid_in_scrip_format --var_lat yc --var_lon xc --var_mask mask
-    ./create_map.py -g wrfinput_d01.nc -o scrip_atm_grd.nc -t WRF_grid_in_scrip_format --var_lat XLAT --var_lon XLONG --var_mask NONE
-
- 
-2. Use the ESMF library to generate the mapping files.
-
-
-# Conservative remapping (fluxes)
-
-.. code-block:: console
-
-
-    mpirun -n 8 ESMF_RegridWeightGen --ignore_unmapped -m conserve     -w map_o2a_aave.nc -s scrip_docn_grd.nc -d scrip_atm_grd.nc --src_regional --dst_regional
-    mpirun -n 8 ESMF_RegridWeightGen --ignore_unmapped -m conserve     -w map_a2o_aave.nc -s scrip_atm_grd.nc -d scrip_docn_grd.nc --src_regional --dst_regional
-
-
-# Bilinear remapping (wind stress)
-
-.. code-block:: console
-
-
-    mpirun -n 8 ESMF_RegridWeightGen --ignore_unmapped -m bilinear     -w map_a2o_blin.nc -s scrip_atm_grd.nc -d scrip_docn_grd.nc --src_regional --dst_regional
-                                  
-  
-Then use run_esmf.pbs to create the mapping files using ESMF library.
-
-
------------------------------
 xROMS SST files
 -----------------------------
 

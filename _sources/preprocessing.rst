@@ -23,7 +23,7 @@ The ROMS domain needs to be slighly smaller than the WRF domain, on all side by 
 .. Edit ROMS grid coastline to match that from WRF model grid. This is easier than otherway around, since land points on WRF grid need lot of additional information like vegetation type, land cover etc.
 
 4. If the application will be configured to use XROMS, then create the domain file for the data ocean from the ROMS grid. XROMS is also expected to provide SST and ICE cover (if applicable) data to WRF. The procedures for XROMS are detailed in `the XROMS guide <xroms.rst>`__.
-5. Generate the domain files for the atmosphere and ocean grids in the SCRIP format, and then use the ESMF tool to create mapping files to interpolate between the two domains.
+5. Generate the domain files for the atmosphere and ocean grids in the SCRIP format, and then use the ESMF tool to create mapping files to interpolate between the two domains. See `this page <xroms.rst>`__ for instructions. 
 6. Create the domain files using the ``gen_domain`` tool.
 7. Create mapping files from the input data sets to the land grid, using the ``mkmapdata`` tool in CLM. Then use the ``mksurfdata_map`` to create the surface datasets required to run CLM. These steps are detailed `here <clm_grid.rst>`__.
 8. Compile CRESM with proper options for the new domain and copy executable to new run directory.
@@ -44,5 +44,6 @@ Next Steps
   wrf_grid.rst
   roms_grid.rst
   xroms.rst
+  domain.rst
   clm_grid.rst
   edit_config.rst
