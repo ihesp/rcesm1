@@ -7,40 +7,15 @@
  Quick Start (R-CESM Model Workflow)
 ====================================
 
-This quick start guide walks through the steps necessary in setting up an R-CESM model run. The R-CESM model was developed and tested around a fully-coupled Gulf of Mexico (GoM) case. We will use this case as the example throughout this quick start guide. Before you can proceed, you will need to download the R-CESM source code (see `Downloading R-CESM <downloading_cesm.html>`_).
+This quick start guide walks through the steps necessary to set up an R-CESM model run. We will the use steps involved in the fully-coupled, low-resolution (27km ocean/atm/land), Gulf of Mexico (GoM) case to illustrate the workflow. Before you can proceed, you will need to download the R-CESM source code (see `Downloading R-CESM <downloading_cesm.html>`_).
 
 .. note:: 
 
-   This tutorial assumes that the R-CESM model code has been ported to your computational cluster. Please refer to the `CIME Porting Documentation <http://esmci.github.io/cime/users_guide/porting-cime.html>`_ if CIME has not yet been ported to the target machine.
+   This tutorial assumes that the R-CESM model code has been ported to your machine or computational cluster. Please refer to the `R-CESM Porting Documentation <porting.html>`_ for details on porting the model to the target machine.
 
+.. note:: 
 
-
-If you are unfamiliar with the CIME Case Control system, we strongly recommend reading the `CIME basic usage guide <https://esmci.github.io/cime/index.html>`_ first.
-
-
-
-
-
-Select a component set, and a resolution for your case.  Details of available
-component sets and resolutions are available from the *query_config* tool located
-in the ``my_rcesm_sandbox/cime/scripts`` directory
-
-.. code-block:: console
-
-    $ cd my_rcesm_sandbox/cime/scripts
-    $ ./query_config --help
-
-See the `available RCESM component sets <cesm_configurations.html>`_,
-`supported model resolutions <cesm_configurations.html>`_ and `supported
-machines <cesm_configurations.html>`_ for a list of RCESM
-supported component sets, grids and computational platforms.
-
-.. note::
-
-    There are options
-   for other grids and configurations available. Please see the
-   `available RCESM component sets <cesm_configurations.html>`_ and
-   `supported model resolutions <cesm_configurations.html>`_ for more information.
+    If you are unfamiliar with the CIME Case Control system, we strongly recommend reading the `CIME basic usage guide <https://esmci.github.io/cime/index.html>`_ first.
 
 
 
@@ -48,16 +23,14 @@ supported component sets, grids and computational platforms.
 Relevant directories
 ======================
 
-Just like for CESM, the following directories are relevant for every model run:
+R-CESM follows the CESM/CIME directory structure. The following directories are most relevant for model users:
 
-- ``$SRCROOT`` The directory containing the R-CESM source code. This is typically placed in a location that is backed up (Ex: user's home directory). In the current example, `$SRCROOT=~/my_rcesm_sandbox`
-- ``$CIMEROOT`` The subdirectory of `$SRCROOT` containing the cime source code. Typically, `CIMEROOT=~/my_rcesm_sandbox/cime`
-- ``$CASEROOT`` refers to the full pathname of the root directory where the R-CESM case (`$CASE`) will be created. Note that this is different from `$SRCROOT`.
-- ``$CIME_OUTPUT_ROOT`` is the base directory for the CESM case output. Contains the **bld** and **run** directories. **$CIME_OUTPUT_ROOT/run** is where R-CESM generates .nc and log files.
-- ``$DIN_LOC_ROOT`` The CESM inputdata directory
-- ``$DOUT_S_ROOT``  The CESM short-term archive directory. If variable $DOUT_S was set to TRUE, then the log, history, and restart files will be copied into this directory by the short-term archiver. 
-
-
+- ``$SRCROOT`` This is the location where the R-CESM source code is cloned to. This is typically placed in a location that is backed up (Ex: user's home directory). In the `previous section <downloading_cesm.html>`_ , we cloned the source code to `$SRCROOT=~/my_rcesm_sandbox`
+- ``$CIMEROOT`` This is the subdirectory of `$SRCROOT` containing the CIME source code. In our example, `CIMEROOT=~/my_rcesm_sandbox/cime`
+- ``$CASEROOT`` refers to the fully-qualified path where the R-CESM case (`$CASE`) has been created. Note that this is different from `$SRCROOT`.
+- ``$CIME_OUTPUT_ROOT`` is the base directory for the CESM build and model output. Contains the **bld** and **run** directories. **$CIME_OUTPUT_ROOT/run** is where R-CESM generates .nc and log files.
+- ``$DIN_LOC_ROOT`` The CESM inputdata directory.
+- ``$DOUT_S_ROOT``  The CESM short-term archive directory. If variable `$DOUT_S` was set to TRUE, then the log, history, and restart files will be copied into this directory by the short-term archiver. 
 
 
 
@@ -66,125 +39,94 @@ Just like for CESM, the following directories are relevant for every model run:
    It's strongly recommend to point the ``$CIME_OUTPUT_ROOT`` to a location using a parallel Lustre or GPFS filesystems. On most HPC clusters, this is usually the scratch directory.
 
 
-
-Assuming the R-CESM model has already been ported to your cluster, you may need to edit the paths in ``CIME_OUTPUT_ROOT``, ``DIN_LOC_ROOT`` and ``DOUT_S_ROOT`` corresponding to your cluster in ``$CIMEROOT/config/cesm/machines/config_machines.xml``. For a full list of modifications, please consult the R-CESM porting guide.
-
+Assuming the R-CESM model has already been ported to your cluster, you may need to edit the paths in ``CIME_OUTPUT_ROOT``, ``DIN_LOC_ROOT`` and ``DOUT_S_ROOT`` for your machine/cluster in ``$CIMEROOT/config/cesm/machines/config_machines.xml``. For a full list of modifications, please consult the `R-CESM porting guide <porting.html>`_.
 
 
-Create a new case
-==================
 
-An R-CESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a R-CESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.
+Note: To edit any of
+the env xml files, use the *xmlchange* command.
+invoke **xmlchange --help** for help.)
 
 
-The **create_newcase** command creates a case directory containing the scripts and XML
-files to configure a case for the requested resolution, component set, and
-machine. In the following step, we are going to create a new case on the TAMU cluster Ada, based on the **PBSGULF2010** compset and the **tx9k_g3x** grid.
+
+1. Create the new case
+=======================
+
+The first step in setting up an R-CESM model run is to create the case directory, which contains all of the configuration xml files, case control scripts, and namelists to start the run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.
+
+
+The **create_newcase** command creates a case directory containing the scripts and XML files to configure a case for the requested resolution, component set, and machine. The simplified syntax of the the **create_newcase** is the following:
+
+.. code-block:: bash
+
+    $ ./create_newcase --case CASENAME --compset COMPSET --res GRID --mach MACH 
+
+
+where:
+
+- ``CASENAME`` defines the name of your case (stored in the ``$CASE`` XML variable). This is a very important piece of metadata that will be used in filenames, internal metadata and directory paths. **create_newcase** will create the *case directory* with the same name as the ``CASENAME``. If ``CASENAME`` is simply a name (not a path), the case directory is created in the directory where you executed create_newcase. If ``CASENAME`` is a relative or absolute path, the case directory is created there, and the name of the case will be the last component of the path. The full path to the case directory will be stored in the ``$CASEROOT`` XML variable. R-CESM case names should follow the `CESM2 experiment naming conventions <http://www.cesm.ucar.edu/models/cesm2/naming_conventions.html#casenames>`_.
+
+- ``COMPSET`` Component sets (compsets) define both the specific model components that will be used in a given R-CESM configuration, and any component-specific namelist or configuration settings that are specific to this configuration. This value can be the compset longname, shortname or the alias. See `component set <cesm_configurations.html>`_ for a list of compsets available in R-CESM. 
+
+- ``GRID`` is the long name or alias of the model grid set used, which describes the grids and domains used by each component in the experiment. See `grid resolution <cesm_configurations.html>`_. for the list of currently-supported grid resolutions.
+
+- ``MACH`` is the name of the machine. This argument allows CIME to load the correct environment and libraries, set up applicable node and task configurations, and configure submission scripts for the correct queues. On many NCAR-supported machines (such as Cheyenne) this flag is optional, as CIME can automatically determine the name of the machine. The specified machine name must be previously defined in ``$CIMEROOT/config/cesm/machines/config_machines.xml``. If your machine hasn't been ported yet, check out the `R-CESM porting guide <porting.html>`_. 
+
+- ``run-unsupported`` This option is required for all R-CESM compsets, as these are still considered experimental configurations.
+
+- On machines/clusters where a project account needed is for submitting jobs, you must either specify the ``--project`` argument to **create_newcase** or set the ``$PROJECT`` variable using `xmlchange`. 
+
+
+- To see the full list of options, invoke **create_newcase --help** for help. 
+
+
+
+In the following step, we are going to create a new case on the TAMU cluster Grace, using the **PBSGULF2010** compset and the 27km Gulf of Mexico grid **txlw27k_g27x**.
 
 
 .. code-block:: console
 
-   :red:`my_rcesm_sandbox/cime/scripts/create_newcase` :yellow:`--case` :blue:`./my_case_dirs/PBSGULF2010` 
-   --compset PBSGULF2010 --res txlw27k_gom27k --mach grace --run-unsupported
+   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 --compset PBSGULF2010 --res txlw27k_gom27k --mach grace --run-unsupported
 
 
- **create_newcase** has three required arguments: ``--case``, ``--compset`` and
-``--res`` (invoke **create_newcase --help** for help).
-
-On machines where a project or account code is needed (including NCAR's machines), you
-must either specify the ``--project`` argument to **create_newcase** or set the
-``$PROJECT`` variable in your shell environment.
-
-If running on a supported machine, that machine will
-normally be recognized automatically and therefore it is *not* required
-to specify the ``--machine`` argument to **create_newcase**. 
-
-Invoke **create_newcase** as follows:
-
-.. code-block:: bash
-
-    $ ./create_newcase --case CASENAME --compset COMPSET --res GRID --mach MACH
-
-where:
-
-- ``CASENAME`` defines the name of your case (stored in the ``$CASE`` XML variable). This
-  is a very important piece of metadata that will be used in filenames, internal metadata
-  and directory paths. **create_newcase** will create the *case directory* with the same
-  name as the ``CASENAME``. If ``CASENAME`` is simply a name (not a path), the case
-  directory is created in the directory where you executed create_newcase. If ``CASENAME``
-  is a relative or absolute path, the case directory is created there, and the name of the
-  case will be the last component of the path. The full path to the case directory will be
-  stored in the ``$CASEROOT`` XML variable. RCESM case names should follow the CESM naming  conventions. See `CESM2 Experiment Casenames
-  <http://www.cesm.ucar.edu/models/cesm2/naming_conventions.html#casenames>`_ for
-  details regarding CESM experiment case naming conventions.
-
-- ``COMPSET`` is the name of the compset used. Compsets in CESM/RCESM describe which components are active and their basic configurations for the run. See `component set <cesm_configurations.html>`_ for a list of available compsets in RCESM. 
-
-- ``GRID`` is the name of model resolution set used, which describes the grids and domains used in the experiment. See `resolution <cesm_configurations.html>`_. for the list of currently available resolutions.
-
-- ``MACH`` is the machine where the build and run is happening. This allows CIME to load the correct environment and libraries, set up applicable node and task configurations, and configure submission scripts for the correct queues. On many NCAR-supported machines (such as Cheyenne) this flag is optional, as CIME can determine what machine it is on through the shell. For more information on porting to a new machine, see "Porting CIME and the RCESM to a new machine"_ below.
-
-- ``run-unsupported`` is required for all RCESM compsets as these should all be considered scientifically experimental within the RCESM/CESM code base.
-  
-**Here is an example** on TAMU machine Ada. Check that your ``$USER`` shell environment variable is set to your Ada login name:
+The result of the above command is the newly-created case directory `./my_case_dirs/PBSGULF2010`. 
 
 
+.. note::
 
-Setting up the case run script
-==============================
+    To display the entire list of compsets, grids availabe in the model, you can use the *query_config* tool located
+    in ``$CIMEROOT/cime/scripts``. 
 
-Issuing the *case.setup* command creates scripts needed to run the model
-along with namelist ``user_nl_xxx`` files, where xxx denotes the set of components
-for the given case configuration. Before invoking **case.setup**, modify
-the ``env_mach_pes.xml`` file in the case directory using the *xmlchange* command
-as needed for the experiment.
+    ``$CIMEROOT/cime/scripts/query_config --help``
 
-cd to the case directory. Following **the example from above**:
+
+2. Set up the case
+=====================
+
+Once the case has been created, navigate to the $CASEROOT and issue the ``case.setup`` command to create the scripts needed to run the model, along with namelist files for each component (``user_nl_xxx``). Before invoking **case.setup**, modify
+the ``env_mach_pes.xml`` file in the case directory using the ``xmlchange`` command as needed for the experiment.
+
+Continuing the low-res GoM workflow:
 
 .. code-block:: console
 
     cd my_case_dirs/PBSGULF2010
-
-Modify settings in ``env_mach_pes.xml`` (optional). (Note: To edit any of
-the env xml files, use the *xmlchange* command.
-invoke **xmlchange --help** for help.)
-
-Invoke the **case.setup** command.
-
-.. code-block:: console
-
     ./case.setup  
 
 
-Build the executable using the case.build command
-=================================================
 
-Modify build settings in ``env_build.xml`` (optional).
+.. note::
 
-Run the build script.
+    1. Prior to running ``case.setup``, the variable ``DIN_LOC_ROOT`` must point to an existing directory. Create the directory if required. 
 
-.. code-block:: console
+    2. If you have modified any variables since the original ``case.setup``, you can run the command again using the ``--reset`` argument
 
-    ./case.build 
-
-Users of the NCAR cheyenne system should consider using 
-`qcmd <https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/submitting-jobs-pbs>`_
-to compile RCESM on a compute node as follows:
-
-.. code-block:: console
-
-    qcmd -- ./case.build
-
-The RCESM executable will appear in the directory given by the XML variable ``$EXEROOT``,
-which can be queried using:
-
-.. code-block:: console
-   
-   ./xmlquery EXEROOT
+    ``./case.setup --reset``
 
 
-View/edit case parameters
-=========================
+
+3. View/edit case parameters
+=============================
 
 All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the "xmlquery" and "xmlchange" scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment.
 
@@ -222,13 +164,33 @@ CESM xml variables are fully documented in the CESM2.1 release documents.  Here 
 
 
 
+4. Build the executable for the case
+=====================================
 
-Input Files
-===========
+After the case is successfully setup, we can proceed to building the executables using ``case.build`` command from inside the ``$CASEROOT``.
 
-The standard test case for CRESM is a Gulf of Mexico configuration with
-9 km WRF and 3 km ROMS. Please obtain the input data files
-(cresm-1.0.0_gom_input.tar.gz) from Jaison Kurian (jaisonk@tamu.edu).
+.. code-block:: console
+
+    ./case.build 
+
+
+This step can take 20-30 mins to complete, depending on the active models, with the WRF build taking the longest to finish. The build files and executables are created in ``$EXEROOT``, but we will not need to directly access these files.
+
+
+.. note::
+
+    If you have made changes to the case configuration since the original build, you will need to clean the build using the ``--clean`` or ``--clean-all`` arguments.
+
+    Use ``./case.build --clean`` to clean the build files all model components, except supporting libraries (Ex: MCT, PIO).
+    Use ``./case.build --clean-all`` to clean everything associated with the build.
+    Use ``./case.build --clean compname`` to clean the build files for just the component ``compname``.
+
+
+
+5. Obtaining the Input Files
+==============================
+
+The standard test case for R-CESM is a Gulf of Mexico configuration with 27 km WRF and 27 km ROMS. 
 
 These files are for a run initialized on 2010-01-01_00:00:00. Time
 varying data is available till 2010-01-11_00:00:0.
@@ -245,10 +207,12 @@ the 3D-nudging.
 
 
 
-Running an RCESM case and Looking at model output
-===================================================
+6. Running an RCESM case and Looking at model output
+=====================================================
 
-After the model builds successfully, you can submit a run to the compute queue with the command ::
+After the model builds successfully, you can submit a model run to the compute queue with the command
+
+.. code-block:: console
 
       ./case.submit
 
