@@ -19,10 +19,10 @@ Table of contents
    io_files.rst
    preprocessing.rst
    porting.rst
+   troubleshooting.rst
    postprocessing.rst
    contribute.rst
    updates.rst
-   unfinished.rst
 
 
 

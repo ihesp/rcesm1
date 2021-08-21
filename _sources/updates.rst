@@ -1,8 +1,28 @@
 .. _updates:
 
-===============================
-Issues or processes for updates
-===============================
+======================================
+Future work and processes for updates
+======================================
+
+
+
+Future Work
+=============
+
+    There are plenty of directions for software engineering work needed with the RCESM code going forward. Below is a list of items from the version we currently have, in no particular order.
+
++ Move CIME to another fork, and/or issue a pull request for RCESM changes to be brought into the main CIME distribution.
++ Remove the "csh script" step in WRF and ROMS builds. This is left over from old versions of CESM and should be replaced with python code.
++ Update to CLM 5.0.
++ Set up nightly or some form of automated testing infrastructure.
++ Finish implementing changes to reduce surface wind instabilities (fish-scale pattern) in WRF.
++ Investigate PE layouts for WRF-ROMS coupled runs. Can we find a layout that runs more efficiently?
+
+
+
+Process for updates
+=====================
+
 
     Each of the components for this model will be developed by their independant working groups, and updates will need to be periodically performed in our model to take advantage of new features, bug fixes, and machine support in a component update. In order to do updates, certain issues will need to be addressed, as described here.
 

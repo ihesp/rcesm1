@@ -86,10 +86,11 @@ In the following step, we are going to create a new case on the TAMU cluster Gra
 
 .. code-block:: console
 
-   my_rcesm_sandbox/cime/scripts/create_newcase --case ./my_case_dirs/PBSGULF2010 --compset PBSGULF2010 --res txlw27k_gom27k --mach grace --run-unsupported
+   cd my_rcesm_sandbox
+   cime/scripts/create_newcase --case ~/my_case_dirs/PBSGULF2010_gom27k --compset PBSGULF2010 --res txlw27k_gom27k --mach grace --run-unsupported
 
 
-The result of the above command is the newly-created case directory `./my_case_dirs/PBSGULF2010`. 
+The result of the above command is the newly-created case directory `~/my_case_dirs/PBSGULF2010_gom27k`. 
 
 
 .. note::
@@ -110,14 +111,14 @@ Continuing the low-res GoM workflow:
 
 .. code-block:: console
 
-    cd my_case_dirs/PBSGULF2010
+    cd ~/my_case_dirs/PBSGULF2010_gom27k
     ./case.setup  
 
 
 
 .. note::
 
-    1. Prior to running ``case.setup``, the variable ``DIN_LOC_ROOT`` must point to an existing directory. Create the directory if required. 
+    1. Prior to running ``case.setup``, the variable ``DIN_LOC_ROOT`` must point to an existing directory. If you get the message: ``ERROR: inputdata root is not a directory``, create the directory and run ``case.setup`` again.
 
     2. If you have modified any variables since the original ``case.setup``, you can run the command again using the ``--reset`` argument
 
@@ -125,11 +126,56 @@ Continuing the low-res GoM workflow:
 
 
 
-3. View/edit case parameters
+
+3. Obtaining the Input Files
+==============================
+
+
+Before proceeding with the rest of the model workflow, we need to make sure that we have created the inputdata root, and copied the required input files to it. 
+
+For illustrative puproses, the standard test case for R-CESM is a Gulf of Mexico configuration with 27 km WRF and 27 km ROMS. This simulation is initialized on 2010-01-01_00:00:00 This can be obtained from this website. Extract this file to your inputdata root using the following command. 
+
+These files are for a run initialized on 2010-01-01_00:00:00. Time
+varying data is available till 2010-01-11_00:00:0.
+
+
+Please ensure that the input files are present at the following directories. 
+
+1. ``$DIN_LOC_ROOT/ocn/roms/gom27k/20100101_00/ocean.in``
+
+2. ``$SRCROOT/components/roms/Apps/gom27k/ocn_in``
+
+3. ``$DIN_LOC_ROOT/atm/wrf/txlw27k`` and ``$DIN_LOC_ROOT/atm/wrf/txlw27k_g27k``
+
+4. ``$DIN_LOC_ROOT/lnd/clm2/surfdata``
+
+5. ``$DIN_LOC_ROOT/share/domains``
+
+
+See `Section: IO files <io_files.rst>`_ for a full listing of the files in each of these directories
+
+
+If you would like to create your own application or a new domain, please see `<prepost_tools>`_ for details. However, we would recommend following along with the rest of this tuotorial before attempting to setup your own application. 
+
+
+
+Please note that this test case have 3D-nuding option for ROMS (nudging
+3D temperature and salinity to HYCOM data). This is not normally used
+for ROMS runs. See Section `[sec:3Dnudg] <#sec:3Dnudg>`__ for tuning off
+the 3D-nudging.
+
+
+
+4. View/edit case parameters
 =============================
 
-All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the "xmlquery" and "xmlchange" scripts to access and manipulate the xml variables. These scripts give more information about each variable, do error checking on changes, and keep track of changes in the CaseStatus file so it is easy to see exactly what has been changed from the default in any given experiment.
 
+The configuration options that control the various settings of R-CESM and its individual components are available through several XML files and text files. 
+
+
+
+
+All of the required configuration options for an experiment with the RCESM are encapsulated in XML variables within various files in the case directory. While it is possible to edit these files directly, it is recommended that users use the ``xmlquery`` and ``xmlchange`` scripts to view and modify the value of these variables. 
 
 As an example, the model is set to run for 5 days by default. This is controlled by the ``$STOP_N`` and
 ``$STOP_OPTION`` variables. To view the current values of these variables, use the ``xlmquery`` command
@@ -138,12 +184,14 @@ As an example, the model is set to run for 5 days by default. This is controlled
 
    ./xmlquery STOP_OPTION,STOP_N
 
-The **Gulf of Mexico example** from above has mostly been tested for this 5 day period. If you wanted to run it for a period of three months, you can use ``xmlchange``
+The **Gulf of Mexico example** from above has mostly been tested for this 30 day period. If you wanted to run it for a period of three months, you can use ``xmlchange``
 
 .. code-block:: console
 
       ./xmlchange STOP_OPTION=nmonths,STOP_N=3
 .. code-block:: console
+
+The advantage of using ``xmlchange`` compared to manually editing the XML config files are 1. The input values are automatically checked for errors before the variable is modified. 2. Each call to ``xmlchange`` is logged in the ``CaseStatus`` file so that we can keep track of all our changes from the default in any given experiment.
 
     
 CESM xml variables are fully documented in the CESM2.1 release documents.  Here is a short compilation of variables that may be useful in testing or running RCESM experiments.
@@ -187,91 +235,55 @@ This step can take 20-30 mins to complete, depending on the active models, with 
 
 
 
-5. Obtaining the Input Files
-==============================
 
-The standard test case for R-CESM is a Gulf of Mexico configuration with 27 km WRF and 27 km ROMS. 
-
-These files are for a run initialized on 2010-01-01_00:00:00. Time
-varying data is available till 2010-01-11_00:00:0.
-
-There are several different input files for the CRESM, which are
-discssed in detail in Chapter `[cha:io] <#cha:io>`__. See this section
-before trying to adapt the test case discussed below for a new
-application.
-
-Please note that this test case have 3D-nuding option for ROMS (nudging
-3D temperature and salinity to HYCOM data). This is not normally used
-for ROMS runs. See Section `[sec:3Dnudg] <#sec:3Dnudg>`__ for tuning off
-the 3D-nudging.
-
-
-
-6. Running an RCESM case and Looking at model output
+6. Submitting the case and monitoring model output
 =====================================================
 
-After the model builds successfully, you can submit a model run to the compute queue with the command
+After the model build completes successfully, you can submit a model run to the job queue with the command
 
 .. code-block:: console
 
       ./case.submit
 
-from the case directory. This will rebuild all of the model namelists and recheck to make sure that all of the correct input data has been linked and moved to the correct places within the run directory. It will then put together a submit script for the machine batch system and submit it. You can check on the status of your run either through the job status commands on your system (``qstat`` on Cheyenne) or by investigating the log output in the run directory.
+from the case directory. This will rebuild all of the model namelists and check that all of the correct input data has been linked and moved to the correct places within the run directory. Finally, it submits the job script ``.case.run`` to the job queue. 
 
-When the job is complete, the simulation outputs are placed in different  located as follows
 
-- *Log files*: If the simulation encounters an error, all log and output files will remain in the run directory. If the model successfully completes the simulation, log files will be zipped and copied to the ``logs/`` subdirectory of the case directory. 
+We recommend checking on the status of your model runs using a variety of methods:
+
+- Check if the job is currently running or queue using the job status command specific to your batch scheduler. For SLURM, you can use `squeue`, and for LSF, it's `bjobs`.
+
+- The `$CASEROOT/CaseStatus` file contains a log of all the job states and xmlchange commands in chronological order. Check this file to get a quick idea of the model state and the location of the log files. 
+
+- *Log files*: Each component of CESM logs all the standard output and error messages to separate log files in the $RUNDIR. If the model successfully completes the simulation, log files will be zipped and copied to the ``logs/`` subdirectory of the case directory. 
 
 - *WRF per process output*: If the WRF component is running as the atmosphere, it produces two output files for each process, an rsl.out.XXXX file and an rsl.error.XXXX file (where XXXX is the process rank, ie. 0036). The standard output and standard error streams can be found in these files, which will remain in the run directory regardless of the success or failure of the model run.
 
-- *History files*: In the model's default configuration and after a successful run, all history files are moved to an archive directory on the user's larger scratch space. On Cheyenne, this is located at ``\glade\scratch\{$user}\case_name\{$component_name}\hist``
+- *History files*: During a successful model run, the model writes out history files at the specified frequency to the $RUNDIR. 
+
+
+
+
+If the job completes successfully, the following files are written out:
+
+
+- The model performance stats are written out to the $CASEROOT/timing directory.
+
+- The restart files for each component are written out to $RUNDIR
+
+- Submit the short-term archiver script case.st_archive to the batch queue if $DOUT_S is TRUE. Short-term archiving will copy and move component history, log, diagnostic, and restart files from $RUNDIR to the short-term archive directory $DOUT_S_ROOT
 
 This behavior can be turned off (and history files remain in the run directory) by setting the xml variable ``DOUT_S`` to False in the case directory before submition. For more information on XML variables and how to query or change them, see `View/edit case parameters`_.
 
-- Restart files: Currently, restarts have not been tested and are not supported in the RCESM. This is an important "to do" item on the list of `Bugs, Issues and Future work`_. Restart files are written and copied into the archive directory at ``\glade\scratch\{$user}\case_name\{$component_name}\rest``
+
+
+
+7. Restarting the case
+========================
+
+Currently, restarts have not been tested and are not supported in the RCESM. This is an important "to do" item on the list of `Bugs, Issues and Future work`_. Restart files are written and copied into the archive directory at ``\glade\scratch\{$user}\case_name\{$component_name}\rest``
 
 But there is no guarentee they will work currently.
 
-
- most of the model output will be written to the experiment's run directory. For example, on the TAMU Ada machine, the run directories
-are usually placed in ``/scratch/user/$USER`` ). Review the following directories and files, whose
-locations can be found with **xmlquery** (note: **xmlquery** can be run with a list of
-comma separated names and no spaces):
-
-.. code-block:: console
-
-   ./xmlquery RUNDIR,CASE,CASEROOT
-
-- ``$RUNDIR``
-
-  This directory is set in the ``env_run.xml`` file. This is the
-  location where RCESM was run. There should be log files there for every
-  component (i.e. of the form cpl.log.yymmdd-hhmmss). 
-  Each component writes its own log file. Also see whether any restart or history files were
-  written. To check that a run completed successfully, check the last
-  several lines of the cpl.log file for the string "SUCCESSFUL
-  TERMINATION OF CPL7-cesm".
-
-- ``$CASEROOT``
-
-  There could be standard out and/or standard error files output from the batch system.
-
-- ``$CASEROOT/CaseDocs``
-
-  The case namelist files are copied into this directory from the ``$RUNDIR``.
-
-- ``$CASEROOT/timing``
-
-  There should be two timing files there that summarize the model performance.
-
-
-
-To post-process the results, please follow the steps outlined in the section `Post-processing utilities <prepost_tools.html>`_
-
-Restart the case
-================
-
-**Not presently supported**
 
 RCESM supports the ability to restart from any point that restart files are written. To
 set the frequency that restart files are written, first check the ``$REST_N`` and
@@ -306,158 +318,48 @@ manually edit the filenames in each of the ``rpointer.*`` files in the case run 
 
 
 
-
-Checking Output
-===============
-
-Please obtain E01_run1_output.tar from Jaison Kurian (jaisonk@tamu.edu)
-for verifying the output from above test run and E01_run2_output.tar for
-verifying the restart run discussed in Section `5 <#sec:restart>`__.
-
-Make a directory and untar the output.tar file.
-
-::
-
-     [user@comp]$ mkdir /scratch/user/..../CRESM/test_case
-     [user@comp]$ cd /scratch/user/..../CRESM/test_case
-     [user@comp]$ tar -xvf /path/to/this/file/E01_run1_output.tar
-
-Directories E01_run1_output and E01_run2_output correspond to the run
-described in Section `3 <#sec:run>`__ and in Section
-`5 <#sec:restart>`__ respectively. The output netCDF file string has the
-following meaning:
-
-+===================================+====================================+
-| TXGLO:                            | name of the domain/experiment     |
-+===================================+====================================+
-| atm/ocn/cpl:                      | component model (atm=atmosphere,  |
-|                                   | ocn=ocean, cpl=coupler)           |
-+-----------------------------------+-----------------------------------+
-| hi/r:                             | file type (hi=history, r=restart) |
-+-----------------------------------+-----------------------------------+
-| YYYY-MM-DD_hh:mm:ss:              | date and time for first record in |
-|                                   | the file                          |
-+-----------------------------------+-----------------------------------+
-
-For More details about the CRESM output files, please see Section
-`[sec:output] <#sec:output>`__. Compare the output netCDF files in this
-directory with that from the test run (described in Section
-`3 <#sec:run>`__). Make sure it matches perfectly. If the test case is
-made on a different machine than TAMU Ada, you may notice slight
-missmatch in values (eg. difference around 3rd or 4th decimal place for
-K=50 temp in ocean history files) which is quite normal.
-
-Also compare the log files to see they have similar integrated values
-(eg. ocn.log) and run times.
-
-.. _sec:restart:
-
-Restarting CRESM
-================
-
-Assume E01_run1 is the existing run directory, with restart files (from
-the run described inSection `3 <#sec:run>`__). In order to make a
-restart run, make a new run directory E01_run2.
-
-::
-
-     :red:`[user@comp]$` mkdir -p /scratch/..../CRESM/run/E01_run2
-     [user@comp]$ cd /scratch/..../CRESM/run/E01_run2
-
-Now use the mkcopy.csh tool (see Section `[sec:mkcopy] <#sec:mkcopy>`__)
-to copy all the input files from previous run directory
-(/scratch/..../CRESM/run/E01_run1) to current restart run directory.
-Here gom03 is the prefix for ROMS files, "../E01_run1" is the source run
-directory and "./" is the destination run directory.
-
-::
-
-     [user@comp]$ ~/bin/mkcopy.csh gom03 ../E01_run1 ./
-
-Manually copy the map files from E01_run01
-
-::
-
-     [user@comp]$ cp -a ../E01_run1/map_???_????.nc .
-
-Please note that "rpointer.*" files in E01_run1 will have the most
-recent restart dates (here 2010-01-04_00:00:00). If the restart date is
-different, please edit the "rpointer.*" files.
-
-From E01_run1 directory, link ROMS, WRF, CPL restart file to E01_run2.
-Use the restart date string to copy just the required restart files.
-
-::
-
-     [user@comp]$ ln -s ../E01_run1/TXGLO.*.r.2010-01-04*.nc ./
-
-ROMS model can handle multiple boundary (BRYNAME) and nudging (CLMNAME)
-netCDF files (eg. one file for each month and 12 such files for a 1-year
-run). For the restart example here, the BRYNAME and CLMNAME for ROMS can
-be the same but for real-life applications, it can be different. Also
-note that the CLMNAME is required only if ROMS is running with
-3D-nudging (see Section `[sec:3Dnudg] <#sec:3Dnudg>`__).
-
-For the 3 day run from the restart file for 2010-01-04_00:00:00, the
-model start date/time is 2010-01-04_00:00:00 and the end time is
-2010-01-07_00:00:00. Edit the following files as suggested (for details
-on the input files discussed below, please see Chapter
-`[cha:io] <#cha:io>`__).
-
+---------
 ocean.in
+---------
 
-change NTIMES from 8640 to 17280 (note that ROMS need cumulative number
-of timesteps from the very first run).
+===================  ========================
+  Variable            Description
+===================  ========================
+   NTIMES               17280
+   NRREC                1 
+   ININAME             $CASE.ocn.r.<time>.nc
+===================  ========================
 
-change NRREC from 0 to 1 (check ROMS restart file to make sure)
 
-| change ININAME from ./gom03_N050_md15m_ini.....201001.nc to
-| ./TXGLO.ocn.r.2010-01-04_00:00:00.nc
-
-Keep BRYNAME the same
-
-Keep CLMNAME the same
-
+-------------------------------
 drv_in (&seq_timemgr_inparm)
+-------------------------------
 
 start date: change start_ymd from 20100101 to 20100104
 
-run length: Keep stop_n the same, 3 (if run length is different change
-this)
 
-restart interval: Keep restart_n the same, 3 (if run length is different
-change this)
-
+-------------------------------
 ocn_in (&ocn_timemgr)
+-------------------------------
 
-change start_day from 01 to 04 (in general, edit the start year, month,
-day, hour, minute, and second according to the restart time)
+change start_day from 01 to 04 (in general, edit the start year, month, day, hour, minute, and second according to the restart time)
 
+-------------------------------
 docn_ocn_in
+-------------------------------
 
 keep strems the same (the numeric entries represent yrAlign, yrFirst &
 yrLast, please see Section `[sec:docnyr] <#sec:docnyr>`__ for details on
 editing this for a multi-year run)
 
-namelist.input (&time_control)
-
-change start_day from 01 to 04 (in general, edit the start year, month,
-day, hour, minute, and second according to the restart time)
-
-change end_day from 04 to 07 (in general, edit the end year, month, day,
-hour, minute, and second according to the run end time)
-
-change restart from .false. to .true. (this is a restart run).
-
-keep restart_interval_d same at 3 (restart interval in days, change if
-needed)
-
-rpointer.
+-------------------------------
+rpointer.*
+-------------------------------
 
 Make sure the entries in every rpointer file refers to the model restart
 date and time (2010-01-04_00:00:00).
 
-Please mind the syntax difference between rpointer files.
+
 
 Edit if required (see Section `[sec:rpointer] <#sec:rpointer>`__ for
 details).
