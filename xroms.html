@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. Generating the X-ROMS (DOCN) grid, domain and mapping files &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="up" title="Creating a new R-CESM application/domain" href="preprocessing.html"/>
+        <link rel="next" title="3. Generating the domain and mapping files" href="domain.html"/>
+        <link rel="prev" title="2. Generating the Ocean input files" href="roms_grid.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#overview-of-steps-involved">Overview of steps involved</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="preprocessing.html#id1">Next Steps</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roms_grid.html">2. Generating the Ocean input files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3. Generating the X-ROMS (DOCN) grid, domain and mapping files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generating-the-x-roms-grid">Generating the X-ROMS grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xroms-sst-files">xROMS SST files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="domain.html">3. Generating the domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clm_grid.html">4. Creating New Domain and Land Surface Data Files for CLM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edit_config.html">5. Modifying the configuration files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="preprocessing.html">Creating a new R-CESM application/domain</a> &raquo;</li>
+        
+      <li>3. Generating the X-ROMS (DOCN) grid, domain and mapping files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/xroms.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generating-the-x-roms-docn-grid-domain-and-mapping-files">
+<span id="xroms"></span><h1>3. Generating the X-ROMS (DOCN) grid, domain and mapping files<a class="headerlink" href="#generating-the-x-roms-docn-grid-domain-and-mapping-files" title="Permalink to this headline">¶</a></h1>
+<p>Date: May/22/2021
+Author: Jaison Kurian and Abishek Gopal</p>
+<div class="section" id="generating-the-x-roms-grid">
+<h2>Generating the X-ROMS grid<a class="headerlink" href="#generating-the-x-roms-grid" title="Permalink to this headline">¶</a></h2>
+<p>The ROMS domain in R-CESM is designed to be slightly smaller than that of WRF so that the WRF boundary artifacts (due to a dynamic inconsistency between WRF’s interior solution and prescribed lateral boundary conditions) do not affect the actively coupled ROMS region. To provide the SST for the gap-region between ROMS and WRF domains, a new X-ROMS (extended-ROMS) horizontal-grid, which covers the WRF domain with matching grid points with ROMS grid over the overlapping region, has been used. The X-ROMS blends SST from ROMS with that provided from data (on X-ROMS grid, from the dataset used for ROMS initial and boundary conditions) before passing it to the coupler.</p>
+<p>The coupler only “sees” the data ocean DOCN (X-ROMS), atmosphere (WRF) and land (CLM) grids, and not the actual ROMS grid. So, the DOCN grid needs to adhere to a set of requirements.</p>
+<ul class="simple">
+<li><p>It should match the extents of the WRF grid exactly, or can be slightly bigger than it on all four sides.</p></li>
+<li><p>Over the ROMS region, the DOCN grid must have exactly the same lat and lon values as that of ROMS grid.</p></li>
+<li><p>If you plan to use the WRF surface flux scheme in R-CESM, it is recommended to have the ROMS and X-ROMS land-sea mask values match closely with the WRF grid.</p></li>
+<li><p>If you plan to use the CESM surface flux scheme, the CLM grid is generated after WRF and ROMS, and it do not care about WRF grid. So, the ROMS grid can have a land-sea mask different from that of WRF.</p></li>
+</ul>
+<div class="section" id="steps-to-create-the-x-roms-grid">
+<h3>Steps to create the X-ROMS grid<a class="headerlink" href="#steps-to-create-the-x-roms-grid" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Use ROMS grid generation tools to make a ROMS grid with features listed above.</p></li>
+<li><p>Make sure the xROMS and ROMS grid points match exactly over the ROMS domain.</p></li>
+<li><p>Edit the land-sea mask if needed.</p></li>
+<li><p>Use droms2dom.py to convert the ROMS type grid file to proper xROMS/DATA ocean grid/domain file.</p></li>
+</ul>
+</div></blockquote>
+<p>With the TAMU tools, these are the steps together</p>
+<ol class="arabic">
+<li><dl class="simple">
+<dt>use grid_rcesm_docn_roms_fmt.m (along with func_rcesm_docn_roms_fmt.m) to make gom_lr_docn_grd_raw.nc</dt><dd><ul class="simple">
+<li><p>This is a quick way to get lat and lon for DOCN domain.</p></li>
+<li><p>Mask may not be correct, which is corrected in the next two steps.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>use write_wrf_mask_docn.jnl to get gom_lr_wrf_mask_on_docn_grd.nc</p></li>
+<li><dl class="simple">
+<dt>use grid_edit_coastline_rcesm_docn.m to edit coastline &amp; create</dt><dd><dl class="simple">
+<dt>gom_lr_docn_grd_edcoastline.nc</dt><dd><ul class="simple">
+<li><p>Since this use matlab GUI, use it on a local machine instead of Grace.</p></li>
+<li><dl class="simple">
+<dt>Transfer following files to the local machine before running the script:</dt><dd><p>gom_lr_201001_edcoast.nc       : ROMS grid file
+gom_lr_docn_grd_raw.nc         : DOCN grid file (raw)
+gom_lr_wrf_mask_on_docn_grd.nc : WRF mask interpolated on to DOCN grid.</p>
+</dd>
+</dl>
+</li>
+<li><p>Please note that you need to have the ROMS matlab tool package Roms_Tools for this step.</p></li>
+<li><dl class="simple">
+<dt>Also a need a coastline dataset (use fine resolution coastline dataset if the model</dt><dd><p>resolution is high). For current grid Atl_WCL.mat will be okay.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><p>use droms2dom.py to make DOCN domain file gch09_docn_domain.nc</p>
+<blockquote>
+<div><p>ml Anaconda3/2020.07
+source activate /scratch/group/ihesp/shared/conda/envs/py2_utils</p>
+</div></blockquote>
+</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./droms2dom.py gom_lr_docn_grd_edcoastline.nc gom_lr_docn_grd.nc</span>
+</pre></div>
+</div>
+<p>This yields the DOCN domain file: gom_lr_docn_grd.nc</p>
+</div>
+</div>
+<div class="section" id="xroms-sst-files">
+<h2>xROMS SST files<a class="headerlink" href="#xroms-sst-files" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>xROMS is supposed to provide both SST and ICE data. ICE is typically set to 0. Data is needed for the entire R-CESM run period. Please make sure the NetCDF time units for this file should refer the time to “00” hours (otherwise the model will not run, some silly time stuff).</p></li>
+<li><p>With WRF surface flux scheme and a land-sea mask similar to WRF grid, there will be lakes over land and those locations needs SST data. So do the following:</p></li>
+<li><p>Interpolate the original ocean Re-Analysis data (eg. COPERNICUS/SODA/HYCOM) to the xROMS grid. Mask the data over any possible land-points.</p></li>
+<li><p>Interpolate the WRF SST from WRF input files to xROMS grid. Mask data over xROMS ocean points.</p></li>
+<li><p>Now combine data from above steps together.</p></li>
+<li><p>This method will work only if you make the time-frequency for the ocean data from Reanalysis and WRF SST data from WRF input files the same.</p></li>
+<li><p>With CESM surface flux scheme, the land-sea mask do not depend on WRF grid. So in this case you can just use the ocean Reanalysis data to create the xROMS SST field.</p></li>
+</ul>
+<p>STEPS:</p>
+<ol class="arabic simple">
+<li><p>Use write_xroms_ocn_sst.jnl to get gom_lr_xroms_sstice_201001_ocn.nc for 1 month.</p></li>
+</ol>
+<p>2. For multiple months, please edit write_xroms_ocn_sst.jnl first and then edit
+write_xroms_ocn_sst_master.jnl as needed and then run the master file.</p>
+<ol class="arabic simple" start="3">
+<li><p>Then use write_xroms_solo_sst.m to get the SST data in a format that R-CESM needs.</p></li>
+</ol>
+<ul class="simple">
+<li><dl class="simple">
+<dt>to process just one file, comment out the function statement (1st line) in</dt><dd><p>write_xroms_solo_sst.m and provide proper values for t1_adj, month and year in
+“USER INPUT” section.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>For multiple month/files case, use write_xroms_solo_sst.m as a function (comment</dt><dd><p>out all lines in “USER INPUT” Section) and use write_xroms_solo_sst_master.m.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>In both cases, the data paths should be provided in write_xroms_solo_sst.m, right</dt><dd><p>after the “USER INPUT” section.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>PLease note that t1_adj (to make the time for very first record of the very first</dt><dd><p>file to start from the model initial condition time (typically 00 hrs) from the
+typical Copernicus data time (12 hrs)) need to be used only once for a case.</p>
+</dd>
+</dl>
+</li>
+<li><p>The example here produces gom_lr_xroms_sstice_201001_solo.nc. As you can see, the</p></li>
+</ul>
+<dl class="simple">
+<dt>first time point is 01-JAN-2010 00 and 2nd time point is  02-JAN-2010 12.</dt><dd><p>97,1          95%</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="domain.html" class="btn btn-neutral float-right" title="3. Generating the domain and mapping files" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="roms_grid.html" class="btn btn-neutral" title="2. Generating the Ocean input files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

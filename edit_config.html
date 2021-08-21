@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>RCESM Configurations &mdash; RCESM Quickstart Guide and Development Doc</title>
+  <title>5. Modifying the configuration files &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -35,7 +35,10 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/> 
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="up" title="Creating a new R-CESM application/domain" href="preprocessing.html"/>
+        <link rel="next" title="Porting R-CESM to new machines" href="porting.html"/>
+        <link rel="prev" title="4. Creating New Domain and Land Surface Data Files for CLM" href="clm_grid.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,13 +84,29 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#overview-of-steps-involved">Overview of steps involved</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="preprocessing.html#id1">Next Steps</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roms_grid.html">2. Generating the Ocean input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xroms.html">3. Generating the X-ROMS (DOCN) grid, domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain.html">3. Generating the domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clm_grid.html">4. Creating New Domain and Land Surface Data Files for CLM</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5. Modifying the configuration files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#adding-the-new-grid-to-r-cesm">Adding the new grid to R-CESM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-new-domain-or-regional-set-up">Creating a New Domain or Regional Set Up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
@@ -137,13 +156,15 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>RCESM Configurations</li>
+          <li><a href="preprocessing.html">Creating a new R-CESM application/domain</a> &raquo;</li>
+        
+      <li>5. Modifying the configuration files</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/cesm_configurations.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/edit_config.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -156,132 +177,88 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="rcesm-configurations">
-<span id="configurations"></span><h1>RCESM Configurations<a class="headerlink" href="#rcesm-configurations" title="Permalink to this headline">¶</a></h1>
-<p>The current RCESM system was developed around a coupled Gulf of Mexico configuration to try and repeat the results of the TAMU version of the model as closely as possible. During development of the model, several different component configurations and grid resolutions were tested. This document gives a brief description of these component configurations (compsets) and grids, as well as the machines that are generally supported by the CESM/CIME software used in the RCESM.</p>
-<div class="section" id="rcesm-components">
-<h2>RCESM Components<a class="headerlink" href="#rcesm-components" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="available-compsets">
-<h3>Available compsets<a class="headerlink" href="#available-compsets" title="Permalink to this headline">¶</a></h3>
-<p>During the course of a CESM/RCESM run, the model components integrate forward
-in time, periodically exchanging information with the coupler.
-The coupler meanwhile receives fields from the component models,
-computes, maps, and merges this information, then sends the fields back
-to the component models. The coupler brokers this sequence of
-communication interchanges and manages the overall time progression of
-the coupled system. A RCESM component set is comprised of eight
-components: one component from each model (atm, lnd, rof, ocn, ice, glc,
-wav, and esp) plus the coupler.</p>
-<p>The active (dynamical) components available in RCESM include the WRF atmosphere, ROMS ocean and CLM land model. Because
-the active models are relatively expensive to run, data models that
-cycle input data are included for testing and spin-up. Stub components
-exist only to satisfy interface requirements when the component is not
-needed for the model configuration (e.g., the active ocean component
-forced with atmospheric data does not need land or glc components,
-so lnd and glc stubs are used).</p>
-<p>Compsets in CESM/RCESM describe which components are active and their basic configurations for the run. RCESM currently supports four different configurations of WRF, ROMS, CLM and various data or stub components.</p>
-<blockquote>
-<div><table class="docutils align-default">
-<colgroup>
-<col style="width: 21%" />
-<col style="width: 79%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>COMPSET Name</p></th>
-<th class="head"><p>Components Used</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>PKWUS2003</p></td>
-<td><p>atmosphere - WRF , ocean -  data, ice - data, land - CLM 4.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>PRSGULF2010</p></td>
-<td><p>atmosphere - data, ocean -  ROMS, ice - stub, land - stub</p></td>
-</tr>
-<tr class="row-even"><td><p>PRDXGULF2010</p></td>
-<td><p>atmosphere - data, ocean - ROMS*, ice - stub, land - stub</p></td>
-</tr>
-<tr class="row-odd"><td><p>PBSGULF2010</p></td>
-<td><p>atmosphere - WRF , ocean - ROMS*, ice - data, land - CLM 4.0</p></td>
-</tr>
-</tbody>
-</table>
-</div></blockquote>
-<ul class="simple">
-<li><p>indicates that the ROMS ocean component has been extended via XROMS</p></li>
-</ul>
-<ul class="simple">
-<li><p>Note that the compsets describe the active components used in an experiment, and also the start date and forcing data, but not the domain or grid size. Thus, the PKWUS2003 compset can be used for the Gulf of Mexico case, if the start date is changed before runtime with the command</p></li>
-</ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./xmlchange RUN_STARTDATE=2010-01-01</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="creating-a-new-component-set">
-<h3>Creating a new component set<a class="headerlink" href="#creating-a-new-component-set" title="Permalink to this headline">¶</a></h3>
-<p>To create a new configuration, you will need to create a new compset in the <code class="docutils literal notranslate"><span class="pre">config_compsets.xml</span></code> file in the <code class="docutils literal notranslate"><span class="pre">cime_config</span></code> subdirectory of your desired active component. For example, a new compset with a WRF atmosphere should go in the <code class="docutils literal notranslate"><span class="pre">my_rcesm_sandbox/components/wrf/cime_config/config_compsets.xml</span></code> file. There is documentation and examples on how to specify compsets in each of the <code class="docutils literal notranslate"><span class="pre">config_compset.xml</span></code> files in RCESM.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you want to add an entirely new component model to RCESM, please read the CIME documentation on this process at:
-<a class="reference external" href="https://esmci.github.io/cime/build_cpl/adding-components.html">https://esmci.github.io/cime/build_cpl/adding-components.html</a></p>
-</div>
-</div>
-</div>
-<div class="section" id="rcesm-grids">
-<h2>RCESM Grids<a class="headerlink" href="#rcesm-grids" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="available-resolutions-grids">
-<h3>Available resolutions/grids<a class="headerlink" href="#available-resolutions-grids" title="Permalink to this headline">¶</a></h3>
-<p>RCESM code has been tested to support three different grid/domain sets.</p>
-<blockquote>
-<div><table class="docutils align-default">
-<colgroup>
-<col style="width: 11%" />
-<col style="width: 89%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Resolution</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>wus12_wus12</p></td>
-<td><p>A 12km Western US domain. Ocean, land, and atmosphere all on the same grid. Has not been tested with ROMS.</p></td>
-</tr>
-<tr class="row-odd"><td><p>3x3_gulfmexico</p></td>
-<td><p>A 3km Gulf of Mexico domain for ROMS only (not extended). Data atmosphere on the same grid.</p></td>
-</tr>
-<tr class="row-even"><td><p>tx9k_g3x</p></td>
-<td><p>A 9km atmosphere grid and 3km ocean grid (extended for XROMS) in the Gulf of Mexico (as used for the coupled simulation test case).</p></td>
-</tr>
-</tbody>
-</table>
-</div></blockquote>
-<p>Once the model resolution is set, components will read in appropriate
-grid files and the coupler will read in appropriate mapping weights
-files. Coupler mapping weights are always generated externally in
-CESM/RCESM. The components will send the grid data to the coupler at
-initialization, and the coupler will check that the component grids
-are consistent with each other and with the mapping weights files.</p>
-<p>In CESM and RCESM, the ocean and ice must be on the same grid, but the
-atmosphere, land, river runoff and land ice can each be on different grids.
-Each component determines its own unique grid decomposition based upon
-the total number of pes or processing elements assigned to that component.</p>
-</div>
-<div class="section" id="creating-a-new-grid">
-<h3>Creating a new grid<a class="headerlink" href="#creating-a-new-grid" title="Permalink to this headline">¶</a></h3>
-<p>If you need to add a new domain or grid, there are several files that will need to be updated with grid information, and you will need several coupler domain and mapping files to support it.</p>
+  <div class="section" id="modifying-the-configuration-files">
+<span id="edit-config"></span><h1>5. Modifying the configuration files<a class="headerlink" href="#modifying-the-configuration-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="adding-the-new-grid-to-r-cesm">
+<h2>Adding the new grid to R-CESM<a class="headerlink" href="#adding-the-new-grid-to-r-cesm" title="Permalink to this headline">¶</a></h2>
+<p>In order to add the newly-created domain to R-CESM, we need to make changes to the following configuration files.</p>
 <blockquote>
 <div><ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">cime/config/cesm/config_grids.xml</span></code>  This file needs to be edited in two places. Early in the file, grid names and the
-components to which they apply are specified. Later in the file, the grid domain size and links to the coupler domain file
-are specified. To see what edits need to be made, search the file for the grid “gom3” and consider how this grid was
-added to the <code class="docutils literal notranslate"><span class="pre">config_grids.xml</span></code> file. Note that the CIME code base is maintained in a seperate repository from the RCESM,
-so changes to this file will need a seperate commit and pull request from any other changes to the code base.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">components/wrf/bld/wrf.buildnml.csh</span></code> and <code class="docutils literal notranslate"><span class="pre">components/wrf/cime_config/config_pes.xml</span></code>  If your grid is applicable to the
-WRF atmospheric component, then these files need to be updated to include your grid and domain. The WRF namelist is built
-based on the name of the grid WRF is running with, so new grids will need to specify a new section in the wrf.buildnml.csh
-script. The config_pes.xml file specifies the PE layout that is best for a given grid. There is a default value that should
-work for most components, but adding a section for your new grid will give you flexibility to update this in the future.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cime/config/cesm/config_grids.xml</span></code>  This configuration file needs to be edited in three sections. Under <cite>&lt;grids&gt;</cite>, we specify the grid name/alias and the name of the grids for each component.</p>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;model_grid</span> <span class="na">alias=</span><span class="s">&quot;txlw27k_gom27k&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;grid</span> <span class="na">name=</span><span class="s">&quot;atm&quot;</span><span class="nt">&gt;</span>txlw27k<span class="nt">&lt;/grid&gt;</span>
+    <span class="nt">&lt;grid</span> <span class="na">name=</span><span class="s">&quot;lnd&quot;</span><span class="nt">&gt;</span>txlw27k<span class="nt">&lt;/grid&gt;</span>
+    <span class="nt">&lt;grid</span> <span class="na">name=</span><span class="s">&quot;ocnice&quot;</span><span class="nt">&gt;</span>gom27k<span class="nt">&lt;/grid&gt;</span>
+<span class="nt">&lt;/model_grid&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The actual definition of the grid/domain files occur further down in this file, under <cite>&lt;domains&gt;</cite>. We need to specify the grid dimensions, path and description for each domain.</p>
+<blockquote>
+<div><div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;domain</span> <span class="na">name=</span><span class="s">&quot;txlw27k&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;nx&gt;</span>89<span class="nt">&lt;/nx&gt;</span>  <span class="nt">&lt;ny&gt;</span>79<span class="nt">&lt;/ny&gt;</span>
+  <span class="nt">&lt;file</span> <span class="na">grid=</span><span class="s">&quot;atm|lnd&quot;</span><span class="nt">&gt;</span>$DIN_LOC_ROOT/share/domains/domain.atmlnd.txlw27k_gom27k.210706.nc<span class="nt">&lt;/file&gt;</span>
+  <span class="nt">&lt;desc&gt;</span>27km Gulf of Mexico for Wrf, to pair with gom27k in xRoms<span class="nt">&lt;/desc&gt;</span>
+<span class="nt">&lt;/domain&gt;</span>
+<span class="nt">&lt;domain</span> <span class="na">name=</span><span class="s">&quot;gom27k&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;nx&gt;</span>273<span class="nt">&lt;/nx&gt;</span>  <span class="nt">&lt;ny&gt;</span>242<span class="nt">&lt;/ny&gt;</span>
+  <span class="nt">&lt;file</span> <span class="na">grid=</span><span class="s">&quot;ocnice&quot;</span><span class="nt">&gt;</span>$DIN_LOC_ROOT/share/domains/gom_lr_docn_grd.210705.nc<span class="nt">&lt;/file&gt;</span>
+  <span class="nt">&lt;desc&gt;</span>27km Gulf of Mexico grid for xRoms<span class="nt">&lt;/desc&gt;</span>
+<span class="nt">&lt;/domain&gt;</span>
+</pre></div>
+</div>
+<p>The definition of the mapping files, required by the coupler to regrid between components, occurs under the <cite>&lt;gridmaps&gt;</cite> section.</p>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;gridmap</span> <span class="na">atm_grid=</span><span class="s">&quot;txlw27k&quot;</span> <span class="na">ocn_grid=</span><span class="s">&quot;gom27k&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;map</span> <span class="na">name=</span><span class="s">&quot;ATM2OCN_FMAPNAME&quot;</span><span class="nt">&gt;</span>atm/wrf/tx27k_g27x/map_a2o_aave.nc<span class="nt">&lt;/map&gt;</span>
+  <span class="nt">&lt;map</span> <span class="na">name=</span><span class="s">&quot;ATM2OCN_SMAPNAME&quot;</span><span class="nt">&gt;</span>atm/wrf/tx27k_g27x/map_a2o_aave.nc<span class="nt">&lt;/map&gt;</span>
+  <span class="nt">&lt;map</span> <span class="na">name=</span><span class="s">&quot;ATM2OCN_VMAPNAME&quot;</span><span class="nt">&gt;</span>atm/wrf/tx27k_g27x/map_a2o_aave.nc<span class="nt">&lt;/map&gt;</span>
+  <span class="nt">&lt;map</span> <span class="na">name=</span><span class="s">&quot;OCN2ATM_FMAPNAME&quot;</span><span class="nt">&gt;</span>atm/wrf/tx27k_g27x/map_o2a_aave.nc<span class="nt">&lt;/map&gt;</span>
+  <span class="nt">&lt;map</span> <span class="na">name=</span><span class="s">&quot;OCN2ATM_SMAPNAME&quot;</span><span class="nt">&gt;</span>atm/wrf/tx27k_g27x/map_o2a_aave.nc<span class="nt">&lt;/map&gt;</span>
+<span class="nt">&lt;/gridmap&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For Contributors: Note that the CIME code base is maintained in a seperate repository from R-CESM, so changes to this file will need a seperate commit and pull request from any other changes to the code base.</p>
+</div>
+<div class="custom docutils container">
+<p>This paragraph might be rendered in a custom way.</p>
+</div>
+</div></blockquote>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">components/wrf/bld/wrf.buildnml.csh</span></code> If adding a grid for the WRF atmospheric component, it is currently required to add an <cite>if endif</cite> clause in the  <code class="docutils literal notranslate"><span class="pre">wrf.buildnml.csh</span></code> file to include the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Copy or symlink the WRF grid and BC files (wrfbdy_d01, wrfinput_d01, wrflowinp_d01) from the <cite>$DIN_LOC_ROOT</cite> to the run directory.</p></li>
+<li><p>Copy or symlink the static data files required to run WRF from the <cite>$DIN_LOC_ROOT</cite> to the run directory.</p></li>
+<li><p>Copy or write the WRF namelist.input configuration file to to the run directory.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>We plan to modify this in the future.</p>
+</div></blockquote>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">components/roms/bld/roms.buildnml.csh</span></code>  There are a few modifications to this file required if you have a ROMS grid:</p>
+<blockquote>
+<div><blockquote>
+<div><ul class="simple">
+<li><p>You need to add information about the grid size in OCN_NX and OCN_NY in the <cite>if endif</cite> clause</p></li>
+</ul>
+<blockquote>
+<div></div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p>Copy or symlink the ROMS grid and boundary data from the <cite>$DIN_LOC_ROOT</cite> to the run directory.</p></li>
+<li><p>Copy or symlink the X-ROMS(DOCN) <cite>docn_ocn_in</cite>, <cite>docn_in</cite> and <cite>docn.streams.txt.prescribed</cite> from the <cite>$DIN_LOC_ROOT</cite> to the run directory.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">components/roms/Apps</span></code> The ROMS header files that specify ROMS settings are based on the domain or grid name. You will
+need to create a new sub directory of this directory by the name of the new grid and create the necessary namelist
+and header files within it. Look at the directory <code class="docutils literal notranslate"><span class="pre">components/roms/Apps/gom3x/</span></code> as an example.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">components/clm/bld/namelist_files/namelist_definition_clm4_0.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">components/clm/bld/namelist_files/namelist_defaults_clm4_0.xml</span></code>  If your grid is applicable to the CLM (land) component, then these files need to be updated. You may need to
 specify a land surface start up file (<code class="docutils literal notranslate"><span class="pre">fsurdat</span></code>) for the grid, or decide to run with a “cold start”. For
 more information on creating domain and land surface files see:
@@ -289,21 +266,20 @@ more information on creating domain and land surface files see:
 <p>And for more information about CLM 4.0 namelists and start types see:
 <a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x1230.html">http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x1230.html</a></p>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">components/roms/bld/roms.buildnml.csh</span></code> and <code class="docutils literal notranslate"><span class="pre">components/roms/cime_config/config_pes.xml</span></code>  Much like in WRF,  if your
-grid is applicable to the
-ROMS ocean component, then these files need to be updated to include your grid and domain. The ROMS namelist is built
-based on the name of the grid ROMS is running with, so new grids will need to specify a new section in the roms.buildnml.csh
+</ul>
+</div></blockquote>
+<dl>
+<dt>and <code class="docutils literal notranslate"><span class="pre">components/wrf/cime_config/config_pes.xml</span></code>  and <code class="docutils literal notranslate"><span class="pre">components/roms/cime_config/config_pes.xml</span></code>  If your grid is applicable to the</dt><dd><p>WRF atmospheric component, then these files need to be updated to include your grid and domain. The WRF namelist is built
+based on the name of the grid WRF is running with, so new grids will need to specify a new section in the wrf.buildnml.csh
 script. The config_pes.xml file specifies the PE layout that is best for a given grid. There is a default value that should
+work for most components, but adding a section for your new grid will give you flexibility to update this in the future.</p>
+<p>The config_pes.xml file specifies the PE layout that is best for a given grid. There is a default value that should
 work for most components, but adding a section for your new grid will give you flexibility to update this in the future.
 Note that it is not common for active atmospheric models to run on the same grid as an active ocean model, so it is very
 likely that your atmospheric grid will be named differently and specified differently in the <code class="docutils literal notranslate"><span class="pre">config_grids.xml</span></code> file
-from your ocean grid.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">components/roms/Apps</span></code> The ROMS header files that specify ROMS settings are based on the domain or grid name. You will
-need to create a new sub directory of this directory by the name of the new grid and create the necessary namelist
-and header files within it. Look at the directory <code class="docutils literal notranslate"><span class="pre">components/roms/Apps/gom3x/</span></code> as an example.</p></li>
-</ul>
-</div></blockquote>
-</div>
+from your ocean grid.</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="creating-a-new-domain-or-regional-set-up">
 <h2>Creating a New Domain or Regional Set Up<a class="headerlink" href="#creating-a-new-domain-or-regional-set-up" title="Permalink to this headline">¶</a></h2>
@@ -313,10 +289,10 @@ to have a <em>compset</em>, a <em>grid</em>, and the needed <em>namelist file</e
 which to run your simulation. Consider these questions to direct the changes needed:</p>
 <ol class="arabic">
 <li><p>Do you want to use a set of components that has already been defined and tested or a new set?</p>
-<p>(See the section above: <a class="reference internal" href="#rcesm-components">RCESM Components</a> ). If you want to use any of these configurations, then you can move on to the next question. If you want</p>
+<p>(See the section above: <a href="#id1"><span class="problematic" id="id2">`RCESM Components`_</span></a> ). If you want to use any of these configurations, then you can move on to the next question. If you want</p>
 </li>
 <li><p>Do you want to use a grid resolution and domain that has already been tested or create a new one?</p>
-<p>The RCESM code has been tested and includes support for three different grid/domain sets. These are described in the section above: <a class="reference internal" href="#rcesm-grids">RCESM Grids</a> . If one of these supported grids works for your new application, then you can move on to the next question. If you need to add a new domain or grid, there are several files that will need to be updated with grid information, and you will need several coupler domain and mapping files to support it.</p>
+<p>The RCESM code has been tested and includes support for three different grid/domain sets. These are described in the section above: <a href="#id3"><span class="problematic" id="id4">`RCESM Grids`_</span></a> . If one of these supported grids works for your new application, then you can move on to the next question. If you need to add a new domain or grid, there are several files that will need to be updated with grid information, and you will need several coupler domain and mapping files to support it.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">cime/config/cesm/config_grids.xml</span></code>  This file needs to be edited in two places. Early in the file, grid names and the
 components to which they apply are specified. Later in the file, the grid domain size and links to the coupler domain file
@@ -359,27 +335,6 @@ you can set up your runs. To learn more about creating a case, changing xml vari
 <cite>CRESM Quick Start guide &lt;https://ncar.github.io/TAMURegionalCESM/quickstart.html&gt;</cite>.</p>
 </li>
 </ol>
-<div class="section" id="rcesm-and-cesm2-machines">
-<h3>RCESM and CESM2 Machines<a class="headerlink" href="#rcesm-and-cesm2-machines" title="Permalink to this headline">¶</a></h3>
-<p>Scripts for <a class="reference external" href="http://www.cesm.ucar.edu/models/cesm2/cesm/machines.html">supported machines</a> and
-userdefined machines are provided with the RCESM and CESM release. Machines are supported in RCESM/CESM on an individual basis
-and are usually listed by their common site-specific name. To get a
-machine ported and functionally supported in RCESM, local batch, run,
-environment, and compiler information must be configured in the CIME
-scripts. The machine name “userdefined” machines refer to any machine
-that the user defines and requires that a user edit the resulting xml
-files to fill in information required for the target platform. This
-functionality is handy in accelerating the porting process and quickly
-getting a case running on a new platform. For more information on
-porting, see the <a class="reference external" href="http://esmci.github.io/cime/users_guide/porting-cime.html">CIME porting guide</a>.  The
-list of available machines are documented in <a class="reference external" href="http://www.cesm.ucar.edu/models/cesm2/cesm/machines.html">CESM supported machines</a>.
-Running <strong>query_config</strong> with the <code class="docutils literal notranslate"><span class="pre">--machines</span></code> option will also show
-the list of all machines for the current local version of
-CESM. Supported machines have undergone the full CESM porting
-process. The machines available in each of these categories changes as
-access to machines change over time.</p>
-<p>For the RCESM, three new machines are supported in our version of CIME that may or may not be supported by CESM. These include Ada, Terra and Stampede2.</p>
-</div>
 </div>
 </div>
 
@@ -387,6 +342,15 @@ access to machines change over time.</p>
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="porting.html" class="btn btn-neutral float-right" title="Porting R-CESM to new machines" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="clm_grid.html" class="btn btn-neutral" title="4. Creating New Domain and Land Surface Data Files for CLM" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

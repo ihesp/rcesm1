@@ -1,0 +1,661 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Known Issues and Troubleshooting &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="next" title="Post-processing Utilities" href="postprocessing.html"/>
+        <link rel="prev" title="Porting R-CESM to new machines" href="porting.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Known Issues and Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-newcase-setup-and-submit-issues">Create_newcase, Setup, and Submit Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#case-build-errors">Case.build Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runtime-errors">Runtime Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#known-issues-and-fixes">Known Issues and Fixes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cannot-find-compiler">Cannot Find Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#make-version-error-with-roms">Make version Error with ROMS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cresm-sigsegv-error">CRESM SIGSEGV Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#roms-blow-up-issue">ROMS Blow-up Issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wrf-sigint-error">WRF SIGINT Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mct-error-with-mapping-files">MCT error with mapping files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-with-data-ocean-year">Error with Data Ocean Year</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#diagnosing-model-errors">Diagnosing Model Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-sources-for-troubleshooting-info">Other Sources for Troubleshooting Info</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Known Issues and Troubleshooting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/troubleshooting.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="known-issues-and-troubleshooting">
+<span id="troubleshooting"></span><h1>Known Issues and Troubleshooting<a class="headerlink" href="#known-issues-and-troubleshooting" title="Permalink to this headline">¶</a></h1>
+<p><em>This page last updated Jan 25, 2019</em></p>
+<div class="section" id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Due to the experimental nature of the RCESM, not all of CESM’s features have been implemented. Here are a few known issues that result in features missing from RCESM:</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>The short term archiving script does not currently work with RCESM.</p></li>
+<li><p>The user_nl substituting scripts do not currently work in RCESM for WRF and ROMS. This needs the buildnml.csh scripts for each of these components to be updated to python scripts similar to other CESM build namelist scripts.</p></li>
+<li><p>Usermods for WRF and ROMS are not implemented and have not been tested yet. This needs the buildlib.csh scripts for each of these components to be updated to python scripts similar to other CESM build scripts.</p></li>
+<li><p>Not all of the CESM xml variables are properly routed into the WRF and ROMS configurations. In particular, WRF history file configuration is still done through the WRF namelist and not XML variables. Also, because the short term archiving script is not working correctly, the CIME <code class="docutils literal notranslate"><span class="pre">$DSOUT</span></code> variable does not behave correctly in this model. There are probably other CIME xml variables that are not correctly supported in this model, or WRF and ROMS configuration options that should be moved to CIME xml variables.</p></li>
+<li><p>There may be WRF or ROMS build and namelist code that is specific to Cheyenne. So far, RCESM has been ported to three TAMU machines, so there may not be too much. The build and namelist processes for both of these models should be generalizd so the only code that needs to be ported is CIME.</p></li>
+<li><p>The ROMS compset is hard-coded to only allow the ROMS%XROMS configuration. Need to get the %NULL compset configuration working again.</p></li>
+<li><p>CESM testing has not been built for this model, so the create_test command does not currently work.</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>Troubleshooting<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-newcase-setup-and-submit-issues">
+<h3>Create_newcase, Setup, and Submit Issues<a class="headerlink" href="#create-newcase-setup-and-submit-issues" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./case.setup
+<span class="go">  ERROR: inputdata root is not a directory: /ihesp/user/agopal/inputdata</span>
+</pre></div>
+</div>
+<p>Most of the errors produced by these scripts are self-explanitory. Use the “–help” option with any of these scripts to learn about more options provided, or the expected arguments. These scripts require python version 2.7 to run, and strange errors will occur if the version of python used to run the scripts is different. Make sure that the python module loaded by your machine via the <code class="docutils literal notranslate"><span class="pre">cime/config/cesm/machines/config_machines.xml</span></code> file is in the 2.7 series.</p>
+</div>
+<div class="section" id="case-build-errors">
+<h3>Case.build Errors<a class="headerlink" href="#case-build-errors" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>DIN_LOC_ROOT/ocn/roms/gom27k/20100101_00/ocean.in roms input file not found
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">File not found: atm2ocn_fmapname = &quot;atm/wrf/tx27k_g27x/map_a2o_aave.nc&quot;, will attempt to download in check_input_data phase</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">make: *** No rule to make target `$casename/bld/lib/libatm.a&#39;, needed by `$casename/bld/cesm.exe&#39;. Stop.</span>
+</pre></div>
+</div>
+<p>There are a few places where the build steps can go wrong. The first step in building this model is building the component namelists. Errors about missing fields or incorrect configurations of namelists could show up in this step. For WRF and ROMS, the namelist generating scripts are in the <code class="docutils literal notranslate"><span class="pre">components/wrf/bld/wrf.buildnml.csh</span></code> (and likewise for ROMS) scripts. Any configurations issues should be addressed here. For other components, changes might need to be made to configuration xml files within that component (for example, <code class="docutils literal notranslate"><span class="pre">components/clm/bld/namelist_files/namelist_definition_clm4_0.xml</span></code>) or by adding lines to the user_nl file for that component in the case directory.</p>
+<p>Errors that occur while the model is building will show up in the build logs. These are written to the build directory, which is parallel to the run directory (check the xml variable <code class="docutils literal notranslate"><span class="pre">$RUNDIR</span></code> in the case directory). Some common problems with building are:
+- Having an incomplete or incorrect Manage_externals checkout. See <a class="reference external" href="https://ncar.github.io/TAMURegionalCESM/downloading_cesm.html">getting the CRESM code</a> for more information about manage_externals.
+- NetCDF errors can be caused by having a NetCDF library that is built with a different compiler or different compiler version than what you are using to build RCESM.
+- Some build errors are the result of compiler bugs in older compilers. The PGI compiler is particularly difficult to build with. Consider trying a newer version of your compiler or a different FORTRAN compiler if strange build errors appear.</p>
+</div>
+<div class="section" id="runtime-errors">
+<h3>Runtime Errors<a class="headerlink" href="#runtime-errors" title="Permalink to this headline">¶</a></h3>
+<p>Errors that occur during the model run will be written to log files. If the simulation encounters an error, all log and output files will remain in the run directory. If the WRF component is running as the atmosphere, it produces two output files for each process, an rsl.out.XXXX file and an rsl.error.XXXX file (where XXXX is the process rank, ie. 0036). The standard output and standard error streams can be found in these files, which will remain in the run directory regardless of the success or failure of the model run. The XROMS ocean component will write to three different logs: data.ocn.log, ocn.log, and roms.ocn.log. Check each of these for errors in case of a runtime failure. However, most run-time errors send the results to the full CESM log (cesm.log). Some suggestions to help debug runtime errors:</p>
+<ul class="simple">
+<li><p>Make sure all of the required data are in the appropriate locations to be linked for the simulation. The location for the data input directory can be found in the <code class="docutils literal notranslate"><span class="pre">$DIN_LOC_ROOT</span></code> xml variable in the case directory. The paths to the required files can be found in the namelist building scripts for WRF (<code class="docutils literal notranslate"><span class="pre">wrf/bld/wrf.bldnamelist.csh</span></code>) and ROMS (<code class="docutils literal notranslate"><span class="pre">roms/bld/roms.bldnamelist.csh</span></code>).</p></li>
+<li><p>Check that your <code class="docutils literal notranslate"><span class="pre">$JOB_WALLCLOCK_TIME</span></code> value is long enough for your entire simulation to finish.</p></li>
+<li><p>To try to get more information about a run crash, set the xml variable <code class="docutils literal notranslate"><span class="pre">$DEBUG</span></code> to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> in the case directory. If you are running with a WRF atmosphere, you can also increase the debug output level of WRF in the namelist build script from 0 to 100 or even 200 (<code class="docutils literal notranslate"><span class="pre">wrf/bld/wrf.bldnamelist.csh</span></code>). This can add a lot of output to the rsl.out.XXXX and rsl.error.XXXX log files.</p></li>
+<li><p>Make sure there is enough space in your <code class="docutils literal notranslate"><span class="pre">/glade/scratch/$user</span></code> directory (or generally your run directory) to support all of the history files, restart files, output logs, and any copied forcing data. The <code class="docutils literal notranslate"><span class="pre">gladequota</span></code> command can help with this on Cheyenne.</p></li>
+<li><p>Occasionally, Cheyenne will cause a run to abort with a simple and vague <code class="docutils literal notranslate"><span class="pre">MPT</span> <span class="pre">Error</span></code> found in a log. All runs crash with MPT errors in the submission output file, so this file is less helpful. A Cheyenne MPT error could be just a blip in inter-node communication, and restarting the run should be tried.</p></li>
+</ul>
+</div>
+<div class="section" id="known-issues-and-fixes">
+<h3>Known Issues and Fixes<a class="headerlink" href="#known-issues-and-fixes" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="cannot-find-compiler">
+<span id="sec-nocompiler"></span><h2>Cannot Find Compiler<a class="headerlink" href="#cannot-find-compiler" title="Permalink to this headline">¶</a></h2>
+<p>: On UCAR Cheyenne, with default modules loaded (ncarenv, ncarcompilers,
+intel &amp; mpt), the “which mpiifort” command returns the complete path to
+mpiifort. However, while compiling the model (Section
+<a class="reference external" href="#sec:comp">[sec:comp]</a>) or trying to install mct or pio (see Section
+<a class="reference external" href="#sec:lib">[sec:lib]</a>), the following error pops up:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">which</span><span class="p">:</span> <span class="n">no</span> <span class="n">mpiifort</span> <span class="ow">in</span> <span class="p">(</span><span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">ch</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">vim</span><span class="o">/</span><span class="mf">8.0</span><span class="o">.</span><span class="mi">0273</span><span class="o">/........</span>
+</pre></div>
+</div>
+<p>Same error message appear with mpiicc too.</p>
+<p>: If mpif90 and mpicc are working, then use them with
+cresm-1.0.0/tools/build_mct.sh, cresm-1.0.0/tools/build_pio.sh, &amp;
+cresm-1.0.0/configure (see Section <a class="reference external" href="#sec:cheyenne">1.2</a>) instead of
+mpiifort and mpiicc.</p>
+</div>
+<div class="section" id="make-version-error-with-roms">
+<span id="id2"></span><h2>Make version Error with ROMS<a class="headerlink" href="#make-version-error-with-roms" title="Permalink to this headline">¶</a></h2>
+<p>: CRESM compilation (Section <a class="reference external" href="#sec:comp">[sec:comp]</a>) fails for ROMS
+component with the following error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Compilation</span> <span class="n">Status</span> <span class="p">:</span> <span class="n">Error</span> <span class="p">:</span> <span class="n">makefile</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span> <span class="o">***</span> <span class="n">This</span> <span class="n">makefile</span>
+      <span class="n">requires</span> <span class="n">one</span> <span class="n">of</span> <span class="n">GNU</span> <span class="n">make</span> <span class="n">version</span> <span class="mf">3.80</span> <span class="mf">3.81</span> <span class="mf">3.82</span><span class="o">..</span>  <span class="n">Stop</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>: ROMS makefile (cresm-1.0.0/models/ocn/roms/makefile) has a check for
+the version of “make” command against a predefined list, which includes
+3.80, 3.81 &amp; 3.82. On machines with a different version of make, this
+check will fail. For make versions closer to 3.8 (say 4.0) simply add
+the version number to the existing list to make it work (Section
+<a class="reference external" href="#sec:cheyenne">1.2</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">change</span> <span class="n">following</span> <span class="n">line</span> <span class="n">from</span><span class="p">:</span>
+    <span class="n">NEED_VERSION</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.80</span> <span class="mf">3.81</span> <span class="mf">3.82</span>
+<span class="n">to</span>
+    <span class="n">NEED_VERSION</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.80</span> <span class="mf">3.81</span> <span class="mf">3.82</span> <span class="mf">4.0</span>
+</pre></div>
+</div>
+<p>More careful editing of the makefile may be required if the version of
+make command is very different from 3.8.</p>
+</div>
+<div class="section" id="cresm-sigsegv-error">
+<span id="sec-segerr"></span><h2>CRESM SIGSEGV Error<a class="headerlink" href="#cresm-sigsegv-error" title="Permalink to this headline">¶</a></h2>
+<p>: CRESM fails during run time with the following error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forrtl</span><span class="p">:</span> <span class="n">severe</span> <span class="p">(</span><span class="mi">174</span><span class="p">):</span> <span class="n">SIGSEGV</span><span class="p">,</span> <span class="n">segmentation</span> <span class="n">fault</span> <span class="n">occurred</span>
+<span class="n">Image</span>              <span class="n">PC</span>                <span class="n">Routine</span>         <span class="n">Line</span>     <span class="n">Source</span>
+<span class="n">cresm</span>              <span class="mi">0000000002</span><span class="n">F4E4A1</span>  <span class="n">Unknown</span>         <span class="n">Unknown</span>  <span class="n">Unknown</span>
+<span class="o">.....................................................................</span>
+<span class="n">libpthread</span><span class="o">-</span><span class="mf">2.19</span><span class="o">.</span><span class="n">s</span>  <span class="mi">00002</span><span class="n">AAAAAEE3870</span>  <span class="n">Unknown</span>         <span class="n">Unknown</span>  <span class="n">Unknown</span>
+<span class="n">libmpi_mt</span><span class="o">.</span><span class="n">so</span>       <span class="mi">00002</span><span class="n">AAAAB57C9ED</span>  <span class="n">MPI_SGI_bcast</span>   <span class="n">Unknown</span>  <span class="n">Unknown</span>
+</pre></div>
+</div>
+<p>: This error happens when pio and CRESM were compiled with pnetcdf
+options but runtime pnetcdf options are not set up correctly. So, either
+compile without pnetcdf (Sections <a class="reference external" href="#sec:nopnet">[sec:nopnet]</a> and
+<a class="reference external" href="#sec:cheyenne">1.2</a>) or set pnetcdf environment properly (Section
+<a class="reference external" href="#sec:ada">1.1</a>).</p>
+</div>
+<div class="section" id="roms-blow-up-issue">
+<span id="sec-blowup"></span><h2>ROMS Blow-up Issue<a class="headerlink" href="#roms-blow-up-issue" title="Permalink to this headline">¶</a></h2>
+<p>: The ROMS component of CRESM sometimes blows up with NaN values in the
+Potential Energy and Total Energy fields. If this happens, please search
+for the string “NaN” in ocn.log file in run directory. Check whether you
+see lines like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2881</span>    <span class="mi">1</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">30</span> <span class="mf">1.150065E-02</span> <span class="mf">1.543130E+04</span> <span class="mf">1.543131E+04</span> <span class="mf">3.563578E+15</span>
+      <span class="p">(</span><span class="mi">282</span><span class="p">,</span><span class="mi">410</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span> <span class="mf">2.585091E-03</span> <span class="mf">4.415171E-04</span> <span class="mf">9.561279E-02</span> <span class="mf">1.917248E+00</span>
+<span class="mi">2882</span>    <span class="mi">1</span> <span class="mi">00</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span> <span class="mf">1.150041E-02</span> <span class="mf">1.543130E+04</span> <span class="mf">1.543131E+04</span> <span class="mf">3.563578E+15</span>
+      <span class="p">(</span><span class="mi">282</span><span class="p">,</span><span class="mi">410</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span> <span class="mf">2.587113E-03</span> <span class="mf">4.457352E-04</span> <span class="mf">9.571663E-02</span> <span class="mf">1.917091E+00</span>
+<span class="mi">2883</span>    <span class="mi">1</span> <span class="mi">00</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mi">30</span> <span class="mf">1.150017E-02</span>          <span class="n">NaN</span>          <span class="n">NaN</span> <span class="mf">3.563578E+15</span>
+      <span class="p">(</span><span class="mi">282</span><span class="p">,</span><span class="mi">410</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span> <span class="mf">2.588798E-03</span> <span class="mf">4.498424E-04</span> <span class="mf">9.583168E-02</span> <span class="mf">1.916931E+00</span>
+</pre></div>
+</div>
+<p>As shown above, typically the blow-up happens at 2883’rd time step from
+the start. It could happen for the restart runs too (eg. restart time
+step 8640 and blows up at time step 11523). This blow-up is related to
+some model bug (but not from model inputs) and the exact reason has not
+been figured out yet.</p>
+<p>: Resubmitting the run/job again works fine during most of the time.
+Please consider cleaning up the run directory (see Section
+<a class="reference external" href="#sec:clean">[sec:clean]</a>) before resubmitting the job.</p>
+</div>
+<div class="section" id="wrf-sigint-error">
+<span id="sec-sigerr"></span><h2>WRF SIGINT Error<a class="headerlink" href="#wrf-sigint-error" title="Permalink to this headline">¶</a></h2>
+<p>: For some reason, with the intel/MPI libraries on Ada (see Section
+<a class="reference external" href="#sec:req">[sec:req]</a>), the CRESM run do not exit gracefully. With
+respect to the model run and model output, restart and log files,
+everything will be complete but still the job do not exit the queue. The
+CRESM log file (cresm.log) do report some memory related issues as shown
+below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forrtl</span><span class="p">:</span> <span class="n">error</span> <span class="p">(</span><span class="mi">69</span><span class="p">):</span> <span class="n">process</span> <span class="n">interrupted</span> <span class="p">(</span><span class="n">SIGINT</span><span class="p">)</span>
+<span class="n">Image</span>        <span class="n">PC</span>                <span class="n">Routine</span>     <span class="n">Line</span>     <span class="n">Source</span>
+<span class="n">cresm</span>        <span class="mi">0000000002</span><span class="n">B24EA1</span>  <span class="n">Unknown</span>     <span class="n">Unknown</span>  <span class="n">Unknown</span>
+</pre></div>
+</div>
+<p>: Could not find a clean solution yet. Please see Section
+<a class="reference external" href="#sec:complete">[sec:complete]</a> to decide whether a CRESM run is
+complete in terms of log files. If the job is complete but still showing
+up in the queue, please kill the job. As a work around, please make sure
+you only request for reasonable wall clock time limits for your job.</p>
+</div>
+<div class="section" id="mct-error-with-mapping-files">
+<span id="sec-mcterr"></span><h2>MCT error with mapping files<a class="headerlink" href="#mct-error-with-mapping-files" title="Permalink to this headline">¶</a></h2>
+<p>: CRESM fails/hangs with the errors in rsl.err.0000 similar to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SOIL</span> <span class="n">TEXTURE</span> <span class="n">CLASSIFICATION</span> <span class="o">=</span> <span class="n">STAS</span> <span class="n">FOUND</span>  <span class="mi">19</span> <span class="n">CATEGORIES</span>
+  <span class="n">MCT</span><span class="p">::</span><span class="n">m_SparseMatrixPlus</span><span class="p">::</span> <span class="n">FATAL</span><span class="o">--</span><span class="n">length</span> <span class="n">of</span> <span class="n">vector</span> <span class="n">y</span> <span class="n">different</span>
+           <span class="kn">from</span> <span class="nn">row</span> <span class="n">count</span> <span class="n">of</span> <span class="n">sMat</span><span class="o">.</span><span class="n">Length</span> <span class="n">of</span> <span class="n">y</span> <span class="o">=</span>   <span class="mi">320295</span> <span class="n">Number</span>
+           <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">sMat</span> <span class="o">=</span>   <span class="mi">694216</span>
+  <span class="mf">000.</span><span class="n">MCT</span><span class="p">(</span><span class="n">MPEU</span><span class="p">)::</span><span class="n">die</span><span class="o">.</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">MCT</span><span class="p">::</span><span class="n">m_SparseMatrixPlus</span><span class="p">::</span><span class="n">initDistributed_</span><span class="p">()</span>
+           <span class="n">application</span> <span class="n">called</span> <span class="n">MPI_Abort</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">process</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>: This happens when mapping weight files (Section
+<a class="reference external" href="#sec:map">[sec:map]</a>) specified in seq_maps.rc (Table
+<a class="reference external" href="#tab:inpC">[tab:inpC]</a>) do not match with the CRESM configuration
+(whether using ROMS or xROMS). When using xROMS, the mapping is from WRF
+to xROMS (extented ROMS). But with ROMS (configured with
+-enable-atm-sst) the mapping is from WRF to ROMS grid. For details about
+mapping weight files, please see Section <a class="reference external" href="#sec:map">[sec:map]</a>. Also
+see Section <a class="reference external" href="#sec:frocn">[sec:frocn]</a> to know the difference between
+ROMS and xROMS configuration.</p>
+</div>
+<div class="section" id="error-with-data-ocean-year">
+<span id="sec-docnerr"></span><h2>Error with Data Ocean Year<a class="headerlink" href="#error-with-data-ocean-year" title="Permalink to this headline">¶</a></h2>
+<p>: A run starting in 2010 and extending to 2011 (or longer) may fail with
+error messages in data.ocn.log like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">docn_comp_run</span><span class="p">)</span> <span class="n">ocn</span><span class="p">:</span> <span class="n">model</span> <span class="n">date</span> <span class="mi">20101231</span>   <span class="mi">64800</span><span class="n">s</span>
+<span class="p">(</span><span class="n">shr_stream_findBounds</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span> <span class="n">limit</span> <span class="n">on</span> <span class="ow">and</span> <span class="n">rDateIn</span> <span class="n">gt</span> <span class="n">rDategvd</span>
+   <span class="mf">20101231.7604167</span>        <span class="mf">20101231.7500000</span>
+<span class="p">(</span><span class="n">shr_sys_abort</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span> <span class="p">(</span><span class="n">shr_stream_findBounds</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span> <span class="n">rDateIn</span> <span class="n">gt</span>
+                     <span class="n">rDategvd</span> <span class="n">limit</span> <span class="n">true</span>
+<span class="p">(</span><span class="n">shr_sys_abort</span><span class="p">)</span> <span class="n">WARNING</span><span class="p">:</span> <span class="n">calling</span> <span class="n">shr_mpi_abort</span><span class="p">()</span> <span class="ow">and</span> <span class="n">stopping</span>
+</pre></div>
+</div>
+<p>or like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">shr_sys_abort</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span> <span class="p">(</span><span class="n">shr_stream_findBounds</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span> <span class="n">LVD</span> <span class="ow">not</span> <span class="n">found</span><span class="p">,</span>
+                    <span class="nb">all</span> <span class="n">data</span> <span class="ow">is</span> <span class="n">after</span> <span class="n">yearLast</span>
+<span class="p">(</span><span class="n">shr_sys_abort</span><span class="p">)</span> <span class="n">WARNING</span><span class="p">:</span> <span class="n">calling</span> <span class="n">shr_mpi_abort</span><span class="p">()</span> <span class="ow">and</span> <span class="n">stopping</span>
+</pre></div>
+</div>
+<p>: Please edit “docn_ocn_in” (Section <a class="reference external" href="#sec:docnyr">[sec:docnyr]</a>) as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">streams</span> <span class="o">=</span> <span class="s2">&quot;docn.streams.txt.prescribed yrAlign yrFirst yrLast&quot;</span>
+</pre></div>
+</div>
+<p>So, for a run starting anywhere in 2010 and ending in 2011, yrAlign and
+yrFirst are 2010 and yrLast is 2011. Please note that yrAlign should be
+same as yrFirst always!!!!!</p>
+<div class="section" id="diagnosing-model-errors">
+<span id="sec-diagerr"></span><h3>Diagnosing Model Errors<a class="headerlink" href="#diagnosing-model-errors" title="Permalink to this headline">¶</a></h3>
+<p>Please check and verify the input files provided in Table
+<a class="reference external" href="#tab:diagerr">[tab:diagerr]</a> to diagnose reason for error in CRESM
+results. Please see Chapter <a class="reference external" href="#cha:io">[cha:io]</a> for details about
+each file in the table.</p>
+<p>CRESM results. Please see Chapter <a class="reference external" href="#cha:io">[cha:io]</a> for details
+about each file in the table.</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Sl. No.</p></th>
+<th class="head"><p>Filename</p></th>
+<th class="head"><p>Location/Where
+to Find</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(*\)</span>.h
+(ROMS header
+file)</p></td>
+<td><p>src compilation
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(*\)</span>_ro
+ms_grd.nc</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><span class="math notranslate nohighlight">\(*\)</span>_ro
+ms_bry.nc</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><span class="math notranslate nohighlight">\(*\)</span>_ro
+ms_ini/rst.nc</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>#<span class="math notranslate nohighlight">\(*\)</span>_roms_nudg.nc
+ted</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>ocean.in (ROMS
+namelist file)</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>varinfo.dat</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>wrfinput_d01</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>wrflowinp_d01</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>wrfbdy_d01</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>namelist.input</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>drv_in</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p>ocn_in</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>14</p></td>
+<td><p>lnd_in</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td><p>ice_in</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>16</p></td>
+<td><p>docn_in</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>17</p></td>
+<td><p>docn_ocn_in</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>18</p></td>
+<td><p>docn.streams.tx
+t.prescribed</p></td>
+<td><p>run or input
+dir</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>19</p></td>
+<td><p>domain_:math
+:<cite>*</cite>.nc</p></td>
+<td><p>run or input
+dir (path in
+docn_ocn_in)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><dl class="simple">
+<dt>#_<span class="math notranslate nohighlight">\(*\)</span></dt><dd><p>_xroms_sstice</p>
+</dd>
+</dl>
+<p>.nc</p>
+</td>
+<td><p>run or input
+dir (path in
+docn.streams…
+..)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>21</p></td>
+<td><p><a href="#id3"><span class="problematic" id="id4">map_</span></a>???_????.nc</p></td>
+<td><p>run or input
+dir (path in
+seq_maps.rc)</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="other-sources-for-troubleshooting-info">
+<h3>Other Sources for Troubleshooting Info<a class="headerlink" href="#other-sources-for-troubleshooting-info" title="Permalink to this headline">¶</a></h3>
+<p>Here are several other sources of information that could help with troubleshooting problems in the RCESM:</p>
+<ul class="simple">
+<li><p>The CIME documentation ( <a class="reference external" href="https://esmci.github.io/cime/index.html">https://esmci.github.io/cime/index.html</a> ) and CESM2 documentation ( <a class="reference external" href="https://escomp.github.io/cesm/release-cesm2/index.html">https://escomp.github.io/cesm/release-cesm2/index.html</a> ) Both contain a lot of information applicable to the RCESM modeling system, porting the code to other computers, common usage, and troubleshooting problems.</p></li>
+<li><p>The CRESM 1.0 documentation from Texas A&amp;M university is available in the RCESM code repository. First, download the repository contents using <a class="reference external" href="https://ncar.github.io/TAMURegionalCESM/downloading_cesm.html">these instructions</a>, and then look for the document in the <code class="docutils literal notranslate"><span class="pre">docs/cresm1.0/cresm_manual.pdf</span></code> file.</p></li>
+<li><p>There is a lot of documentation on CLM 4.0 at their website here: <a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.1/clm/">http://www.cesm.ucar.edu/models/cesm1.1/clm/</a></p></li>
+<li><p>The CESM community also discusses issues on the forums here: <a class="reference external" href="https://bb.cgd.ucar.edu/">https://bb.cgd.ucar.edu/</a></p></li>
+<li><p>Documentation for the WRF model used in RCESM is on the web here: <a class="reference external" href="http://www2.mmm.ucar.edu/wrf/users/pub-doc.html">http://www2.mmm.ucar.edu/wrf/users/pub-doc.html</a></p></li>
+<li><p>Documentation for the ROMS model used in RCESM is on the web here: <a class="reference external" href="https://www.myroms.org/wiki/Documentation_Portal">https://www.myroms.org/wiki/Documentation_Portal</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="postprocessing.html" class="btn btn-neutral float-right" title="Post-processing Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="porting.html" class="btn btn-neutral" title="Porting R-CESM to new machines" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Downloading RCESM &mdash; RCESM Quickstart Guide and Development Doc</title>
+  <title>Downloading R-CESM &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -36,7 +36,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
-        <link rel="next" title="Quick Start (RCESM Model Workflow)" href="quickstart.html"/>
+        <link rel="next" title="Quick Start (R-CESM Model Workflow)" href="quickstart.html"/>
         <link rel="prev" title="Introduction" href="introduction.html"/> 
 
   
@@ -85,16 +85,19 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Downloading RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Downloading R-CESM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#more-details-on-checkout-externals">More details on checkout_externals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
 </ul>
 
             
@@ -139,7 +142,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Downloading RCESM</li>
+      <li>Downloading R-CESM</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,52 +161,60 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="downloading-rcesm">
-<span id="downloading"></span><h1>Downloading RCESM<a class="headerlink" href="#downloading-rcesm" title="Permalink to this headline">¶</a></h1>
-<p>The RCESM code is publicly available from its <a class="reference external" href="https://github.com/ihesp/cesm">github repository</a> . The basic components used in this model are included in the repo (unlike CESM), but the scripting infrastructure is maintained in an external repository and managed with the “manage_externals” tool.</p>
-<p>You will need some familiarity with git in order to modify the code and commit any changes. However, to simply checkout and run the code, no git knowledge is required other than what is documented in the following steps.</p>
-<p>To obtain the RCESM release code you need to do the following:</p>
+  <div class="section" id="downloading-r-cesm">
+<span id="downloading"></span><h1>Downloading R-CESM<a class="headerlink" href="#downloading-r-cesm" title="Permalink to this headline">¶</a></h1>
+<p>The R-CESM code is publicly available through our <a class="reference external" href="https://github.com/ihesp/cesm">github repository</a> . To simply download and use the model, no git knowledge is required other than what is documented in the following steps.</p>
 <ol class="arabic simple">
-<li><p>Clone the repository.</p></li>
+<li><p>Navigate to a suitable working directory, and clone the current stable tag of the R-CESM model source code</p></li>
 </ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/cesm.git my_rcesm_sandbox</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/cesm.git -b ihesp-regional-master_200911 my_rcesm_sandbox</span>
 </pre></div>
 </div>
-<p>This will create a directory my_rcesm_sandbox/ in your current working directory.</p>
+<p>This will create a new directory <em>my_rcesm_sandbox</em> in your current working directory.</p>
 <ol class="arabic simple" start="2">
-<li><p>Go into the newly created directory (using <code class="docutils literal notranslate"><span class="pre">cd</span></code>) and determine the currently active version of RCESM using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> command.</p></li>
+<li><p>Optionally, you can checkout the current unstable, developmental branch of R-CESM using</p></li>
 </ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd my_rcesm_sandbox</span>
-<span class="go">git status</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/cesm.git -b ihesp-regional-master my_rcesm_sandbox</span>
 </pre></div>
 </div>
-<p>By default, RCESM uses the ‘igesp-regional-master’ branch, which is the most stable configuration.</p>
 <ol class="arabic simple" start="3">
-<li><p>Optionally, you can checkout any specific tag of RCESM. To see the available RCESM tags, use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> command. Then use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> command to checkout the tag of interest. For example:</p></li>
-</ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git tag</span>
-<span class="go">git checkout release_cesm2.0.0</span>
-</pre></div>
-</div>
-<p>(It is normal and expected to get a message about being in ‘detached HEAD’ state. For now you can ignore this, but it becomes important if you want to make changes to your Externals.cfg file and commit those changes to a branch.)</p>
-<ol class="arabic simple" start="4">
-<li><p>Download the components required by RCESM, using the script <code class="docutils literal notranslate"><span class="pre">manage_externals/checkout_externals</span></code>.</p></li>
+<li><p>Navigate into the source directory, and use the <code class="docutils literal notranslate"><span class="pre">manage_externals/checkout_externals</span></code> script to download the individual R-CESM components</p></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./manage_externals/checkout_externals</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">checkout_externals</span></code> script is a package manager that clones the source codes for CIME and active component models (WRF, ROMS, CLM) into your RCESM working directory. The script reads the <code class="docutils literal notranslate"><span class="pre">Externals.cfg</span></code> configuration file to obtain the versions and repositories of the code that will be downloaded.</p>
-<p>To see more details regarding the checkout_externals script from the command line, type:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">checkout_externals</span></code> script is a package manager that pulls the appropriate versions of the CIME and active component (WRF, ROMS, CLM) source codes into your R-CESM working directory. The script reads the <code class="docutils literal notranslate"><span class="pre">Externals.cfg</span></code> configuration file to obtain the versions and repositories of the code that will be downloaded.</p>
+<p>At this point you have a working version of R-CESM.</p>
+<p>For general information on using the CIME framework in the context of CESM, see the CIME documentation at <a class="reference external" href="http://esmci.github.io/cime/">http://esmci.github.io/cime/</a> .</p>
+<div class="section" id="more-details-on-checkout-externals">
+<h2>More details on checkout_externals<a class="headerlink" href="#more-details-on-checkout-externals" title="Permalink to this headline">¶</a></h2>
+<p>The file <strong>Externals.cfg</strong> in your top-level RCESM directory tells
+<strong>checkout_externals</strong> which tag/branch of CIME should be
+brought in to generate your sandbox. (This file serves the same purpose
+as SVN_EXTERNAL_DIRECTORIES when CESM was in a subversion repository.)</p>
+<p>NOTE: Just like svn externals, checkout_externals will always attempt
+to make the working copy exactly match the externals description.</p>
+<p><strong>You need to rerun checkout_externals whenever Externals.cfg has
+changed</strong> (unless you have already manually updated the relevant
+external(s) to have the correct branch/tag checked out). Common times
+when this is needed are:</p>
+<ul class="simple">
+<li><p>After checking out a new RCESM branch/tag</p></li>
+<li><p>After merging some other RCESM branch/tag into your currently
+checked-out branch</p></li>
+</ul>
+<p><strong>checkout_externals</strong> must be run from the root of the source
+tree. For example, if you cloned RCESM with</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/ihesp/rcesm1.git my_rcesm_sandbox</span>
+</pre></div>
+</div>
+<p>then you must run <strong>checkout_externals</strong> from
+<code class="docutils literal notranslate"><span class="pre">/path/to/my_rcesm_sandbox</span></code>.</p>
+<p>To see more details of <strong>checkout_externals</strong>, issue</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./manage_externals/checkout_externals --help</span>
 </pre></div>
 </div>
-<p>To confirm a successful download of all components, you can run <code class="docutils literal notranslate"><span class="pre">checkout_externals</span></code>
-with the status flag to show the status of the externals:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">./manage_externals/checkout_externals -S</span>
-</pre></div>
 </div>
-<p>Check the <code class="docutils literal notranslate"><span class="pre">manage_externals.log</span></code> file to see what errors are reported.</p>
-<p>For general information on using the CIME framework in the context of CESM and RCESM, see the CIME documentation at <a class="reference external" href="http://esmci.github.io/cime/">http://esmci.github.io/cime/</a> .</p>
 </div>
 
 
@@ -213,13 +224,29 @@ with the status flag to show the status of the externals:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quick Start (RCESM Model Workflow)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quick Start (R-CESM Model Workflow)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
 
   <hr/>
 
@@ -258,6 +285,7 @@ with the status flag to show the status of the externals:</p>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

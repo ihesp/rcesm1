@@ -4,8 +4,9 @@
 R-CESM Input/Output Files
 ================================
 
-All files required during R-CESM running phase are called input files and
-files created by R-CESM during a run are called output files. Please note
+In this section, we'll list the input files required for running the model, and the files that result from a successful or unsuccessful model run. 
+
+Please note
 that for models like ROMS configurable options are chosen during both
 compilation and running phases. Since the source code always contain
 files required during compilation stage, their list is not presented
@@ -37,11 +38,7 @@ ROMS Input Files
 Compilation Phase
 -----------------
 
-For the ROMS model, some of the scheme/parametrization choices are made
-pre-compilation using header (file with ‘.h’ extension) files. File
-txgla_3dnudg.h in src/R-CESM-1.0.0/ directory is the ROMS header file for
-the Gulf of Mexico test case. A copy of the header file used during
-compilation will be available in src ‘exec/include’ directory (Section
+For the ROMS model, some of the scheme/parametrization choices are made pre-compilation using header files (.h). File ``txgla_3dnudg.h`` in ``$SRCROOT/components/roms`` directory is the ROMS header file for the low-resolution Gulf of Mexico test case. A copy of the header file used during compilation will be available in src ‘exec/include’ directory (Section
 `[sec:comp] <#sec:comp>`__).
 
 .. _sec:inpRrun:
@@ -136,12 +133,6 @@ drv_in (&ccsm_pes namelist) (see Section `3.2.3 <#sec:drvin>`__).
 WRF Input Files
 ===============
 
-.. _sec:inpWcomp:
-
-Compilation Phase
------------------
-
-Files during compilation WRF
 
 .. _sec:inpWrun:
 

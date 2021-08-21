@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. Creating New Domain and Land Surface Data Files for CLM &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="up" title="Creating a new R-CESM application/domain" href="preprocessing.html"/>
+        <link rel="next" title="5. Modifying the configuration files" href="edit_config.html"/>
+        <link rel="prev" title="3. Generating the domain and mapping files" href="domain.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#overview-of-steps-involved">Overview of steps involved</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="preprocessing.html#id1">Next Steps</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roms_grid.html">2. Generating the Ocean input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xroms.html">3. Generating the X-ROMS (DOCN) grid, domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain.html">3. Generating the domain and mapping files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">4. Creating New Domain and Land Surface Data Files for CLM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generate-mapping-files-for-clm-surface-dataset">Generate mapping files for CLM surface dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generate-the-clm-surface-dataset">Generate the CLM surface dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="edit_config.html">5. Modifying the configuration files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="preprocessing.html">Creating a new R-CESM application/domain</a> &raquo;</li>
+        
+      <li>4. Creating New Domain and Land Surface Data Files for CLM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/clm_grid.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="creating-new-domain-and-land-surface-data-files-for-clm">
+<span id="clm-grid"></span><h1>4. Creating New Domain and Land Surface Data Files for CLM<a class="headerlink" href="#creating-new-domain-and-land-surface-data-files-for-clm" title="Permalink to this headline">¶</a></h1>
+<p>The input files for CLM are surface-datasets that describe the surface characteristics needed by CLM (fraction of grid cell covered by different land-unit types, and fraction for different vegetation types, as well as things like soil color, and soil texture, etc.). The <code class="docutils literal notranslate"><span class="pre">mksurfdata_map</span></code> tool, available through CLM, is used to create these surface-dataset files from grid datasets and raw datafiles at half-degree resolution.</p>
+<p><code class="docutils literal notranslate"><span class="pre">mksurfdata_map</span></code> requires a mapping file, for each of the raw datasets, to map from the output (model) grid resolution to the grid and land-mask for of the raw dataset. This is done by another tool, <code class="docutils literal notranslate"><span class="pre">mkmapdata.sh</span></code>. To create the mapping files you need a SCRIP grid file to correspond with each resolution and land mask that you have a raw data file in mksurfdata_map. Some raw datasets share the same grid and land mask – hence they can share the same SCRIP grid file. The output maps created here go into mksurfdata_map</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/mkmapdata_mksurfdata.jpeg"><img alt="Data Flow for Creation of Surface Datasets from Raw SCRIP Grid Files" src="_images/mkmapdata_mksurfdata.jpeg" style="width: 527.0px; height: 354.0px;" /></a>
+<p class="caption"><span class="caption-text">Data Flow for Creation of Surface Datasets from Raw SCRIP Grid Files. From <a class="reference external" href="https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/using-clm-tools/creating-surface-datasets.html">CTSM docs</a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="generate-mapping-files-for-clm-surface-dataset">
+<h2>Generate mapping files for CLM surface dataset<a class="headerlink" href="#generate-mapping-files-for-clm-surface-dataset" title="Permalink to this headline">¶</a></h2>
+<p>The bash shell script models/lnd/clm/tools/shared/mkmapgrids/mkmapdata.sh uses ESMF_RegridWeightGen to create a list of maps from the raw datasets that are input to mksurfdata_map. Each dataset that has a different grid, or land-mask needs a different mapping file for it, but many different raw datasets share the same grid/land-mask as other files. Hence, there doesn’t need to be a different mapping file for EACH raw dataset – just for each DIFFERENT raw dataset. See Figure 2-3 for a visual representation of how this works. The bash script figures out which mapping files it needs to create and then runs ESMF_RegridWeightGen for each one.</p>
+<p>Step 3: Create mapping files from the input data sets to the land grid. In order to map the surface data into a file on the land grid, the mapping weights must be generated with the <code class="docutils literal notranslate"><span class="pre">mkmapdata.sh</span></code> script. This is the tool that needs to use a version of CLM that matches the one in the repository.</p>
+<p>One way to get this is to checkout an older tag of clm (such as <code class="docutils literal notranslate"><span class="pre">svn</span> <span class="pre">co</span> <span class="pre">https://svn-ccsm-models.cgd.ucar.edu/clm2/trunk_tags/clm4_5_13_r211</span></code>) and build the tool on your machine from its location in that repository (<code class="docutils literal notranslate"><span class="pre">components/clm/tools/shared/mkmapdata</span></code>). However, this could require some detailed porting to a new machine, so the easiest way is to use some older versions of this tool that were previously ported from Yellowstone to Cheyenne by the Paleo working group. These are located on Cheyenne at: <code class="docutils literal notranslate"><span class="pre">/gpfs/fs1/p/cesm/palwg/cesm1_2_0/models/lnd/clm/tools/shared/mkmapdata/</span></code> . The script <code class="docutils literal notranslate"><span class="pre">mkmapdata-tamu-gom3x-02.sh</span></code> was successfully used to create the surface data to 3km wrf grid mapping files on April 8, 2019.</p>
+<p>Step 3-a: Copy the <code class="docutils literal notranslate"><span class="pre">mkmapdata-tamu-gom3x-02.sh</span></code> script to a new file and edit it as needed for your new grid and application.</p>
+<p>/ihesp/user/agopal/cesm1_2_0/models/lnd/clm/tools/shared/mkmapdata/mkmapdata-tamu-gom3x-02.sh -p clm4_0 -t regional -v -r gom27k_gom27k -f /ihesp/user/agopal/Script_RCESM_mapping_SCS/scrip_atm_grd.nc &amp;&gt; output.txt</p>
+<p>Step 3-b: Make a pbs submission script to submit this job to a compute node on cheyenne. This job takes a while and will need the memory from compute nodes, which is larger than the login nodes. The script should call the mkmapdata.sh script as:
+<code class="docutils literal notranslate"><span class="pre">/gpfs/fs1/p/cesm/palwg/cesm1_2_0/models/lnd/clm/tools/shared/mkmapdata/mkmapdata-tamu-gom3x-02.sh</span> <span class="pre">-p</span> <span class="pre">clm4_0</span> <span class="pre">-t</span> <span class="pre">regional</span> <span class="pre">-v</span> <span class="pre">-r</span> <span class="pre">[your</span> <span class="pre">grid</span> <span class="pre">name]</span> <span class="pre">-f</span> <span class="pre">[full</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">atm</span> <span class="pre">scrip</span> <span class="pre">grid</span> <span class="pre">file]</span> <span class="pre">&amp;&gt;</span> <span class="pre">output.txt</span></code> . It will need 1 CPU and approximately 4 hours to complete.</p>
+<p>Step 3-c: Submit the pbs script. You can run <cite>tail -f output.txt</cite> to track the script as it runs. When it is finished, it should have created a mapping file from each input data file grid to your new grid.</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/mkmapdata_details.jpeg"><img alt="Data Flow for Creation of Surface Datasets from Raw SCRIP Grid Files" src="_images/mkmapdata_details.jpeg" style="width: 541.0px; height: 396.0px;" /></a>
+<p class="caption"><span class="caption-text">Details of running mkmapdata.sh. From <a class="reference external" href="https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/using-clm-tools/creating-input-for-surface-dataset-generation.html">CTSM documentation</a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="generate-the-clm-surface-dataset">
+<h2>Generate the CLM surface dataset<a class="headerlink" href="#generate-the-clm-surface-dataset" title="Permalink to this headline">¶</a></h2>
+<p>Step 4: Create the land surface data file using the mksurfdata_map tool. This is another tool that is useful to have the older version of. Again, you can checkout an older version of clm (such as <code class="docutils literal notranslate"><span class="pre">svn</span> <span class="pre">co</span> <span class="pre">https://svn-ccsm-models.cgd.ucar.edu/clm2/trunk_tags/clm4_5_13_r211</span></code>). The mksurfdata_map tool is located in <code class="docutils literal notranslate"><span class="pre">components/clm/tools/clm4_0/mksurfdata_map</span></code> .</p>
+<p>Step 4-a: Follow the instructions in the README file to build the mksurfdata_map tool. This worked on Cheyenne without porting the entire clm tag.</p>
+<p>Step 4-b: Call the mksurfdata.pl script with user generated grid specifiers as:
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./mksurfdata.pl</span> <span class="pre">-res</span> <span class="pre">usrspec</span> <span class="pre">-usr_gname</span> <span class="pre">[your</span> <span class="pre">grid</span> <span class="pre">name]</span> <span class="pre">-usr_gdate</span> <span class="pre">[date</span> <span class="pre">on</span> <span class="pre">mapping</span> <span class="pre">files]</span> <span class="pre">-usr_mapdir</span> <span class="pre">[directory</span> <span class="pre">containing</span> <span class="pre">map</span> <span class="pre">files]</span></code>
+This script should run quickly on a login node, and produce four files. Two log files and two netcdf surface data files for CLM.</p>
+<p>./mksurfdata.pl -res usrspec -usr_gname ${lnd_grd_name}_${ocn_grd_name} -usr_gdate $gdat</p>
+<dl class="simple">
+<dt>For more information on these files (and a description of how to create them) consider browsing through these websites:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11775.html">Creating mappping files that mksurfdata_map will use</a></p></li>
+<li><p><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11812.html">Creating a domain file for CLM and DATM</a></p></li>
+<li><p><a class="reference external" href="http://www.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/x11868.html">Using mksurfdata_map to create surface datasets from grid datasets</a></p></li>
+</ul>
+</dd>
+</dl>
+<p>These websites are older, a bit out of date, and not exactly what we need for our model.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="edit_config.html" class="btn btn-neutral float-right" title="5. Modifying the configuration files" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="domain.html" class="btn btn-neutral" title="3. Generating the domain and mapping files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

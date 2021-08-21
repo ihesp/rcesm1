@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. Generating the domain and mapping files &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="up" title="Creating a new R-CESM application/domain" href="preprocessing.html"/>
+        <link rel="next" title="4. Creating New Domain and Land Surface Data Files for CLM" href="clm_grid.html"/>
+        <link rel="prev" title="3. Generating the X-ROMS (DOCN) grid, domain and mapping files" href="xroms.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#overview-of-steps-involved">Overview of steps involved</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="preprocessing.html#id1">Next Steps</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roms_grid.html">2. Generating the Ocean input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xroms.html">3. Generating the X-ROMS (DOCN) grid, domain and mapping files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3. Generating the domain and mapping files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generating-the-mapping-files">Generating the mapping files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generating-the-domain-files">Generating the domain files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="clm_grid.html">4. Creating New Domain and Land Surface Data Files for CLM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edit_config.html">5. Modifying the configuration files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="preprocessing.html">Creating a new R-CESM application/domain</a> &raquo;</li>
+        
+      <li>3. Generating the domain and mapping files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/domain.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generating-the-domain-and-mapping-files">
+<span id="xroms"></span><h1>3. Generating the domain and mapping files<a class="headerlink" href="#generating-the-domain-and-mapping-files" title="Permalink to this headline">¶</a></h1>
+<p>Date: May/22/2021
+Author: Jaison Kurian and Abishek Gopal</p>
+<div class="section" id="generating-the-mapping-files">
+<h2>Generating the mapping files<a class="headerlink" href="#generating-the-mapping-files" title="Permalink to this headline">¶</a></h2>
+<p>Mapping files are required if the ROMS and WRF grid are not exactly same or you are using xROMS. These files store the mapping weights from one type of grid to the other.</p>
+<ol class="arabic simple">
+<li><p>Convert the WRF and X-ROMS grid files to the SCRIP format domain files so that ESMF can read them.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./create_map.py -g gom_lr_docn_grd.nc -o scrip_docn_grd.nc -t Data_Ocean_grid_in_scrip_format --var_lat yc --var_lon xc --var_mask mask
+./create_map.py -g wrfinput_d01.nc -o scrip_atm_grd.nc -t WRF_grid_in_scrip_format --var_lat XLAT --var_lon XLONG --var_mask NONE
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Use the ESMF library to generate the mapping files.</p></li>
+</ol>
+<p># Conservative remapping (fluxes)</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mpirun -n 8 ESMF_RegridWeightGen --ignore_unmapped -m conserve     -w map_o2a_aave.nc -s scrip_docn_grd.nc -d scrip_atm_grd.nc --src_regional --dst_regional</span>
+<span class="go">mpirun -n 8 ESMF_RegridWeightGen --ignore_unmapped -m conserve     -w map_a2o_aave.nc -s scrip_atm_grd.nc -d scrip_docn_grd.nc --src_regional --dst_regional</span>
+</pre></div>
+</div>
+<p># Bilinear remapping (wind stress)</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mpirun -n 8 ESMF_RegridWeightGen --ignore_unmapped -m bilinear     -w map_a2o_blin.nc -s scrip_atm_grd.nc -d scrip_docn_grd.nc --src_regional --dst_regional</span>
+</pre></div>
+</div>
+<p>Then use run_esmf.pbs to create the mapping files using ESMF library.</p>
+</div>
+<div class="section" id="generating-the-domain-files">
+<h2>Generating the domain files<a class="headerlink" href="#generating-the-domain-files" title="Permalink to this headline">¶</a></h2>
+<p>Create the domain files using the gen_domain tool. This tool is available from many places, and it is not entirely necessary to use the one from an older version of CLM. The version available through CIME in a full checkout of RCESM should work. The tool is located in: <code class="docutils literal notranslate"><span class="pre">cime/tools/mapping/gen_domain_files</span></code> .</p>
+<p>The INSTALL file in the gen_domain_files/ directory contains details on
+how to build the gen_domain executable. After you have built it, the README
+in the same directory contains details on how to use the tool. The basic usage
+is:
+$ ./gen_domain -m ../gen_mapping_files/map_ocnname_TO_lndname_aave.yymmdd.nc -o ocnname -l lndname
+$ ./gen_domain -m ../gen_mapping_files/map_ocnname_TO_atmname_aave.yymmdd.nc -o ocnname -l atmname</p>
+<p>Step 2-b: Run the gen_domain tool using the command:
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">gen_domain</span> <span class="pre">-m</span> <span class="pre">&lt;input</span> <span class="pre">mapping</span> <span class="pre">file</span> <span class="pre">name&gt;</span> <span class="pre">-o</span> <span class="pre">&lt;ocean</span> <span class="pre">grid</span> <span class="pre">name&gt;</span> <span class="pre">-l</span> <span class="pre">&lt;land</span> <span class="pre">grid</span> <span class="pre">name&gt;</span></code>
+This will produce three domain files, one for the land and atmosphere, one for the ocean and sea ice, and one for the ocean on the atmospheric grid.</p>
+<p>These commands will generate the following domain files:
+domain.lnd.lndname_ocnname.yymmdd.nc
+domain.ocn.lndname_ocnname.yymmdd.nc
+domain.lnd.atmname_ocnname.yymmdd.nc
+domain.ocn.atmname_ocnname.yymmdd.nc
+domain.ocn.ocnname.yymmdd.nc
+Notes:
+a. If you are running with the atmosphere and land components on the
+same grid, you only need to execute gen_domain once.
+b. The input atmosphere grid is assumed to be unmasked (global). Land
+cells whose fraction is zero will have land mask = 0.
+c. If the ocean and land grids are identical then the mapping file will simply
+be unity and the land fraction will be one minus the ocean fraction.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="clm_grid.html" class="btn btn-neutral float-right" title="4. Creating New Domain and Land Surface Data Files for CLM" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="xroms.html" class="btn btn-neutral" title="3. Generating the X-ROMS (DOCN) grid, domain and mapping files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

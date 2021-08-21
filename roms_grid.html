@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
-        <link rel="up" title="Creating new grids and cases" href="preprocessing.html"/>
-        <link rel="next" title="Post-processing Utilities" href="postprocessing.html"/>
+        <link rel="up" title="Creating a new R-CESM application/domain" href="preprocessing.html"/>
+        <link rel="next" title="3. Generating the X-ROMS (DOCN) grid, domain and mapping files" href="xroms.html"/>
         <link rel="prev" title="1. Generating the Atmospheric input files" href="wrf_grid.html"/> 
 
   
@@ -86,15 +86,13 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#changes-to-input-files">Changes to Input Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#steps-to-make-new-model-grids-and-input-files">Steps to Make New Model Grids and Input Files</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="preprocessing.html#next-steps">Next Steps</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#overview-of-steps-involved">Overview of steps involved</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="preprocessing.html#id1">Next Steps</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">2. Generating the Ocean input files</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#get-bathymetry">4) Get Bathymetry</a></li>
@@ -102,14 +100,19 @@
 <li class="toctree-l4"><a class="reference internal" href="#smooth-bathymetry">5) Smooth Bathymetry</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="xroms.html">3. Generating the X-ROMS (DOCN) grid, domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain.html">3. Generating the domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clm_grid.html">4. Creating New Domain and Land Surface Data Files for CLM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edit_config.html">5. Modifying the configuration files</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
 </ul>
 
             
@@ -154,7 +157,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="preprocessing.html">Creating new grids and cases</a> &raquo;</li>
+          <li><a href="preprocessing.html">Creating a new R-CESM application/domain</a> &raquo;</li>
         
       <li>2. Generating the Ocean input files</li>
     
@@ -278,6 +281,7 @@ uvp_mask</p>
 <li><p>Jaison will provide the tools and documentation for this step later.</p></li>
 </ul>
 </div></blockquote>
+<p><a class="reference external" href="https://www.myroms.org/wiki/easygrid">https://www.myroms.org/wiki/easygrid</a></p>
 </div>
 </div>
 
@@ -288,13 +292,29 @@ uvp_mask</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="postprocessing.html" class="btn btn-neutral float-right" title="Post-processing Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="xroms.html" class="btn btn-neutral float-right" title="3. Generating the X-ROMS (DOCN) grid, domain and mapping files" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="wrf_grid.html" class="btn btn-neutral" title="1. Generating the Atmospheric input files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
 
   <hr/>
 
@@ -333,6 +353,7 @@ uvp_mask</p>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Porting R-CESM to new machines &mdash; RCESM Quickstart Guide and Development Doc</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
+        <link rel="next" title="Known Issues and Troubleshooting" href="troubleshooting.html"/>
+        <link rel="prev" title="5. Modifying the configuration files" href="edit_config.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RCESM Quickstart Guide and Development Doc
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Porting R-CESM to new machines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tamu-ada">TAMU Ada</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ucar-cheyenne">UCAR Cheyenne</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RCESM Quickstart Guide and Development Doc</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Porting R-CESM to new machines</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/porting.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="porting-r-cesm-to-new-machines">
+<span id="porting"></span><h1>Porting R-CESM to new machines<a class="headerlink" href="#porting-r-cesm-to-new-machines" title="Permalink to this headline">¶</a></h1>
+<p>An RCESM case directory contains all of the configuration xml files, case control scripts, and namelists to start a RCESM run. It also contains the README document which contains information about the case as it was created, and the CaseStatus document that keeps track of changes as you go.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Edit the <code class="docutils literal notranslate"><span class="pre">my_rcesm_sandbox/cime/config/cesm/machines/config_machines.xml</span></code> file to point to correct input file directories and output file locations before creating a case. An example on Ada.</p></li>
+</ul>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;machine</span> <span class="na">MACH=</span><span class="s">&quot;grace&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;OS&gt;</span>LINUX<span class="nt">&lt;/OS&gt;</span>
+    <span class="nt">&lt;COMPILERS&gt;</span>intel<span class="nt">&lt;/COMPILERS&gt;</span>
+    <span class="nt">&lt;MPILIBS&gt;</span>impi<span class="nt">&lt;/MPILIBS&gt;</span>
+
+    <span class="nt">&lt;CIME_OUTPUT_ROOT&gt;</span>/ihesp/shared/rundir/rcesm<span class="nt">&lt;/CIME_OUTPUT_ROOT&gt;</span>
+    <span class="nt">&lt;DIN_LOC_ROOT&gt;</span>/ihesp/obs_root/inputdata<span class="nt">&lt;/DIN_LOC_ROOT&gt;</span>
+
+    <span class="nt">&lt;DOUT_S_ROOT&gt;</span>$ENV{SCRATCH}/archive/$CASE<span class="nt">&lt;/DOUT_S_ROOT&gt;</span>
+
+    <span class="nt">&lt;BATCH_SYSTEM&gt;</span>slurm<span class="nt">&lt;/BATCH_SYSTEM&gt;</span>
+    <span class="nt">&lt;mpirun</span> <span class="na">mpilib=</span><span class="s">&quot;impi&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;executable&gt;</span>mpirun<span class="nt">&lt;/executable&gt;</span>
+      <span class="nt">&lt;arguments&gt;</span>
+         <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;num_tasks&quot;</span><span class="nt">&gt;</span> -np $TOTALPES<span class="nt">&lt;/arg&gt;</span>
+      <span class="nt">&lt;/arguments&gt;</span>
+    <span class="nt">&lt;/mpirun&gt;</span>
+    <span class="nt">&lt;module_system</span> <span class="na">type=</span><span class="s">&quot;module&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;modules&gt;</span>
+        <span class="nt">&lt;command</span> <span class="na">name=</span><span class="s">&quot;purge&quot;</span><span class="nt">&gt;&lt;/command&gt;</span>
+        <span class="nt">&lt;command</span> <span class="na">name=</span><span class="s">&quot;load&quot;</span><span class="nt">&gt;</span>intel/2019b<span class="nt">&lt;/command&gt;</span>
+        ....
+        <span class="nt">&lt;command</span> <span class="na">name=</span><span class="s">&quot;load&quot;</span><span class="nt">&gt;</span>PnetCDF/1.12.1<span class="nt">&lt;/command&gt;</span>
+        <span class="nt">&lt;command</span> <span class="na">name=</span><span class="s">&quot;load&quot;</span><span class="nt">&gt;</span>netCDF/4.7.4<span class="nt">&lt;/command&gt;</span>
+        <span class="nt">&lt;command</span> <span class="na">name=</span><span class="s">&quot;load&quot;</span><span class="nt">&gt;</span>netCDF-Fortran/4.5.3<span class="nt">&lt;/command&gt;</span>
+      <span class="nt">&lt;/modules&gt;</span>
+   <span class="nt">&lt;/module_system&gt;</span>
+    <span class="nt">&lt;environment_variables&gt;</span>
+      <span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;NETCDF_PATH&quot;</span><span class="nt">&gt;</span>$IHESP/software/easybuild/eb/x86_64/sw/netCDF/4.7.4-iimpi-2019b<span class="nt">&lt;/env&gt;</span>
+      <span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;PNETCDF_PATH&quot;</span><span class="nt">&gt;</span>$IHESP/software/easybuild/eb/x86_64/sw/PnetCDF/1.12.1-iimpi-2019b<span class="nt">&lt;/env&gt;</span>
+      <span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;NETCDFF_INCDIR&quot;</span><span class="nt">&gt;</span>$IHESP/software/easybuild/eb/x86_64/sw/netCDF-Fortran/4.5.3-iimpi-2019b/include<span class="nt">&lt;/env&gt;</span>
+    <span class="nt">&lt;/environment_variables&gt;</span>
+
+<span class="nt">&lt;/machine&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;compiler</span> <span class="na">MACH=</span><span class="s">&quot;grace&quot;</span> <span class="na">COMPILER=</span><span class="s">&quot;intel&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;MPIFC&gt;</span>mpiifort<span class="nt">&lt;/MPIFC&gt;</span>
+    <span class="nt">&lt;MPICC&gt;</span>mpiicc<span class="nt">&lt;/MPICC&gt;</span>
+    <span class="nt">&lt;MPICXX&gt;</span>mpiicpc<span class="nt">&lt;/MPICXX&gt;</span>
+    <span class="nt">&lt;SFC&gt;</span>ifort<span class="nt">&lt;/SFC&gt;</span>
+    <span class="nt">&lt;SCC&gt;</span>icc<span class="nt">&lt;/SCC&gt;</span>
+    <span class="nt">&lt;SCXX&gt;</span>icpc<span class="nt">&lt;/SCXX&gt;</span>
+    <span class="nt">&lt;NETCDF_PATH&gt;</span>$IHESP/software/easybuild/eb/x86_64/sw/netCDF/4.7.4-iimpi-2019b<span class="nt">&lt;/NETCDF_PATH&gt;</span>
+    <span class="nt">&lt;NETCDF_C_PATH&gt;</span>$IHESP/software/easybuild/eb/x86_64/sw/netCDF/4.7.4-iimpi-2019b<span class="nt">&lt;/NETCDF_C_PATH&gt;</span>
+    <span class="nt">&lt;NETCDF_FORTRAN_PATH&gt;</span>$IHESP/software/easybuild/eb/x86_64/sw/netCDF-Fortran/4.5.3-iimpi-2019b<span class="nt">&lt;/NETCDF_FORTRAN_PATH&gt;</span>
+    <span class="nt">&lt;PNETCDF_PATH&gt;</span>$IHESP/software/easybuild/eb/x86_64/sw/PnetCDF/1.12.1-iimpi-2019b<span class="nt">&lt;/PNETCDF_PATH&gt;</span>
+    <span class="nt">&lt;SLIBS&gt;</span>
+        <span class="nt">&lt;append&gt;</span>-L$(NETCDF_C_PATH)/lib -Wl,-rpath,$(NETCDF_PATH)/lib -lnetcdf<span class="nt">&lt;/append&gt;</span>
+        <span class="nt">&lt;append&gt;</span>-L$(NETCDF_FORTRAN_PATH)/lib -Wl,-rpath,$(NETCDF_FORTRAN_PATH)/lib -lnetcdff<span class="nt">&lt;/append&gt;</span>
+        <span class="nt">&lt;append&gt;</span>-L$(PNETCDF_PATH)/lib -Wl,-rpath,$(PNETCDF_PATH)/lib -lpnetcdf<span class="nt">&lt;/append&gt;</span>
+    <span class="nt">&lt;/SLIBS&gt;</span>
+    <span class="nt">&lt;PIO_FILESYSTEM_HINTS&gt;</span>lustre<span class="nt">&lt;/PIO_FILESYSTEM_HINTS&gt;</span>
+<span class="nt">&lt;/compiler&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;batch_system</span> <span class="na">MACH=</span><span class="s">&quot;grace&quot;</span> <span class="na">type=</span><span class="s">&quot;slurm&quot;</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;batch_submit&gt;</span>sbatch<span class="nt">&lt;/batch_submit&gt;</span>
+    <span class="nt">&lt;submit_args&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">flag=</span><span class="s">&quot;--time&quot;</span> <span class="na">name=</span><span class="s">&quot;$JOB_WALLCLOCK_TIME&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">flag=</span><span class="s">&quot;-p&quot;</span> <span class="na">name=</span><span class="s">&quot;$JOB_QUEUE&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/submit_args&gt;</span>
+    <span class="nt">&lt;directives&gt;</span>
+    <span class="nt">&lt;directive&gt;</span>--mem=360GB <span class="nt">&lt;/directive&gt;</span>
+    <span class="nt">&lt;/directives&gt;</span>
+    <span class="nt">&lt;queues&gt;</span>
+      <span class="nt">&lt;queue</span> <span class="na">walltimemax=</span><span class="s">&quot;02:00:00&quot;</span> <span class="na">nodemin=</span><span class="s">&quot;1&quot;</span> <span class="na">nodemax=</span><span class="s">&quot;32&quot;</span><span class="nt">&gt;</span>short<span class="nt">&lt;/queue&gt;</span>
+      <span class="nt">&lt;queue</span> <span class="na">walltimemax=</span><span class="s">&quot;24:00:00&quot;</span> <span class="na">nodemin=</span><span class="s">&quot;1&quot;</span> <span class="na">nodemax=</span><span class="s">&quot;128&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>medium<span class="nt">&lt;/queue&gt;</span>
+      <span class="nt">&lt;queue</span> <span class="na">walltimemax=</span><span class="s">&quot;168:00:00&quot;</span> <span class="na">nodemin=</span><span class="s">&quot;1&quot;</span> <span class="na">nodemax=</span><span class="s">&quot;64&quot;</span> <span class="nt">&gt;</span>long<span class="nt">&lt;/queue&gt;</span>
+      <span class="nt">&lt;queue</span> <span class="na">walltimemax=</span><span class="s">&quot;504:00:00&quot;</span> <span class="na">nodemin=</span><span class="s">&quot;1&quot;</span> <span class="na">nodemax=</span><span class="s">&quot;32&quot;</span> <span class="nt">&gt;</span>xlong<span class="nt">&lt;/queue&gt;</span>
+      <span class="nt">&lt;queue</span> <span class="na">walltimemax=</span><span class="s">&quot;24:00:00&quot;</span> <span class="na">nodemin=</span><span class="s">&quot;1&quot;</span> <span class="na">nodemax=</span><span class="s">&quot;800&quot;</span> <span class="nt">&gt;</span>special<span class="nt">&lt;/queue&gt;</span>
+    <span class="nt">&lt;/queues&gt;</span>
+<span class="nt">&lt;/batch_system&gt;</span>
+</pre></div>
+</div>
+<p>The default CRESM code and test cases are tuned to work on TAMU Ada. For
+porting it on to other machines, some changes may be required as
+detailed in this section.</p>
+<p>configure.wrf.grace</p>
+<div class="section" id="tamu-ada">
+<span id="sec-ada"></span><h2>TAMU Ada<a class="headerlink" href="#tamu-ada" title="Permalink to this headline">¶</a></h2>
+<p>On TAMU Ada, the following settings worked fine (last test Sep/2017) for
+Fortran, C, MPI, netCDF and pnetcdf libraries.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[user@comp]$ module purge
+[user@comp]$ module load wrf-deps/intel-2015B
+[user@comp]$ module load pnetcdf/1.6.1-intel-2015B
+</pre></div>
+</div>
+<p>The default CRESM source code and test cases may be used without any
+modification on TAMU Ada.</p>
+<p>A note about pnetcdf on Ada. On Ada “filesystem-hints=gpfs” (while
+installing pio), and “stripingunit=16777216” (run_cresm.job). For
+reference, the complete environmental variables for run_cresm.job on Ada
+is provided below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ulimit</span> <span class="o">-</span><span class="n">s</span> <span class="n">unlimited</span>
+<span class="n">module</span> <span class="n">purge</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">wrf</span><span class="o">-</span><span class="n">deps</span><span class="o">/</span><span class="n">intel</span><span class="o">-</span><span class="mi">2015</span><span class="n">B</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">pnetcdf</span><span class="o">/</span><span class="mf">1.6</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">intel</span><span class="o">-</span><span class="mi">2015</span><span class="n">B</span>
+<span class="n">export</span> <span class="n">I_MPI_HYDRA_BOOTSTRAP</span><span class="o">=</span><span class="n">lsf</span>
+<span class="n">export</span> <span class="n">I_MPI_LSF_USE_COLLECTIVE_LAUNCH</span><span class="o">=</span><span class="mi">1</span>
+<span class="c1"># set following to the number of hosts ie. (-n value)/(ptile value)</span>
+<span class="n">export</span> <span class="n">I_MPI_HYDRA_BRANCH_COUNT</span><span class="o">=</span><span class="mi">18</span>
+<span class="n">export</span> <span class="n">PNETCDF_HINTS</span><span class="o">=</span><span class="s2">&quot;striping_unit=16777216&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ucar-cheyenne">
+<span id="sec-cheyenne"></span><h2>UCAR Cheyenne<a class="headerlink" href="#ucar-cheyenne" title="Permalink to this headline">¶</a></h2>
+<p>Compared to the default version (tuned for TAMU Ada), NCAR Cheyenne
+needs some modification (as of Oct/10/2017) for the following reasons:</p>
+<p>On Cheyenne, mpiifort and mpiicc are present in proper location (path
+set using “module load” command) but they do not work. So, some of the
+files need to be edited to set mpif90 and mpicc as default compilers.</p>
+<p>pnetcdf library is available on Cheyenne (module load pnetcdf/1.8.0) but
+there is absolutely no documentation online about the “filesystem-hints”
+(while installing pio) and the environmental variables (needed at
+runtime, like “striping_unit”). Hence use CRESM without pnetcdf on
+Cheyenne.</p>
+<p>makefile for ROMS includes a check for the version of “make” but it do
+not have the version 4.0 (which is the one available on Cheyenne) in the
+check list.</p>
+<p>The default modules worked fine on Cheyenne. A list of loaded modules
+are given below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[user@comp]$ module list
+1) ncarenv/1.2    3) ncarcompilers/0.4.1   5) netcdf/4.4.1.1
+2) intel/17.0.1   4) mpt/2.15f
+</pre></div>
+</div>
+<p>The complete list of modifications to port default CRESM on to NCAR
+Cheyenne is given below.</p>
+<p>Before installing libraries (Section <a class="reference external" href="#sec:lib">[sec:lib]</a>)</p>
+<div class="line-block">
+<div class="line">Edit build_mct.sh entry for “MPIFC” as follows (before mct
+installation)</div>
+<div class="line">export MPIFC=mpif90</div>
+</div>
+<p>Edit build_pio.sh with correct entries for MPIFC and MPICC and remove
+any reference to pnetcdf (before installing pio). The edited
+build_pio.sh is given below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="n">export</span> <span class="n">CC</span><span class="o">=</span><span class="n">icc</span>
+<span class="n">export</span> <span class="n">FC</span><span class="o">=</span><span class="n">ifort</span>
+<span class="n">export</span> <span class="n">MPIFC</span><span class="o">=</span><span class="n">mpif90</span>
+<span class="n">export</span> <span class="n">MPICC</span><span class="o">=</span><span class="n">mpicc</span>
+<span class="n">export</span> <span class="n">MCT_PATH</span><span class="o">=/</span><span class="n">glade</span><span class="o">/</span><span class="n">p</span><span class="o">/</span><span class="n">work</span><span class="o">/...../</span><span class="n">Models</span><span class="o">/</span><span class="n">CRESM</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">mct</span>
+<span class="n">export</span> <span class="n">NETCDF_PATH</span><span class="o">=/</span><span class="n">glade</span><span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">ch</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">netcdf</span><span class="o">/...../</span><span class="mf">17.0</span><span class="o">.</span><span class="mi">1</span>
+<span class="o">./</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">glade</span><span class="o">/</span><span class="n">p</span><span class="o">/</span><span class="n">work</span><span class="o">/...../</span><span class="n">Models</span><span class="o">/</span><span class="n">CRESM</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">pio</span>
+</pre></div>
+</div>
+<p>Before compilation (Section <a class="reference external" href="#sec:comp">[sec:comp]</a>)</p>
+<p>Edit the “configure” file (cresm-1.0.0/configure) as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">change</span> <span class="n">following</span> <span class="n">line</span> <span class="n">from</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">ac_prog</span> <span class="ow">in</span> <span class="n">mpiifort</span> <span class="n">mpif90</span> <span class="n">mpfort</span>
+<span class="n">to</span>
+    <span class="k">for</span> <span class="n">ac_prog</span> <span class="ow">in</span> <span class="n">mpif90</span> <span class="n">mpiifort</span> <span class="n">mpfort</span>
+<span class="ow">and</span> <span class="n">following</span> <span class="n">line</span> <span class="kn">from</span>
+    <span class="nn">for</span> <span class="n">ac_prog</span> <span class="ow">in</span> <span class="n">mpiicc</span> <span class="n">mpicc</span> <span class="n">mpcc</span>
+<span class="n">to</span>
+    <span class="k">for</span> <span class="n">ac_prog</span> <span class="ow">in</span> <span class="n">mpicc</span> <span class="n">mpiicc</span> <span class="n">mpcc</span>
+</pre></div>
+</div>
+<p>Edit ROMS makefile (cresm-1.0.0/models/ocn/roms/makefile) as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">change</span> <span class="n">following</span> <span class="n">line</span> <span class="n">from</span><span class="p">:</span>
+    <span class="n">NEED_VERSION</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.80</span> <span class="mf">3.81</span> <span class="mf">3.82</span>
+<span class="n">to</span>
+    <span class="n">NEED_VERSION</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.80</span> <span class="mf">3.81</span> <span class="mf">3.82</span> <span class="mf">4.0</span>
+</pre></div>
+</div>
+<p>Edit “run_config.sh” (cresm-1.0.0/run_config.sh) to remove the entry for
+pnetcdf (“<span class="math notranslate nohighlight">\(--\)</span>with-pnetcdf=/path/to/pnetcdf”)(also see Section
+<a class="reference external" href="#sec:nopnet">[sec:nopnet]</a>)</p>
+<p>Before running (Section <a class="reference external" href="#sec:run">[sec:run]</a>)</p>
+<p>Edit WRF input file (namelist.input in run directory) entries for
+io_form_history &amp; restart as follows (value 2 is for non-pnetcdf case
+and value 11 is for pnetcdf case (see Section
+<a class="reference external" href="#sec:nopnet">[sec:nopnet]</a>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">io_form_history</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">io_form_restart</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Edit “run_cresm.job” (run directory) to remove any entries specific to
+pnetcdf (like striping_unit, see Section <a class="reference external" href="#sec:ada">1.1</a>).</p>
+<span class="target" id="sec-fixmdl"></span></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="Known Issues and Troubleshooting" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="edit_config.html" class="btn btn-neutral" title="5. Modifying the configuration files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, sphinx-themes.org.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

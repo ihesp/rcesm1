@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
-        <link rel="next" title="Downloading RCESM" href="downloading_cesm.html"/>
-        <link rel="prev" title="RCESM Quickstart Guide and Development Doc" href="index.html"/> 
+        <link rel="next" title="Downloading R-CESM" href="downloading_cesm.html"/>
+        <link rel="prev" title="R-CESM Quickstart Guide and Development Doc" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,21 +85,21 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#rcesm-overview">RCESM Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rcesm-software-operating-system-prerequisites">RCESM Software/Operating System Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#r-cesm-overview">R-CESM Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#r-cesm-software-operating-system-prerequisites">R-CESM Software/Operating System Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-use-this-document">How To Use This Document</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
 </ul>
 
             
@@ -165,19 +165,19 @@
             
   <div class="section" id="introduction">
 <span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="rcesm-overview">
-<h2>RCESM Overview<a class="headerlink" href="#rcesm-overview" title="Permalink to this headline">¶</a></h2>
-<p>The RCESM is a fully coupled regional model developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&amp;M University (TAMU). This model is built on the coupling framework and software infrastructure used by the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the <a class="reference external" href="http://www.cesm.ucar.edu">CESM webiste</a>.</p>
+<div class="section" id="r-cesm-overview">
+<h2>R-CESM Overview<a class="headerlink" href="#r-cesm-overview" title="Permalink to this headline">¶</a></h2>
+<p>The Regional Community Earth System Model (R-CESM) is a fully-coupled regional model, developed jointly by the National Center for Atmospheric Research (NCAR) and Texas A&amp;M University (TAMU). This model is built on the coupling framework and software infrastructure available in the Community Earth System Model (CESM). To learn more about the base model for this project, CESM, please see the <a class="reference external" href="http://www.cesm.ucar.edu">CESM webiste</a>.</p>
 <div class="figure align-center" id="id2">
-<a class="reference internal image-reference" href="./_images/RCESM_main.png"><img alt="RCESM schematic" src="./_images/RCESM_main.png" style="width: 554.12px; height: 330.40000000000003px;" /></a>
+<a class="reference internal image-reference" href="_images/RCESM_main.png"><img alt="RCESM schematic" src="_images/RCESM_main.png" style="width: 554.12px; height: 330.40000000000003px;" /></a>
 <p class="caption"><span class="caption-text">An overall schematic of the Regional Community Earth System model architecture.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>This documentation provides both a quickstart guide, including how to get the code and how to build and run an experiment, and information on the system architecture and the development changes made by software engineers at NCAR.</p>
 </div>
-<div class="section" id="rcesm-software-operating-system-prerequisites">
-<h2>RCESM Software/Operating System Prerequisites<a class="headerlink" href="#rcesm-software-operating-system-prerequisites" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="r-cesm-software-operating-system-prerequisites">
+<h2>R-CESM Software/Operating System Prerequisites<a class="headerlink" href="#r-cesm-software-operating-system-prerequisites" title="Permalink to this headline">¶</a></h2>
 <p>The following are the external system and software requirements for
-installing and running RCESM.</p>
+installing and running R-CESM.</p>
 <ul class="simple">
 <li><p>UNIX style operating system such as CNL, AIX or Linux</p></li>
 <li><p>python &gt;= 2.7</p></li>
@@ -235,13 +235,29 @@ variable or some other variable; we try to make these exceptions clear.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="downloading_cesm.html" class="btn btn-neutral float-right" title="Downloading RCESM" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="downloading_cesm.html" class="btn btn-neutral float-right" title="Downloading R-CESM" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="RCESM Quickstart Guide and Development Doc" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="R-CESM Quickstart Guide and Development Doc" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
 
   <hr/>
 
@@ -280,6 +296,7 @@ variable or some other variable; we try to make these exceptions clear.</p>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

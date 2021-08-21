@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Creating new grids and cases &mdash; RCESM Quickstart Guide and Development Doc</title>
+  <title>Creating a new R-CESM application/domain &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -37,7 +37,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="RCESM Quickstart Guide and Development Doc" href="index.html"/>
         <link rel="next" title="1. Generating the Atmospheric input files" href="wrf_grid.html"/>
-        <link rel="prev" title="RCESM Input/Output Files" href="io_files.html"/> 
+        <link rel="prev" title="R-CESM Input/Output Files" href="io_files.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,25 +85,31 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating new grids and cases</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#changes-to-input-files">Changes to Input Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#steps-to-make-new-model-grids-and-input-files">Steps to Make New Model Grids and Input Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a new R-CESM application/domain</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview-of-steps-involved">Overview of steps involved</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Next Steps</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="roms_grid.html">2. Generating the Ocean input files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xroms.html">3. Generating the X-ROMS (DOCN) grid, domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain.html">3. Generating the domain and mapping files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clm_grid.html">4. Creating New Domain and Land Surface Data Files for CLM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edit_config.html">5. Modifying the configuration files</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
 </ul>
 
             
@@ -148,7 +154,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Creating new grids and cases</li>
+      <li>Creating a new R-CESM application/domain</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -167,57 +173,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="creating-new-grids-and-cases">
-<span id="prepost-tools"></span><h1>Creating new grids and cases<a class="headerlink" href="#creating-new-grids-and-cases" title="Permalink to this headline">¶</a></h1>
-<p>The best method is to try the Gulf of Mexico test case first and then adapt
-it (including cresm_1.0.0 source code) to the new grids and application.
-The guidelines for this are provided in this section.</p>
-<div class="section" id="changes-to-input-files">
-<h2>Changes to Input Files<a class="headerlink" href="#changes-to-input-files" title="Permalink to this headline">¶</a></h2>
-<p>Please take a look at Chapter to know the basic details and
-requirements of CRESM modeling framework. Based on the specific options
-selected for the application with CRESM, WRF and ROMS, prepare input files.
-Input files are discussed in detail in Chapter. Use the input
-files from the Gulf of Mexico test case as a reference. Tools and scripts to
-create input netCDF files are provided in Chapter.</p>
-<p>As with any models, all CRESM, WRF and ROMS files are model grid dependent.
-Please make new input files for experiments with a new component model grid
-(WRF or ROMS). Also note that the xroms files and mapping weight files
-(Section ) are also grid dependend and needs to be recreated
-with change in any component model grids.</p>
-</div>
-<div class="section" id="steps-to-make-new-model-grids-and-input-files">
-<h2>Steps to Make New Model Grids and Input Files<a class="headerlink" href="#steps-to-make-new-model-grids-and-input-files" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="creating-a-new-r-cesm-application-domain">
+<span id="prepost-tools"></span><h1>Creating a new R-CESM application/domain<a class="headerlink" href="#creating-a-new-r-cesm-application-domain" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we will walk through the steps involved in adding the low-resolution Gulf of Mexico domain to R-CESM. In order to add an application to focus on a new region domain, we would first need to create the necessary grids and mapping files, then change the R-CESM configuration files to support the new domain. We would also need to modify the namelist options for the components in use.</p>
+<div class="section" id="overview-of-steps-involved">
+<h2>Overview of steps involved<a class="headerlink" href="#overview-of-steps-involved" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li><dl class="simple">
-<dt>Determine the ROMS and WRF model domains.</dt><dd><p>Make ROMS domain slighly (0.2-1degrees, or few grid points) smaller (all four sides) than the WRF domain, in order to reduce the impact of WRF boundary effects affecting ROMS interior solution.</p>
-</dd>
-</dl>
-</li>
-<li><p>Make WRF model grid using WRF tools.</p></li>
-<li><p>Make WRF initial and boundary conditions using WRF/WPS tools.</p></li>
-<li><p>Make ROMS grid using ROMS tools.</p></li>
+<li><p>Determine the extents of the atmosphere (WRF) and ocean (ROMS) model domains.</p></li>
 </ol>
-<blockquote>
-<div><p>Edit ROMS grid coastline to match that from WRF model grid. This is easier than otherway around, since land points on WRF grid need lot of additional information like vegetation type, land cover etc.</p>
-</div></blockquote>
-<ol class="arabic simple" start="5">
-<li><p>Make ROMS initial and boundary conditions using matlab/python based ROMS pre-processing tools.</p></li>
-<li><p>If planning to use xroms, then create data ocean domain file.</p></li>
-<li><p>Create mapping weight files.</p></li>
+<p>The ROMS domain needs to be slighly smaller than the WRF domain, on all side by 0.2-1degrees, or a few grid points. This is required to reduce the impact of any boundary effects from the WRF model affecting the ROMS interior solution.</p>
+<ol class="arabic simple" start="2">
+<li><p>Generate the grid, initial and boundary conditions for the WRF model using the WRF pre-processing tools (WPS). Then generate the domain file for the atmosphere. Follow the steps in the <a class="reference external" href="wrf_grid.rst">WRF preprocessing tutorial</a></p></li>
+</ol>
+<p>3. Generate the grid, intial and boundary conditions, and nudging files for the ROMS model using your preferred tool. Follow the steps outlined in the <a class="reference external" href="roms_grid.rst">ROMS preprocessing tutorial</a>.
+.. Edit ROMS grid coastline to match that from WRF model grid. This is easier than otherway around, since land points on WRF grid need lot of additional information like vegetation type, land cover etc.</p>
+<ol class="arabic simple" start="4">
+<li><p>If the application will be configured to use XROMS, then create the domain file for the data ocean from the ROMS grid. XROMS is also expected to provide SST and ICE cover (if applicable) data to WRF. The procedures for XROMS are detailed in <a class="reference external" href="xroms.rst">the XROMS guide</a>.</p></li>
+<li><p>Generate the domain files for the atmosphere and ocean grids in the SCRIP format, and then use the ESMF tool to create mapping files to interpolate between the two domains. See <a class="reference external" href="xroms.rst">this page</a> for instructions.</p></li>
+<li><p>Create the domain files using the <code class="docutils literal notranslate"><span class="pre">gen_domain</span></code> tool.</p></li>
+<li><p>Create mapping files from the input data sets to the land grid, using the <code class="docutils literal notranslate"><span class="pre">mkmapdata</span></code> tool in CLM. Then use the <code class="docutils literal notranslate"><span class="pre">mksurfdata_map</span></code> to create the surface datasets required to run CLM. These steps are detailed <a class="reference external" href="clm_grid.rst">here</a>.</p></li>
 <li><p>Compile CRESM with proper options for the new domain and copy executable to new run directory.</p></li>
 <li><p>Copy input files (like namelist, *_in, job/pbs etc. files, not the netCDF files) for CRESM, WRF and ROMS from Gulf of Mexico test case to the new run directory and edit it with proper optios/fields for the new grid/domain.</p></li>
-<li><p>Make a test run for few days and make sure the results are as expected.</p></li>
-<li><p>Now edit the input files for the long production run as required and proceed with production run.</p></li>
 </ol>
-</div>
 <div class="section" id="next-steps">
-<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<h3>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Next Steps<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="wrf_grid.html">1. Generating the Atmospheric input files</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="wrf_grid.html#obtain-and-build-wrf-preprocessing-system-wps-source">1. Obtain and build WRF Preprocessing System (WPS) source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wrf_grid.html#wrf-preprocessing-system">2. WRF Preprocessing System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wrf_grid.html#wrf-preprocessing-system">WRF Preprocessing System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wrf_grid.html#common-issues-and-their-fixes">Common issues and their fixes</a></li>
 </ul>
 </li>
@@ -225,6 +212,26 @@ with change in any component model grids.</p>
 <li class="toctree-l2"><a class="reference internal" href="roms_grid.html#get-bathymetry">4) Get Bathymetry</a></li>
 <li class="toctree-l2"><a class="reference internal" href="roms_grid.html#edit-coastline">5) Edit coastline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="roms_grid.html#smooth-bathymetry">5) Smooth Bathymetry</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xroms.html">3. Generating the X-ROMS (DOCN) grid, domain and mapping files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xroms.html#generating-the-x-roms-grid">Generating the X-ROMS grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xroms.html#xroms-sst-files">xROMS SST files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="domain.html">3. Generating the domain and mapping files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="domain.html#generating-the-mapping-files">Generating the mapping files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domain.html#generating-the-domain-files">Generating the domain files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="clm_grid.html">4. Creating New Domain and Land Surface Data Files for CLM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="clm_grid.html#generate-mapping-files-for-clm-surface-dataset">Generate mapping files for CLM surface dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clm_grid.html#generate-the-clm-surface-dataset">Generate the CLM surface dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="edit_config.html">5. Modifying the configuration files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="edit_config.html#adding-the-new-grid-to-r-cesm">Adding the new grid to R-CESM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edit_config.html#creating-a-new-domain-or-regional-set-up">Creating a New Domain or Regional Set Up</a></li>
 </ul>
 </li>
 </ul>
@@ -242,10 +249,26 @@ with change in any component model grids.</p>
         <a href="wrf_grid.html" class="btn btn-neutral float-right" title="1. Generating the Atmospheric input files" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="io_files.html" class="btn btn-neutral" title="RCESM Input/Output Files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="io_files.html" class="btn btn-neutral" title="R-CESM Input/Output Files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
 
   <hr/>
 
@@ -284,6 +307,7 @@ with change in any component model grids.</p>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

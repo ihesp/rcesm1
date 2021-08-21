@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>RCESM Quickstart Guide and Development Doc &mdash; RCESM Quickstart Guide and Development Doc</title>
+  <title>R-CESM Quickstart Guide and Development Doc &mdash; RCESM Quickstart Guide and Development Doc</title>
   
 
   
@@ -84,16 +84,16 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a></li>
 </ul>
 
             
@@ -138,7 +138,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>RCESM Quickstart Guide and Development Doc</li>
+      <li>R-CESM Quickstart Guide and Development Doc</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,53 +157,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="rcesm-quickstart-guide-and-development-doc">
-<h1>RCESM Quickstart Guide and Development Doc<a class="headerlink" href="#rcesm-quickstart-guide-and-development-doc" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="r-cesm-quickstart-guide-and-development-doc">
+<h1>R-CESM Quickstart Guide and Development Doc<a class="headerlink" href="#r-cesm-quickstart-guide-and-development-doc" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#rcesm-overview">RCESM Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#rcesm-software-operating-system-prerequisites">RCESM Software/Operating System Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#r-cesm-overview">R-CESM Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#r-cesm-software-operating-system-prerequisites">R-CESM Software/Operating System Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#how-to-use-this-document">How To Use This Document</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading RCESM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (RCESM Model Workflow)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#rcesm-case-directories">RCESM Case Directories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#create-a-case">Create a case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#setting-up-the-case-run-script">Setting up the case run script</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#build-the-executable-using-the-case-build-command">Build the executable using the case.build command</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#view-edit-case-parameters">View/edit case parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#running-an-rcesm-case-and-looking-at-model-output">Running an RCESM case and Looking at model output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#restart-the-case">Restart the case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloading_cesm.html">Downloading R-CESM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="downloading_cesm.html#more-details-on-checkout-externals">More details on checkout_externals</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">RCESM developmental information</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#software-versions-and-sourcing">Software Versions and Sourcing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#development-changes-made-by-ncar">Development Changes Made by NCAR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-xml-configuration-files">WRF xml configuration files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-build-changes">WRF build changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-namelist-changes">WRF namelist changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf-source-changes">WRF Source changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-xml-configuration-files">ROMS xml configuration files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-build-changes">ROMS build changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-namelist-changes">ROMS namelist changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms-source-changes">ROMS Source changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start (R-CESM Model Workflow)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#relevant-directories">Relevant directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#create-the-new-case">1. Create the new case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#set-up-the-case">2. Set up the case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#obtaining-the-input-files">3. Obtaining the Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#view-edit-case-parameters">4. View/edit case parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#build-the-executable-for-the-case">4. Build the executable for the case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#submitting-the-case-and-monitoring-model-output">6. Submitting the case and monitoring model output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#restarting-the-case">7. Restarting the case</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cesm_configurations.html">RCESM Configurations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cesm_configurations.html#rcesm-components">RCESM Components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cesm_configurations.html#rcesm-grids">RCESM Grids</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cesm_configurations.html#creating-a-new-domain-or-regional-set-up">Creating a New Domain or Regional Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcesm_arch.html">R-CESM Modeling Framework</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#r-cesm-configurations">R-CESM Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#r-cesm-developmental-changes">R-CESM developmental changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#cime">CIME</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#roms">ROMS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#wrf">WRF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcesm_arch.html#clm4">CLM4</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="io_files.html">RCESM Input/Output Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating new grids and cases</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#changes-to-input-files">Changes to Input Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#steps-to-make-new-model-grids-and-input-files">Steps to Make New Model Grids and Input Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#next-steps">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_files.html">R-CESM Input/Output Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="io_files.html#roms-input-files">ROMS Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_files.html#wrf-input-files">WRF Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_files.html#r-cesm-coupler-input-files">R-CESM/Coupler Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_files.html#other-input-files">Other Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_files.html#all-output-files">All Output Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Creating a new R-CESM application/domain</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#overview-of-steps-involved">Overview of steps involved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing.html#id1">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="porting.html">Porting R-CESM to new machines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="porting.html#tamu-ada">TAMU Ada</a></li>
+<li class="toctree-l2"><a class="reference internal" href="porting.html#ucar-cheyenne">UCAR Cheyenne</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Known Issues and Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#id1">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#cannot-find-compiler">Cannot Find Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#make-version-error-with-roms">Make version Error with ROMS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#cresm-sigsegv-error">CRESM SIGSEGV Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#roms-blow-up-issue">ROMS Blow-up Issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#wrf-sigint-error">WRF SIGINT Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#mct-error-with-mapping-files">MCT error with mapping files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#error-with-data-ocean-year">Error with Data Ocean Year</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing Utilities</a><ul>
@@ -215,17 +232,9 @@
 <li class="toctree-l2"><a class="reference internal" href="contribute.html#updating-this-document">Updating This Document</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Issues or processes for updates</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="updates.html#wrf-updates">WRF Updates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="updates.html#roms-updates">ROMS Updates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="updates.html#clm-updates">CLM Updates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="updates.html#cime-updates">CIME Updates</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="unfinished.html">Known Issues, Troubleshooting, and Future Work</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="unfinished.html#known-issues">Known Issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unfinished.html#troubleshooting">Troubleshooting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unfinished.html#future-work">Future Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Future work and processes for updates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updates.html#future-work">Future Work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updates.html#process-for-updates">Process for updates</a></li>
 </ul>
 </li>
 </ul>
@@ -245,6 +254,22 @@
       
     </div>
   
+
+  <hr/>
+
+<div class="row" style="display: flex">
+  <div class="column" style=" flex: 15.33%;padding: 10px;">
+    <img src="_images/tamu-logo-rgb.svg" alt="Snow" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 7.33%;padding: 10px;">
+    <img src="_images/ihesp-logo-rgb.svg" alt="Forest" style="width:100%">
+  </div>
+  <div class="column" style=" flex: 9.33%;padding: 10px;">
+    <img src="_images/2017_06_ncar_highres_transparent.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
+
+
 
   <hr/>
 
@@ -283,6 +308,7 @@
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
