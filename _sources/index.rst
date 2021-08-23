@@ -17,12 +17,13 @@ Table of contents
    quickstart.rst
    rcesm_arch.rst
    io_files.rst
+   modify_params.rst
    preprocessing.rst
    porting.rst
    troubleshooting.rst
    postprocessing.rst
-   contribute.rst
    updates.rst
+   contribute.rst
 
 
 
