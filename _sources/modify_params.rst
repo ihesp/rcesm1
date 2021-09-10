@@ -4,6 +4,14 @@
 Modifying R-CESM parameters
 ================================
 
+Please note that for models like ROMS configurable options are chosen during both
+compilation and running phases. Since the source code always contain
+files required during compilation stage, their list is not presented
+here. But the important files for the compilation phase are discussed in
+detail. Since the files needed during model running phase (for a new
+experiment) are not available as a package like the R-CESM source code,
+their list is presented for each component model. Again, most important
+among these are discussed in detail.
 
 Depending on the component, there are different ways to change the physics and other model runtime parameters. For native CESM components, such as the top level driver CPL7 & CIME, and the land model CLM4, please follow the official CESM documentation on how to modify the model parameters. 
 
@@ -128,6 +136,8 @@ about processor specifying options for R-CESM.
 
 
 
+XROMS/Data Ocean
+==================
 
 .. _sec:docnyr:
 
@@ -145,87 +155,7 @@ It appears that the YrAlign should be same as YrFirst always!!!!!
 
 .. _sec:drvin:
 
-drv_in
-~~~~~~
 
-The number of processors/cores (PEs) for running R-CESM and its component
-models should be clearly mentioned in drv_in (&ccsm_pes namelist). If
-drv_in is edited to update PE count or layout, pleae edit the ocean.in
-(Section `1.2.5 <#sec:nlistR>`__) and run_R-CESM.job file (Section
-`4.1 <#sec:jobfl>`__) accordingly. Please note that the total number of
-PEs are devided between atm_ntasks and ocn_ntasks. Also, atm_rootpe is 0
-and ocn_rootpe is same as atm_ntasks. All other component model mirrors
-the settings for the atm. Two examples for total PE counts of 552 and
-120 are provided in Table `[tab:pe] <#tab:pe>`__.
-
-.. table:: PE layout in drv_in. Total number of PE is determined by the
-sum of number of atm model PE (atm_ntasks) and ocn model PE
-(ocn_ntasks). Please note that the root PE for atm is 0 and that for ocn
-in atm_ntasks. Other component models mirror atm model settings.
-
-   +--------------+--------------+--------------+
-   | ccsm_pe      | Total        | Total        |
-   +--------------+--------------+--------------+
-   | field        | PE=552       | PE=120       |
-   +--------------+--------------+--------------+
-   | atm_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | atm_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | atm_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | atm_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | atm_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | lnd_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | lnd_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | lnd_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | lnd_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | lnd_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | ocn_ntasks   | 384          | 80           |
-   +--------------+--------------+--------------+
-   | ocn_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ocn_rootpe   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | ocn_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ocn_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | ice_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | ice_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ice_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | ice_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ice_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | glc_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | glc_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | glc_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | glc_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | glc_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | cpl_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | cpl_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | cpl_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | cpl_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
 
 .. _sec:docnstr:
 

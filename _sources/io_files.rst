@@ -4,23 +4,10 @@
 R-CESM Input/Output Files
 ================================
 
-In this section, we'll list the input files required for running the model, and the files that result from a successful or unsuccessful model run. 
+In this section, we will discuss the grid, mapping and other datasets required for running the model, and the files that result from a successful or unsuccessful model run. We also have files that control model configuration, which is discussed in the next section `Modifying R-CESM parameters <modify_params.rst>`__. 
 
-Please note
-that for models like ROMS configurable options are chosen during both
-compilation and running phases. Since the source code always contain
-files required during compilation stage, their list is not presented
-here. But the important files for the compilation phase are discussed in
-detail. Since the files needed during model running phase (for a new
-experiment) are not available as a package like the R-CESM source code,
-their list is presented for each component model. Again, most important
-among these are discussed in detail. Please use the input files for the
-Gulf of Mexico test case (Chapter `[cha:qkstart] <#cha:qkstart>`__) as a
-reference for setting up a new experiment. Only a basic description is
-provided in this chapter and for information on tools and procedure for
-creating some of these input files, please see Chapter
-`[cha:tools] <#cha:tools>`__.
-
+Please use the input files for the 27km, low-resolution, Gulf of Mexico test case (`<#cha:qkstart>`__) as a
+reference for setting up a new experiment. This section is intended as an overview, while `Section: Preprocessing Tools <prepost_tools.rst>`_ covers how to generate the grid and mapping files. For a full description of the files in each component, we recommend consulting the individual model documentations. 
 
 
 .. note:: 
@@ -33,18 +20,53 @@ creating some of these input files, please see Chapter
 ROMS Input Files
 ================
 
-.. _sec:inpRcomp:
 
-Compilation Phase
------------------
+The ROMS model requires the following files: 
 
-For the ROMS model, some of the scheme/parametrization choices are made pre-compilation using header files (.h). File ``txgla_3dnudg.h`` in ``$SRCROOT/components/roms`` directory is the ROMS header file for the low-resolution Gulf of Mexico test case. A copy of the header file used during compilation will be available in src ‘exec/include’ directory (Section
-`[sec:comp] <#sec:comp>`__).
 
-.. _sec:inpRrun:
 
-Running Phase
--------------
+1. Grid File
+----------------
+
+ROMS grid file (netCDF) contains all the grid related information needed
+by ROMS model. In addition model grid cell latitude and logitude, grid
+file contains several parameters like grid cell area, model bathymetry
+and land-sea mask.
+
+.. _sec:bryR:
+
+2. Boundary Condition File
+--------------------------------
+
+For open lateral boundaries, ROMS require time varying data for
+temperature, salinity, u and v velocities and sea surface height. This
+is provided through the boundary condition netCDF file.
+
+.. _sec:iniR:
+
+3. Initial Condition or Restart Files
+------------------------------------------------
+
+For the very first run, ROMS need initial condition file with full 3D
+model state (temperature, salinity, u nad v velocities and sea surface
+height). For a restart run, this is provided through model generated
+restart files.
+
+.. _sec:nudgR:
+
+4. 3D Nudging File
+--------------------------------
+
+ROMS can be configured with 3-dimentional nudging to specified data to
+make sure model is not drifting too far away from the specified data
+(typically from ocean reanalysis products). The data can be climatology
+or inter-annually varying depending on the application. Nudging can be
+along few grid points along the open boundaries or throughout the entire
+ROMS domain (like in the Gulf of Mexico test case). Irrespective of this
+choice, the 3D nudging data should always be for the entire 3D model
+domain (a ROMS requirement) and time varying.
+
+
 
 For ROMS, the 3D nudging file is required only if the 3D nudging is
 turned on (see Section `[sec:3Dnudg] <#sec:3Dnudg>`__). All other files
@@ -52,6 +74,8 @@ are required for realistic configurations (ROMS do have the options to
 provide grid, boundary and initial files through analytical functions
 for idealized configurations). A list of ROMS input files are given in
 Table `[tab:inpR] <#tab:inpR>`__.
+
+
 
 .. table:: List of ROMS input files. Optional file is marked with #.
 
@@ -73,60 +97,7 @@ Table `[tab:inpR] <#tab:inpR>`__.
    | 5  | varinfo.dat       |   txt       | Input & Output variable details |
    +----+-------------------+-------------+---------------------------------+
 
-  
 
-.. _sec:gridR:
-
-Grid File
-~~~~~~~~~
-
-ROMS grid file (netCDF) contains all the grid related information needed
-by ROMS model. In addition model grid cell latitude and logitude, grid
-file contains several parameters like grid cell area, model bathymetry
-and land-sea mask.
-
-.. _sec:bryR:
-
-Boundary Condition File
-~~~~~~~~~~~~~~~~~~~~~~~
-
-For open lateral boundaries, ROMS require time varying data for
-temperature, salinity, u and v velocities and sea surface height. This
-is provided through the boundary condition netCDF file.
-
-.. _sec:iniR:
-
-Inidial Condition or Restart File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For the very first run, ROMS need initial condition file with full 3D
-model state (temperature, salinity, u nad v velocities and sea surface
-height). For a restart run, this is provided through model generated
-restart files.
-
-.. _sec:nudgR:
-
-3D Nudging File
-~~~~~~~~~~~~~~~
-
-ROMS can be configured with 3-dimentional nudging to specified data to
-make sure model is not drifting too far away from the specified data
-(typically from ocean reanalysis products). The data can be climatology
-or inter-annually varying depending on the application. Nudging can be
-along few grid points along the open boundaries or throughout the entire
-ROMS domain (like in the Gulf of Mexico test case). Irrespective of this
-choice, the 3D nudging data should always be for the entire 3D model
-domain (a ROMS requirement) and time varying.
-
-.. _sec:nlistR:
-
-ocean.in
-~~~~~~~~
-
-ROMS model options, including domain decomposition are specified in the
-input file ocean.in. The total PE in ocean.in, computed as the product
-of NtileI and NtileJ (eg. 16*24=384) should be same as ocn_tasks in
-drv_in (&ccsm_pes namelist) (see Section `3.2.3 <#sec:drvin>`__).
 
 .. _sec:inpW:
 
@@ -136,8 +107,8 @@ WRF Input Files
 
 .. _sec:inpWrun:
 
-Running Phase
--------------
+Grid, Initial and Boundary Conditions
+------------------------------------------
 
 WRF input netCDF and namelist files are listed in Table
 `[tab:inpW] <#tab:inpW>`__, which are mandatory for all cases.
@@ -158,7 +129,11 @@ required only for restart runs.
    +----+-------------------+-------------+---------------------------------+
    | 5  | namelist.input    |   txt       |   WRF namelist/options file     |
    +----+-------------------+-------------+---------------------------------+
-   
+
+
+
+WRF Static Geographic Datasets
+------------------------------------------   
 
 For WRF there are serveral table files in addition to input netCDF and
 namelist files. All files in a WRF directory
@@ -220,48 +195,39 @@ list of table files are given in Table
    | 23  | ETAMPNEW_DATA_DBL                | 46  | VEGPARM.TBL             |
    +-----+----------------------------------+-----+-------------------------+
 
-.. _sec:nlistW:
 
-namelist.input
-~~~~~~~~~~~~~~
 
-Please adapt the namelist.input file provided with Gulf of Mexico test
-case for a new application rather than using namelist.input file
-available with independant WRF distribution. Please note that the domain
-decomposition (processor tiling) is automatically determined by R-CESM
-and there is no field in namelist.input to control this aspect for the
-WRF component. Please see Section `3.2.3 <#sec:drvin>`__ for details
-about processor specifying options for R-CESM.
+.. _sec:inpdocn:
 
-.. _sec:inpC:
+XROMS/ Data Ocean files 
+===============================
 
-R-CESM/Coupler Input Files
-=========================
+1. Mapping Weight Files
+----------------------------
 
-.. _sec:inpCcomp:
+Coupled model components can have different resolutions. R-CESM requires
+precomputed interpolation weights to map surface quantities between
+different coupled model components. Interpolation options like bilinear
+and averaging options like area-average are available with the ESMF
+tool.
 
-Compilation Phase
------------------
+For a detailed discussion on mapping weight files and how to make them,
+please see Section 5.2 in :raw-latex:`\citet{montuoro17}`.
 
-Files during compilation R-CESM
 
-.. _sec:inpCrun:
 
-Running Phase
--------------
+2. xroms_sstice.nc
+--------------------
 
-For R-CESM and its coupler, there are several input files which are
-listed in Table `[tab:inpC] <#tab:inpC>`__. Please provide all of these
-files even if some of the component models (like ice) are not used. All
-files which do not belong exclusively to either ROMS or WRF is included
-in this category. The acronym "IO" implies input-output. (Some words are
-used interchangably: ocean/ROMS, atmosphere/WRF, data ocean/xroms in
-Table `[tab:inpC] <#tab:inpC>`__ and this will be corrected in the
-future.)
+R-CESM need data for SST and ice over entire domain. With xROMS set up
+(Section `[sec:frxroms] <#sec:frxroms>`__), user has to provide an xROMS
+file with SST and ice for the entire xROMS domain. SST for the bigger
+domain is typycally available in WRF lower boundary input files. Current
+test cases use ice as 0 everywhere.
 
-.. table:: List of R-CESM specific input netCDF and namelist files. Item
-24 is only required for restart runs.
-
+A simple approach is to use matlab to interpolate WRF SST onto xROMS
+grid and then write the interpolated SST to a proper xROMS SST netCDF
+file (use the file from Gulf of Mexico test case as a reference).
 
 
    +------+-------------------------+--------------+------------------------------------------+-----------------+
@@ -287,8 +253,68 @@ future.)
    +------+-------------------------+-------------+-------------------------------------------+-----------------+
    | 8    | docn.streams.txt.prescribed | txt     |  Settings required for running DOCN with prescribed SST and ice-coverage |     User        |
    +------+-------------------------+-------------+-------------------------------------------+-----------------+
-   |                          CPL7                                                                              |
-   +------+-------------------------+-------------+-------------------------------------------------------------+
+
+
+.. _sec:inplnd:
+
+CLM input files
+===============================
+
+1. Mapping Weight Files
+----------------------------
+
+Coupled model components can have different resolutions. R-CESM requires
+precomputed interpolation weights to map surface quantities between
+different coupled model components. Interpolation options like bilinear
+and averaging options like area-average are available with the ESMF
+tool.
+
+For a detailed discussion on mapping weight files and how to make them,
+please see Section 5.2 in :raw-latex:`\citet{montuoro17}`.
+
+
+
+2. xroms_sstice.nc
+--------------------
+
+R-CESM need data for SST and ice over entire domain. With xROMS set up
+(Section `[sec:frxroms] <#sec:frxroms>`__), user has to provide an xROMS
+file with SST and ice for the entire xROMS domain. SST for the bigger
+domain is typycally available in WRF lower boundary input files. Current
+test cases use ice as 0 everywhere.
+
+A simple approach is to use matlab to interpolate WRF SST onto xROMS
+grid and then write the interpolated SST to a proper xROMS SST netCDF
+file (use the file from Gulf of Mexico test case as a reference).
+
+
+.. _sec:inpC:
+
+R-CESM/Coupler Input Files
+=========================
+
+
+
+Running Phase
+-------------
+
+For R-CESM and its coupler, there are several input files which are
+listed in Table `[tab:inpC] <#tab:inpC>`__. Please provide all of these
+files even if some of the component models (like ice) are not used. All
+files which do not belong exclusively to either ROMS or WRF is included
+in this category. The acronym "IO" implies input-output. (Some words are
+used interchangably: ocean/ROMS, atmosphere/WRF, data ocean/xroms in
+Table `[tab:inpC] <#tab:inpC>`__ and this will be corrected in the
+future.)
+
+.. table:: List of R-CESM specific input netCDF and namelist files. Item
+24 is only required for restart runs.
+
+
+
+   +------+-------------------------+--------------+------------------------------------------+-----------------+
+   | Sl.  |             Filename    | File Type   |        Purpose                            |   Source        |
+   +======+=========================+=============+===========================================+=================+
    | 7    | drv_in                  | txt      | CPL namelist file  general options, time manager options, pe layout, timing output, and parallel IO settings | Code | 
    +------+-------------------------+-------------+-----------------------------------------------------------------------------------------------------------+------+
    | 7    | ocn_in                  | txt      | CPL namelist file  general options, time manager options, pe layout, timing output, and parallel IO settings | Code | 
@@ -375,143 +401,12 @@ rpointer files but by the value of "restart_n" in drv_in (see Section
 
 .. _sec:docnyr:
 
-docn_ocn_in
-~~~~~~~~~~~
 
-The syntax for years in the streams entry of "docn_ocn_in" is as
-follows:
-
-::
-
-          streams = "docn.streams.txt.prescribed YrAlign yrFirst yrLast"
-
-It appears that the YrAlign should be same as YrFirst always!!!!!
-
-.. _sec:drvin:
-
-drv_in
-~~~~~~
-
-The number of processors/cores (PEs) for running R-CESM and its component
-models should be clearly mentioned in drv_in (&ccsm_pes namelist). If
-drv_in is edited to update PE count or layout, pleae edit the ocean.in
-(Section `1.2.5 <#sec:nlistR>`__) and run_R-CESM.job file (Section
-`4.1 <#sec:jobfl>`__) accordingly. Please note that the total number of
-PEs are devided between atm_ntasks and ocn_ntasks. Also, atm_rootpe is 0
-and ocn_rootpe is same as atm_ntasks. All other component model mirrors
-the settings for the atm. Two examples for total PE counts of 552 and
-120 are provided in Table `[tab:pe] <#tab:pe>`__.
-
-.. table:: PE layout in drv_in. Total number of PE is determined by the
-sum of number of atm model PE (atm_ntasks) and ocn model PE
-(ocn_ntasks). Please note that the root PE for atm is 0 and that for ocn
-in atm_ntasks. Other component models mirror atm model settings.
-
-   +--------------+--------------+--------------+
-   | ccsm_pe      | Total        | Total        |
-   +--------------+--------------+--------------+
-   | field        | PE=552       | PE=120       |
-   +--------------+--------------+--------------+
-   | atm_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | atm_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | atm_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | atm_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | atm_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | lnd_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | lnd_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | lnd_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | lnd_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | lnd_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | ocn_ntasks   | 384          | 80           |
-   +--------------+--------------+--------------+
-   | ocn_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ocn_rootpe   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | ocn_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ocn_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | ice_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | ice_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ice_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | ice_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | ice_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | glc_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | glc_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | glc_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | glc_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-   | glc_layout   | ‘concurrent’ | ‘concurrent’ |
-   +--------------+--------------+--------------+
-   | cpl_ntasks   | 168          | 40           |
-   +--------------+--------------+--------------+
-   | cpl_nthreads | 1            | 1            |
-   +--------------+--------------+--------------+
-   | cpl_rootpe   | 0            | 0            |
-   +--------------+--------------+--------------+
-   | cpl_pestride | 1            | 1            |
-   +--------------+--------------+--------------+
-
-.. _sec:docnstr:
-
-docn.streams.txt.prescribed
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This file provides path and filenames for the domain info file (eg.
-domain.txglo.nc) and the xROMS sea surface temperature (SST) and ice
-fields (eg. :math:`*`\ \_xroms_sstice.nc). Please update the value for
-"<filePath>" and "<fileNames>" for both "<domainInfo>" and "<fieldInfo>"
-entries as appropriate.
 
 .. _sec:map:
 
-Mapping Weight Files
-~~~~~~~~~~~~~~~~~~~~
 
-Coupled model components can have different resolutions. R-CESM requires
-precomputed interpolation weights to map surface quantities between
-different coupled model components. Interpolation options like bilinear
-and averaging options like area-average are available with the ESMF
-tool.
 
-For a detailed discussion on mapping weight files and how to make them,
-please see Section 5.2 in :raw-latex:`\citet{montuoro17}`.
-
-.. _sec:xromssst:
-
-xroms_sstice.nc
-~~~~~~~~~~~~~~~
-
-R-CESM need data for SST and ice over entire domain. With xROMS set up
-(Section `[sec:frxroms] <#sec:frxroms>`__), user has to provide an xROMS
-file with SST and ice for the entire xROMS domain. SST for the bigger
-domain is typycally available in WRF lower boundary input files. Current
-test cases use ice as 0 everywhere.
-
-A simple approach is to use matlab to interpolate WRF SST onto xROMS
-grid and then write the interpolated SST to a proper xROMS SST netCDF
-file (use the file from Gulf of Mexico test case as a reference).
-
-.. _sec:inpO:
 
 Other Input Files
 =================
@@ -532,16 +427,7 @@ executable.
    | 2   | run_R-CESM.job | R-CESM     | txt  | job submission file |
    +-----+---------------+-----------+------+---------------------+
 
-.. _sec:jobfl:
-
-run_R-CESM.job
--------------
-
-This is the file used to submit a R-CESM job to the job scheduler on the
-supercomputer. The total PEs requested should be in agreement with the
-total PEs in drv_in (Section `3.2.3 <#sec:drvin>`__) computed as the sum
-of atm_ntasks and ocn_ntasks.
-
+.
 .. _sec:output:
 
 All Output Files
